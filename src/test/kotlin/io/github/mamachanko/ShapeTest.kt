@@ -2,36 +2,98 @@ package io.github.mamachanko
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import kotlin.comparisons.compareBy
 
-val topLeft = Vertex(0, 0)
-val topRight = Vertex(1, 0)
-val bottomLeft = Vertex(0, 1)
-val bottomRight = Vertex(1, 1)
+val topLeft = Vertex(.0, .0)
+val topRight = Vertex(1.0, .0)
+val bottomLeft = Vertex(.0, 1.0)
+val bottomRight = Vertex(1.0, 1.0)
+
+val top = Edge(topLeft, topRight)
+val left = Edge(topLeft, bottomLeft)
+val right = Edge(topRight, bottomRight)
+val bottom = Edge(bottomLeft, bottomRight)
+
+class EdgeTest {
+
+    @Test
+    fun `should return true when comparing Edges with vertices swapped`() {
+        assertThat(Edge(topLeft, topRight)).isEqualTo(Edge(topRight, topLeft))
+    }
+}
 
 class ShapeTest {
 
     @Test
-    fun `should order vertices as convex`() {
-        val shape = Shape(topLeft, topRight, bottomLeft, bottomRight)
-        assertThat(shape.getSortedVertices()).containsExactly(topLeft, topRight, bottomLeft, bottomRight)
+    fun `should return sorted vertices as open convex path`() {
+        val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
+        assertThat(shape.getSortedVertices()).containsExactly(topLeft, topRight, bottomRight, bottomLeft)
     }
 
     @Test
-    fun `should be sliceable in two`() {
-        val shape = Shape(topLeft, topRight, bottomLeft, bottomLeft)
-        val pieces = shape.slice()
+    fun `should return edges in order as closed convex polygon`() {
+        val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
+        assertThat(shape.getSortedEdges()).containsExactly(top, right, bottom, left)
+    }
+
+    @Test
+    fun `should return resulting shapes when randomly sliced in two across edges`() {
+        val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomLeft))
+        val pieces = shape.randomlySliceAcrossEdges()
+
+        val verticesOfPieces = pieces.first.vertices + pieces.second.vertices
+        assertThat(shape.vertices.size).isEqualTo(verticesOfPieces + 2)
+
+        val newEdge = pieces.first.edges.intersect(pieces.second.edges)
+//        assertThat(newEdge).
     }
 }
 
-class Shape(vararg val vertices: Vertex) {
+class Shape(val vertices: Set<Vertex>) {
 
-    fun slice(): Pair<Shape, Shape> {
-        return Pair(Shape(), Shape())
+    fun getSortedVertices(): List<Vertex> {
+        val averageVertex = getAverageVertex()
+        return vertices.sortedWith(compareBy { averageVertex.polarDistanceTo(it) })
     }
 
-    fun getSortedVertices(): Array<Vertex> {
-        return vertices as Array<Vertex>
+    fun getSortedEdges(): List<Edge> {
+        val sortedVertices = getSortedVertices()
+        var edges = arrayListOf<Edge>()
+        sortedVertices.
+        sortedVertices.reduce {currentVertex, nextVertex ->
+            edges.add(Edge(currentVertex, nextVertex))
+            return nextVertex
+        }
+
+        return emptyList()
+    }
+
+    private fun getAverageVertex(): Vertex {
+        val vertexSum = vertices.reduce { currentVertexSum, nextVertex ->
+            Vertex(currentVertexSum.x + nextVertex.x, currentVertexSum.y + nextVertex.y)
+        }
+        return Vertex(vertexSum.x / vertices.size, vertexSum.y / vertices.size)
+    }
+
+    fun  randomlySliceAcrossEdges(): Pair<Shape, Shape> {
+        return Pair(Shape(emptySet()), Shape(emptySet()))
+    }
+
+    val edges: Set<Edge> = emptySet()  // setOf(getSortedEdges())
+}
+
+data class Vertex(val x: Double, val y: Double) {
+
+    fun polarDistanceTo(otherVertex: Vertex): Double {
+        return Math.atan2(otherVertex.y - y, otherVertex.x - x)
     }
 }
 
-data class Vertex(val x: Int, val y: Int)
+data class Edge(val a: Vertex, val b: Vertex) {
+
+    override fun equals(other: Any?): Boolean {
+        if (other?.javaClass != javaClass) return false
+        other as Edge
+        return setOf(a, b).equals(setOf(other.a, other.b))
+    }
+}
