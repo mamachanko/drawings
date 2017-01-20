@@ -2,6 +2,7 @@ package io.github.mamachanko
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import java.util.*
 import kotlin.comparisons.compareBy
 
 val topLeft = Vertex(.0, .0)
@@ -38,14 +39,15 @@ class ShapeTest {
 
     @Test
     fun `should return resulting shapes when randomly sliced in two across edges`() {
-        val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomLeft))
+        val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
         val pieces = shape.randomlySliceAcrossEdges()
 
         val verticesOfPieces = pieces.first.vertices + pieces.second.vertices
-        assertThat(shape.vertices.size).isEqualTo(verticesOfPieces + 2)
+        assertThat(verticesOfPieces).hasSize(6)
 
-        val newEdge = pieces.first.edges.intersect(pieces.second.edges)
-//        assertThat(newEdge).
+        val newEdges = pieces.first.edges.intersect(pieces.second.edges)
+        assertThat(newEdges).hasSize(1)
+        assertThat(shape.edges).doesNotContain(newEdges.first())
     }
 }
 
@@ -57,15 +59,9 @@ class Shape(val vertices: Set<Vertex>) {
     }
 
     fun getSortedEdges(): List<Edge> {
-        val sortedVertices = getSortedVertices()
-        var edges = arrayListOf<Edge>()
-        sortedVertices.
-        sortedVertices.reduce {currentVertex, nextVertex ->
-            edges.add(Edge(currentVertex, nextVertex))
-            return nextVertex
-        }
-
-        return emptyList()
+        val sortedVertices = getSortedVertices().toMutableList()
+        sortedVertices.add(sortedVertices.first())
+        return sortedVertices.zip(sortedVertices.drop(1), { x, y -> Edge(x, y) })
     }
 
     private fun getAverageVertex(): Vertex {
@@ -75,7 +71,11 @@ class Shape(val vertices: Set<Vertex>) {
         return Vertex(vertexSum.x / vertices.size, vertexSum.y / vertices.size)
     }
 
-    fun  randomlySliceAcrossEdges(): Pair<Shape, Shape> {
+    fun randomlySliceAcrossEdges(): Pair<Shape, Shape> {
+        val edges = edges.toMutableList()
+        Collections.shuffle(edges)
+        val a = edges.drop(1)
+        val b = edges.drop(1)
         return Pair(Shape(emptySet()), Shape(emptySet()))
     }
 
