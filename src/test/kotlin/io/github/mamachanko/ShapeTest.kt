@@ -10,20 +10,50 @@ val topRight = Vertex(1.0, .0)
 val bottomLeft = Vertex(.0, 1.0)
 val bottomRight = Vertex(1.0, 1.0)
 
-val top = Edge(topLeft, topRight)
-val left = Edge(topLeft, bottomLeft)
-val right = Edge(topRight, bottomRight)
-val bottom = Edge(bottomLeft, bottomRight)
+val topLeftToTopRight = Edge(topLeft, topRight)
+val topRightToBottomRight = Edge(topRight, bottomRight)
+val bottomRightToBottomLeft = Edge(bottomRight, bottomLeft)
+val bottomLeftToTopLeft = Edge(bottomLeft, topLeft)
 
 class EdgeTest {
 
     @Test
-    fun `should return true when comparing Edges with vertices swapped`() {
-        assertThat(Edge(topLeft, topRight)).isEqualTo(Edge(topRight, topLeft))
+    fun `should return true if same direction and vertices as other`() {
+        assertThat(Edge(topLeft, topRight)).isEqualTo(Edge(topLeft, topRight))
+    }
+
+    @Test
+    fun `should return false if not same direction and vertices as other`() {
+        assertThat(Edge(topLeft, topRight)).isNotEqualTo(Edge(topRight, topLeft))
+    }
+
+    @Test
+    fun `should return true if inversion of other`() {
+        assertThat(Edge(topLeft, topRight).inversionOf(Edge(topLeft, topRight))).isTrue()
+        assertThat(Edge(topLeft, topRight).inversionOf(Edge(topRight, topLeft))).isTrue()
+    }
+
+    @Test
+    fun `should return false if inversion of other`() {
+        assertThat(Edge(topLeft, topRight).inversionOf(Edge(topLeft, bottomLeft))).isFalse()
+        assertThat(Edge(topLeft, topRight).inversionOf(Edge(bottomLeft, topLeft))).isFalse()
     }
 }
 
 class ShapeTest {
+
+    @Test
+    fun splitLists() {
+        val vertices = listOf("a", "b", "c", "d", "e", "f")
+
+        val index1 = 1
+        val index2 = 5
+
+        assertThat(vertices).containsExactly("a", "b", "c", "d", "e", "f")
+        assertThat(vertices.subList(0, index1)).containsExactly("a")
+        assertThat(vertices.subList(index1, index2)).containsExactly("b", "c", "d", "e")
+        assertThat(vertices.subList(index2, vertices.lastIndex + 1)).containsExactly("f")
+    }
 
     @Test
     fun `should return sorted vertices as open convex path`() {
@@ -34,11 +64,41 @@ class ShapeTest {
     @Test
     fun `should return edges in order as closed convex polygon`() {
         val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
-        assertThat(shape.getSortedEdges()).containsExactly(top, right, bottom, left)
+        assertThat(shape.getSortedEdges()).containsExactly(
+                topLeftToTopRight, topRightToBottomRight, bottomRightToBottomLeft, bottomLeftToTopLeft)
     }
 
     @Test
-    fun `should return resulting shapes when randomly sliced in two across edges`() {
+    fun `should return two resulting shapes when sliced across edges`() {
+        val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
+        val pieces = shape.sliceAcrossEdges(topLeftToTopRight, .75, bottomRightToBottomLeft, .25)
+
+        val betweenTops = Vertex(.0, .75)
+        val betweenBottoms = Vertex(1.0, .75)
+
+        assertThat(pieces.first.getSortedEdges()).containsExactly(
+                Edge(topLeft, betweenTops),
+                Edge(betweenTops, betweenBottoms),
+                Edge(betweenBottoms, bottomLeft),
+                bottomLeftToTopLeft)
+
+        assertThat(pieces.second.getSortedEdges()).containsExactly(
+                Edge(betweenTops, topRight),
+                topRightToBottomRight,
+                Edge(bottomRight, betweenBottoms),
+                Edge(betweenBottoms, betweenTops))
+
+        assertThat(pieces.first.edges).hasSize(4)
+        assertThat(pieces.second.edges).hasSize(4)
+        assertThat(pieces.first.vertices + pieces.second.vertices).hasSize(6)
+
+        val newEdges = pieces.first.edges.intersect(pieces.second.edges)
+        assertThat(newEdges).hasSize(1)
+        assertThat(shape.edges).doesNotContain(newEdges.first())
+    }
+
+    @Test
+    fun `should return resulting two shapes when randomly sliced across edges`() {
         val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
         val pieces = shape.randomlySliceAcrossEdges()
 
@@ -79,7 +139,14 @@ class Shape(val vertices: Set<Vertex>) {
         return Pair(Shape(emptySet()), Shape(emptySet()))
     }
 
-    val edges: Set<Edge> = emptySet()  // setOf(getSortedEdges())
+    val edges: Set<Edge> = getSortedEdges().toSet()
+
+    fun sliceAcrossEdges(edge1: Edge, distance1: Double, edge2: Edge, distance2: Double): Pair<Shape, Shape> {
+
+//        val x =
+
+        return Pair(Shape(emptySet()), Shape(emptySet()))
+    }
 }
 
 data class Vertex(val x: Double, val y: Double) {
@@ -91,7 +158,11 @@ data class Vertex(val x: Double, val y: Double) {
 
 data class Edge(val a: Vertex, val b: Vertex) {
 
-    override fun equals(other: Any?): Boolean {
+//    override fun equals(other: Any?): Boolean {
+//
+//    }
+
+    fun inversionOf(other: Edge): Boolean {
         if (other?.javaClass != javaClass) return false
         other as Edge
         return setOf(a, b).equals(setOf(other.a, other.b))
