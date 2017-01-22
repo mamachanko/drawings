@@ -45,6 +45,7 @@ open class Shape(val vertices: Set<Vertex>) {
 
     private fun getVertexBetween(a: Vertex, b: Vertex): Vertex {
         val newDistance = Math.random()
+//        val newDistance = .5
         val x = (1 - newDistance) * a.x + newDistance * b.x
         val y = (1 - newDistance) * a.y + newDistance * b.y
         return Vertex(x, y)
