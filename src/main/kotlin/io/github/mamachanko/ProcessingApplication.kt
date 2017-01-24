@@ -21,15 +21,52 @@ class ProcessingApplication : PApplet() {
     override fun setup(): Unit {
         background(WHITE)
         noStroke()
-//        noLoop()
-        frameRate((1).toFloat())
+        frameRate((4).toFloat())
     }
 
     override fun draw() {
-//        standard()
-        threeColors()
+        defaults()
+//        grays()
+//        threeColors()
 //        details()
-        save("/tmp/kelleybert/kelleybert_$frameCount.tif")
+    }
+
+    private fun defaults() {
+        fill(WHITE)
+        rect(0.toFloat(), 0.toFloat(), WIDTH.toFloat(), HEIGHT.toFloat())
+        val page = Page(WIDTH, HEIGHT, LAYOUT, GRID)
+
+        page.tiles.forEach { tile ->
+            val piece = tile.shapes.first().slice().toList()[Random().nextInt(2)]
+            val color = piece.color
+            fill(color.red.toFloat(), color.green.toFloat(), color.blue.toFloat())
+            beginShape()
+            piece.getSortedVertices().forEach { vertex ->
+                vertex(vertex.x.toFloat(), vertex.y.toFloat())
+            }
+            endShape()
+        }
+    }
+
+    private fun grays() {
+        fill(WHITE)
+        rect(0.toFloat(), 0.toFloat(), WIDTH.toFloat(), HEIGHT.toFloat())
+
+        val page = Page(WIDTH, HEIGHT, LAYOUT, GRID)
+
+        page.tiles.forEach { tile ->
+            (0..1).forEach { i ->
+                val piece = tile.shapes.first().slice().toList()[Random().nextInt(2)]
+
+                fill(100 + 100 * i)
+                beginShape()
+                piece.getSortedVertices().forEach { vertex ->
+                    vertex(vertex.x.toFloat(), vertex.y.toFloat())
+                }
+                endShape()
+            }
+
+        }
     }
 
     private fun threeColors() {
@@ -39,12 +76,6 @@ class ProcessingApplication : PApplet() {
         val page = Page(WIDTH, HEIGHT, LAYOUT, GRID)
 
         page.tiles.forEach { tile ->
-            val topLeft = Vertex(tile.x.toDouble(), tile.y.toDouble())
-            val topRight = Vertex(tile.x.toDouble() + tile.width.toDouble(), tile.y.toDouble())
-            val bottomRight = Vertex(tile.x.toDouble() + tile.width.toDouble(), tile.y.toDouble() + tile.height.toDouble())
-            val bottomLeft = Vertex(tile.x.toDouble(), tile.y.toDouble() + tile.height.toDouble())
-            val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
-
             val RED = Triple(253, 69, 59)
             val BLUE = Triple(64, 108, 178)
             val YELLOW = Triple(255, 193, 151)
@@ -52,7 +83,7 @@ class ProcessingApplication : PApplet() {
             val colors = listOf(RED, BLUE, YELLOW)
 
             (0..2).forEach { i ->
-                val piece = shape.slice().toList()[Random().nextInt(2)]
+                val piece = tile.shapes.first().slice().toList()[Random().nextInt(2)]
 
                 val color = colors[Random().nextInt(colors.size)]
                 fill(color.first.toFloat(), color.second.toFloat(), color.third.toFloat())
@@ -73,13 +104,7 @@ class ProcessingApplication : PApplet() {
         val page = Page(WIDTH, HEIGHT, LAYOUT, Grid(1, 1))
 
         page.tiles.forEach { tile ->
-            val topLeft = Vertex(tile.x.toDouble(), tile.y.toDouble())
-            val topRight = Vertex(tile.x.toDouble() + tile.width.toDouble(), tile.y.toDouble())
-            val bottomRight = Vertex(tile.x.toDouble() + tile.width.toDouble(), tile.y.toDouble() + tile.height.toDouble())
-            val bottomLeft = Vertex(tile.x.toDouble(), tile.y.toDouble() + tile.height.toDouble())
-            val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
-
-            var shapes = listOf(shape)
+            var shapes = tile.shapes
 
             (0..5).forEach {
                 shapes = shapes.map { it.slice().toList() }.flatten()
@@ -94,33 +119,6 @@ class ProcessingApplication : PApplet() {
                     }
                     endShape()
                 }
-            }
-
-        }
-    }
-
-    private fun standard() {
-        fill(WHITE)
-        rect(0.toFloat(), 0.toFloat(), WIDTH.toFloat(), HEIGHT.toFloat())
-
-        val page = Page(WIDTH, HEIGHT, LAYOUT, GRID)
-
-        page.tiles.forEach { tile ->
-            val topLeft = Vertex(tile.x.toDouble(), tile.y.toDouble())
-            val topRight = Vertex(tile.x.toDouble() + tile.width.toDouble(), tile.y.toDouble())
-            val bottomRight = Vertex(tile.x.toDouble() + tile.width.toDouble(), tile.y.toDouble() + tile.height.toDouble())
-            val bottomLeft = Vertex(tile.x.toDouble(), tile.y.toDouble() + tile.height.toDouble())
-            val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
-
-            (0..1).forEach { i ->
-                val piece = shape.slice().toList()[Random().nextInt(2)]
-
-                fill(100 + 100 * i)
-                beginShape()
-                piece.getSortedVertices().forEach { vertex ->
-                    vertex(vertex.x.toFloat(), vertex.y.toFloat())
-                }
-                endShape()
             }
 
         }

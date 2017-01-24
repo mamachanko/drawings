@@ -22,12 +22,21 @@ class ShapeTests {
     fun `should return two shapes when sliced across two edges`() {
         val shape = Shape(setOf(topLeft, topRight, bottomLeft, bottomRight))
         val pieces = shape.slice()
-        println(shape.getSortedVertices())
-        println(pieces.first.getSortedVertices())
-        println(pieces.second.getSortedVertices())
-        assertThat(pieces.first.vertices.plus(pieces.second.vertices).size - 2).isEqualTo(shape.vertices.size)
         val newVertices = pieces.first.vertices.intersect(pieces.second.vertices)
         assertThat(shape.vertices).doesNotContainAnyElementsOf(newVertices)
     }
 
+    @Test
+    fun `should return solid black as default color`() {
+        assertThat(Shape().color).isEqualTo(Color(0, 0, 0, 1.0))
+    }
+
+    @Test
+    fun `should return color if given`() {
+        val shape = Shape(
+                vertices = setOf(topLeft, topRight, bottomLeft, bottomRight),
+                color = Color(125, 67, 32, .25)
+        )
+        assertThat(shape.color).isEqualTo(Color(125, 67, 32, .25))
+    }
 }

@@ -3,7 +3,24 @@ package io.github.mamachanko
 import java.util.*
 import kotlin.comparisons.compareBy
 
-open class Shape(val vertices: Set<Vertex>) {
+open class Shape() {
+
+    companion object {
+        val SOLID_BLACK = Color(0, 0, 0, 1.0)
+        val NO_VERTICES = emptySet<Vertex>()
+    }
+
+    var vertices: Set<Vertex> = NO_VERTICES
+    var color: Color = SOLID_BLACK
+
+    constructor(vertices: Set<Vertex>) : this() {
+        this.vertices = vertices
+    }
+
+    constructor(vertices: Set<Vertex>, color: Color) : this() {
+        this.vertices = vertices
+        this.color = color
+    }
 
     fun getSortedVertices(): List<Vertex> {
         val averageVertex = getAverageVertex()
@@ -45,9 +62,24 @@ open class Shape(val vertices: Set<Vertex>) {
 
     private fun getVertexBetween(a: Vertex, b: Vertex): Vertex {
         val newDistance = Math.random()
-//        val newDistance = .5
         val x = (1 - newDistance) * a.x + newDistance * b.x
         val y = (1 - newDistance) * a.y + newDistance * b.y
         return Vertex(x, y)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+
+        other as Shape
+
+        if (vertices != other.vertices) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return vertices.hashCode()
+    }
+
 }

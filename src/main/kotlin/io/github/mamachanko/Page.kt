@@ -27,4 +27,11 @@ class Page(val width: Int, val height: Int, val layout: Layout, val grid: Grid) 
     private fun getTileWidth() = (width - layout.horizontalMargin * 2 - layout.tileMargin * (grid.numberOfColumns - 1)) / grid.numberOfColumns
 }
 
-data class Tile(val x: Int, val y: Int, val width: Int, val height: Int)
+data class Tile(val x: Int, val y: Int, val width: Int, val height: Int) {
+    val shapes: List<Shape> = listOf(Shape(setOf(
+            Vertex(x.toDouble(), y.toDouble()),
+            Vertex(x.toDouble(), y.toDouble() + height.toDouble()),
+            Vertex(x.toDouble() + width.toDouble(), y.toDouble()),
+            Vertex(x.toDouble() + width.toDouble(), y.toDouble() + height.toDouble())
+    )))
+}
