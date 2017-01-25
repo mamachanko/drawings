@@ -36,8 +36,8 @@ class ProcessingApplication : PApplet() {
         rect(0.toFloat(), 0.toFloat(), WIDTH.toFloat(), HEIGHT.toFloat())
         val page = Page(WIDTH, HEIGHT, LAYOUT, GRID)
 
-        page.tiles.forEach { tile ->
-            val piece = tile.shapes.first().slice().toList()[Random().nextInt(2)]
+        page.shapes.forEach { shape ->
+            val piece = shape.slice().toList()[Random().nextInt(2)]
             val color = piece.color
             fill(color.red.toFloat(), color.green.toFloat(), color.blue.toFloat())
             beginShape()

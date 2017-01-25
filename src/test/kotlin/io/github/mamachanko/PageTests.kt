@@ -27,12 +27,12 @@ class PageTests {
                 grid = Grid(2, 3)
         )
         assertThat(page.tiles).containsExactlyInAnyOrder(
-                Tile(50, 125, 445, 176),
-                Tile(505, 125, 445, 176),
-                Tile(50, 311, 445, 176),
-                Tile(505, 311, 445, 176),
-                Tile(50, 497, 445, 176),
-                Tile(505, 497, 445, 176)
+                Tile(50, 125, 445, 176, page.palette),
+                Tile(505, 125, 445, 176, page.palette),
+                Tile(50, 311, 445, 176, page.palette),
+                Tile(505, 311, 445, 176, page.palette),
+                Tile(50, 497, 445, 176, page.palette),
+                Tile(505, 497, 445, 176, page.palette)
         )
     }
 
@@ -54,7 +54,12 @@ class PageTests {
     }
 
     @Test
-    fun `should color shapes given palette`() {
+    fun `should return all its tiles' shapes`() {
+        assertThat(Page(width = 100, height = 100).shapes).hasSize(1)
+    }
+
+    @Test
+    fun `should apply color to shapes given palette`() {
         val color = Color(180, 90, 0, .25)
         val page = Page(height = 100, width = 100, palette = ColorPalette(color))
         assertThat(page.tiles.first().shapes.first().color).isEqualTo(color)
