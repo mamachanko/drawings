@@ -6,12 +6,11 @@ import kotlin.comparisons.compareBy
 open class Shape() {
 
     companion object {
-        val SOLID_BLACK = Color(0, 0, 0, 1.0)
         val NO_VERTICES = emptySet<Vertex>()
     }
 
     var vertices: Set<Vertex> = NO_VERTICES
-    var color: Color = SOLID_BLACK
+    var color: Color = Color(0, 0, 0, 1.0)
 
     constructor(vertices: Set<Vertex>) : this() {
         this.vertices = vertices
@@ -82,4 +81,15 @@ open class Shape() {
         return vertices.hashCode()
     }
 
+}
+
+data class Vertex(val x: Double, val y: Double) {
+
+    fun polarDistanceTo(otherVertex: Vertex): Double {
+        return Math.atan2(otherVertex.y - y, otherVertex.x - x)
+    }
+
+    fun distanceTo(otherVertex: Vertex): Double {
+        return Math.sqrt(Math.pow(otherVertex.x - x, 2.0) + Math.pow(otherVertex.y - y, 2.0))
+    }
 }

@@ -4,7 +4,8 @@ data class Grid(val numberOfColumns: Int, val numberOfRows: Int)
 
 data class Layout(val horizontalMargin: Int, val verticalMargin: Int, val tileMargin: Int)
 
-class Page(val width: Int, val height: Int, val layout: Layout, val grid: Grid) {
+class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0), val grid: Grid = Grid(1, 1), val palette: Palette = BlackPalette()) {
+
     var tiles: List<Tile> = generateTiles()
 
     private fun generateTiles(): List<Tile> {
