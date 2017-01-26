@@ -62,7 +62,7 @@ class PageTests {
     fun `should apply color to shapes given palette`() {
         val color = Color(180, 90, 0, .25)
         val page = Page(height = 100, width = 100, palette = ColorPalette(color))
-        assertThat(page.tiles.first().shapes.first().color).isEqualTo(color)
+        assertThat(page.shapes.map { it.color }.toSet()).containsExactlyInAnyOrder(color)
     }
 }
 

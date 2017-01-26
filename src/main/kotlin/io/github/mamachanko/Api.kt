@@ -1,20 +1,30 @@
 package io.github.mamachanko
 
+import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
-class Api {
+class Api(val shapesService: ShapesService) {
 
     @GetMapping("/api/shapes")
     fun shapes(@RequestParam("width", required = true) width: Double, @RequestParam("height", required = true) height: Double): ShapesResponse {
-        val shape = Shape(vertices = setOf(Vertex(.0, .0), Vertex(.0, height), Vertex(width, .0), Vertex(width, height)))
-        val vertices = shape.getSortedVertices().map { vertex -> VertexResource(x = vertex.x, y = vertex.y) }
-        val color = ColorResource(red = shape.color.red, green = shape.color.green, blue = shape.color.blue, alpha = shape.color.alpha)
-        return ShapesResponse(listOf(ShapeResource(vertices, color)))
-    }
 
+        return ShapesResponse(shapes = shapesService.getShapes(width, height).map { shape ->
+            ShapeResource(
+                    vertices = shape.getSortedVertices().map { vertex ->
+                        VertexResource(x = vertex.x, y = vertex.y)
+                    },
+                    color = ColorResource(
+                            red = shape.color.red,
+                            green = shape.color.green,
+                            blue = shape.color.blue,
+                            alpha = shape.color.alpha)
+            )
+        })
+    }
 }
 
 data class ShapesResponse(val shapes: List<ShapeResource>)
