@@ -7,7 +7,6 @@ import org.mockito.runners.MockitoJUnitRunner
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -46,23 +45,5 @@ class ApiTests {
 
                 .andExpect(jsonPath("$.shapes[0].vertices[3].x").value(.0))
                 .andExpect(jsonPath("$.shapes[0].vertices[3].y").value(567.89))
-    }
-}
-
-@RunWith(MockitoJUnitRunner::class)
-class WebTests {
-
-    lateinit var mockMvc: MockMvc
-
-    @Before
-    fun setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(Web()).build()
-    }
-
-    @Test
-    fun `should return index`() {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk)
-                .andExpect(MockMvcResultMatchers.view().name("index"))
     }
 }
