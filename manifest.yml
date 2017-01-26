@@ -1,0 +1,5 @@
+---
+applications:
+- name: kelleybert
+  host: kelleybert
+  memory: 256M
