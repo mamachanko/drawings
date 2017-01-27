@@ -13,7 +13,7 @@ class Api(val shapesService: ShapesService) {
     @GetMapping("/api/shapes")
     fun shapes(@RequestParam("width", required = true) width: Double, @RequestParam("height", required = true) height: Double): ShapesResponse {
 
-        return ShapesResponse(shapes = shapesService.getShapes(width, height).map { shape ->
+        return ShapesResponse(shapes = shapesService.getShapesWithin(width, height).map { shape ->
             ShapeResource(
                     vertices = shape.getSortedVertices().map { vertex ->
                         VertexResource(x = vertex.x, y = vertex.y)
