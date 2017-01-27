@@ -2,10 +2,10 @@ package io.github.mamachanko
 
 import java.util.*
 
-val SOLID = 1.0
-val SOLID_BLACK = Color(0, 0, 0, 1.0)
+val SOLID = 100
+val SOLID_BLACK = Color(0, 0, 0, 100)
 
-data class Color(val red: Int, val green: Int, val blue: Int, val alpha: Double)
+data class Color(val red: Int, val green: Int, val blue: Int, val alpha: Int)
 
 interface Palette {
     val color: Color
@@ -13,10 +13,16 @@ interface Palette {
 
 class RandomPalette : Palette {
     override val color: Color
-        get() {
-            val random = Random()
-            return Color(random.nextInt(256), random.nextInt(256), random.nextInt(256), random.nextDouble())
-        }
+        get() = Color(
+                red = randomBrightness(),
+                green = randomBrightness(),
+                blue = randomBrightness(),
+                alpha = randomAlpha()
+        )
+
+    private fun randomBrightness() = Random().nextInt(256)
+
+    private fun randomAlpha() = Random().nextInt(SOLID + 1)
 }
 
 class ColorPalette(vararg val colors: Color) : Palette {

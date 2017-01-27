@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.math.BigDecimal
 import java.util.*
 
 @RestController
@@ -21,7 +22,8 @@ class Api(val shapesService: ShapesService) {
                             red = shape.color.red,
                             green = shape.color.green,
                             blue = shape.color.blue,
-                            alpha = shape.color.alpha)
+                            alpha = shape.color.alpha
+                    )
             )
         })
     }
@@ -33,4 +35,4 @@ data class ShapeResource(val vertices: List<VertexResource>, val color: ColorRes
 
 data class VertexResource(val x: Double, val y: Double)
 
-data class ColorResource(val red: Int, val green: Int, val blue: Int, val alpha: Double)
+data class ColorResource(val red: Int, val green: Int, val blue: Int, val alpha: Int)

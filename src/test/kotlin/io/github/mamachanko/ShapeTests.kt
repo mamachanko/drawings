@@ -28,15 +28,15 @@ class ShapeTests {
 
     @Test
     fun `should return solid black as default color`() {
-        assertThat(Shape().color).isEqualTo(Color(0, 0, 0, 1.0))
+        assertThat(Shape().color).isEqualTo(Color(0, 0, 0, 100))
     }
 
     @Test
     fun `should return color if given`() {
         val shape = Shape(
                 vertices = setOf(topLeft, topRight, bottomLeft, bottomRight),
-                color = Color(125, 67, 32, .25)
+                color = Color(125, 67, 32, 25)
         )
-        assertThat(shape.color).isEqualTo(Color(125, 67, 32, .25))
+        assertThat(shape.color).isEqualTo(Color(125, 67, 32, 25))
     }
 }

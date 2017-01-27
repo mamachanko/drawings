@@ -4,6 +4,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.both
 import org.hamcrest.Matchers.*
 import org.hamcrest.core.Every.everyItem
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,8 +12,10 @@ import org.mockito.runners.MockitoJUnitRunner
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import java.math.BigDecimal
 
 @RunWith(MockitoJUnitRunner::class)
 class ApiTests {
@@ -30,7 +33,7 @@ class ApiTests {
         val height = 567.89
 
         val aBrightnessValue = both(greaterThanOrEqualTo(0)).and(lessThan(256))
-        val anAlphaValue = both(greaterThanOrEqualTo(.0)).and(lessThanOrEqualTo(1.0))
+        val anAlphaValue = both(greaterThanOrEqualTo(0)).and(lessThanOrEqualTo(100))
         val withinWidth = both(greaterThanOrEqualTo(.0)).and(lessThanOrEqualTo(width))
         val withinHeight = both(greaterThanOrEqualTo(.0)).and(lessThanOrEqualTo(height))
 

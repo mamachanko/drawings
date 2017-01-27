@@ -10,7 +10,7 @@ open class Shape() {
     }
 
     var vertices: Set<Vertex> = NO_VERTICES
-    var color: Color = Color(0, 0, 0, 1.0)
+    var color: Color = SOLID_BLACK
 
     constructor(vertices: Set<Vertex>) : this() {
         this.vertices = vertices
