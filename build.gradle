@@ -37,4 +37,8 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-devtools")
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile 'org.fluentlenium:fluentlenium-junit:3.1.0'
+	testCompile 'org.fluentlenium:fluentlenium-assertj:3.1.0'
+	testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:3.0.1'
+	testCompile 'io.github.bonigarcia:webdrivermanager:1.5.0'
 }

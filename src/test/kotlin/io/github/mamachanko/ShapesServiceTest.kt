@@ -1,6 +1,5 @@
 package io.github.mamachanko
 
-import javafx.geometry.BoundingBox
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.both
 import org.hamcrest.Matchers

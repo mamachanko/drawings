@@ -11,7 +11,10 @@ function setup() {
     console.log("width: ", width);
     console.log("height: ", height);
 
-    createCanvas(width, height);
+    var canvas = createCanvas(width, height)
+    canvas.id("drawingCanvas")
+    window.blankCanvasData = document.getElementById("drawingCanvas").toDataURL()
+
     noStroke();
     noLoop();
 }

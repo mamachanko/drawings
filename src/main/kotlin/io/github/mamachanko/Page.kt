@@ -23,13 +23,21 @@ class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0)
         return generatedTiles.toList()
     }
 
-    private fun getYForRow(row: Int) = layout.verticalMargin + row * getTileHeight() + layout.tileMargin * row
+    private fun getYForRow(row: Int): Int {
+        return layout.verticalMargin + row * getTileHeight() + layout.tileMargin * row
+    }
 
-    private fun getXForColumn(column: Int) = layout.horizontalMargin + column * getTileWidth() + layout.tileMargin * column
+    private fun getXForColumn(column: Int): Int {
+        return layout.horizontalMargin + column * getTileWidth() + layout.tileMargin * column
+    }
 
-    private fun getTileHeight() = (height - layout.verticalMargin * 2 - layout.tileMargin * (grid.numberOfRows - 1)) / grid.numberOfRows
+    private fun getTileHeight(): Int {
+        return (height - layout.verticalMargin * 2 - layout.tileMargin * (grid.numberOfRows - 1)) / grid.numberOfRows
+    }
 
-    private fun getTileWidth() = (width - layout.horizontalMargin * 2 - layout.tileMargin * (grid.numberOfColumns - 1)) / grid.numberOfColumns
+    private fun getTileWidth(): Int {
+        return (width - layout.horizontalMargin * 2 - layout.tileMargin * (grid.numberOfColumns - 1)) / grid.numberOfColumns
+    }
 
     val shapes: List<Shape>
         get() {
