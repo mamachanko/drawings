@@ -1,5 +1,6 @@
-package io.github.mamachanko
+package io.github.mamachanko.unit
 
+import io.github.mamachanko.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -15,7 +16,6 @@ class PageTests {
         assertThat(page.layout.horizontalMargin).isEqualTo(0)
         assertThat(page.grid.numberOfRows).isEqualTo(1)
         assertThat(page.grid.numberOfColumns).isEqualTo(1)
-        assertThat(page.palette).isInstanceOf(BlackPalette::class.java)
     }
 
     @Test
@@ -27,12 +27,12 @@ class PageTests {
                 grid = Grid(2, 3)
         )
         assertThat(page.tiles).containsExactlyInAnyOrder(
-                Tile(50, 125, 445, 176, page.palette),
-                Tile(505, 125, 445, 176, page.palette),
-                Tile(50, 311, 445, 176, page.palette),
-                Tile(505, 311, 445, 176, page.palette),
-                Tile(50, 497, 445, 176, page.palette),
-                Tile(505, 497, 445, 176, page.palette)
+                Tile(50, 125, 445, 176),
+                Tile(505, 125, 445, 176),
+                Tile(50, 311, 445, 176),
+                Tile(505, 311, 445, 176),
+                Tile(50, 497, 445, 176),
+                Tile(505, 497, 445, 176)
         )
     }
 
@@ -45,7 +45,7 @@ class PageTests {
                 grid = Grid(1, 1)
         )
 
-        assertThat(page.tiles.first().shapes).hasSize(1)
+        assertThat(page.shapes).hasSize(1)
         val shape = page.tiles.first().shapes.first()
         assertThat(shape.vertices).containsExactly(
                 Vertex(.0, .0), Vertex(.0, 100.0), Vertex(100.0, .0), Vertex(100.0, 100.0)
@@ -57,12 +57,4 @@ class PageTests {
     fun `should return all its tiles' shapes`() {
         assertThat(Page(width = 100, height = 100).shapes).hasSize(1)
     }
-
-    @Test
-    fun `should apply color to shapes given palette`() {
-        val color = Color(180, 90, 0, 25)
-        val page = Page(height = 100, width = 100, palette = ColorPalette(color))
-        assertThat(page.shapes.map { it.color }.toSet()).containsExactlyInAnyOrder(color)
-    }
 }
-

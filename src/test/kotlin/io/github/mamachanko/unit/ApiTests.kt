@@ -1,5 +1,7 @@
-package io.github.mamachanko
+package io.github.mamachanko.unit
 
+import io.github.mamachanko.Api
+import io.github.mamachanko.ShapesService
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.both
 import org.hamcrest.Matchers.*
@@ -29,8 +31,8 @@ class ApiTests {
 
     @Test
     fun `should return single shape of WIDTH x HEIGHT for GET`() {
-        val width = 123.4
-        val height = 567.89
+        val width = 1230.4
+        val height = 867.89
 
         val aBrightnessValue = both(greaterThanOrEqualTo(0)).and(lessThan(256))
         val anAlphaValue = both(greaterThanOrEqualTo(0)).and(lessThanOrEqualTo(100))

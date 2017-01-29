@@ -1,4 +1,4 @@
-package io.github.mamachanko
+package io.github.mamachanko.integration
 
 import io.github.bonigarcia.wdm.ChromeDriverManager
 import org.fluentlenium.adapter.junit.FluentTest
@@ -54,7 +54,7 @@ class KelleybertFeatureTests : FluentTest() {
         assertThat(blankCanvasContent, containsString("data:image/png;base64"))
 
         val getDrawingCanvasContent = "return document.getElementById(\"drawingCanvas\").toDataURL();"
-        await().atMost(10, TimeUnit.SECONDS).until {
+        await().atMost(5, TimeUnit.SECONDS).until {
             val drawingCanvasContent = executeScript(getDrawingCanvasContent).result.toString()
             !drawingCanvasContent.equals(blankCanvasContent)
         }

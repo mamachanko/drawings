@@ -4,7 +4,7 @@ data class Grid(val numberOfColumns: Int, val numberOfRows: Int)
 
 data class Layout(val horizontalMargin: Int, val verticalMargin: Int, val tileMargin: Int)
 
-class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0), val grid: Grid = Grid(1, 1), val palette: Palette = BlackPalette()) {
+class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0), val grid: Grid = Grid(1, 1)) {
 
     var tiles: List<Tile> = generateTiles()
 
@@ -16,8 +16,7 @@ class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0)
                         x = getXForColumn(column),
                         y = getYForRow(row),
                         width = getTileWidth(),
-                        height = getTileHeight(),
-                        palette = palette))
+                        height = getTileHeight()))
             }
         }
         return generatedTiles.toList()
@@ -51,13 +50,12 @@ class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0)
         }
 }
 
-data class Tile(val x: Int, val y: Int, val width: Int, val height: Int, val palette: Palette) {
+data class Tile(val x: Int, val y: Int, val width: Int, val height: Int) {
     val shapes: List<Shape> = listOf(
             Shape(vertices = setOf(
                     Vertex(x.toDouble(), y.toDouble()),
                     Vertex(x.toDouble(), y.toDouble() + height.toDouble()),
                     Vertex(x.toDouble() + width.toDouble(), y.toDouble()),
-                    Vertex(x.toDouble() + width.toDouble(), y.toDouble() + height.toDouble())),
-                    color = palette.color)
+                    Vertex(x.toDouble() + width.toDouble(), y.toDouble() + height.toDouble())))
     )
 }

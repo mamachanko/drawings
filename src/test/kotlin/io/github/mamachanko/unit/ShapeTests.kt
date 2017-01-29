@@ -1,5 +1,8 @@
-package io.github.mamachanko
+package io.github.mamachanko.unit
 
+import io.github.mamachanko.Color
+import io.github.mamachanko.Shape
+import io.github.mamachanko.Vertex
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 

@@ -1,5 +1,6 @@
-package io.github.mamachanko
+package io.github.mamachanko.unit
 
+import io.github.mamachanko.ShapesService
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.both
 import org.hamcrest.Matchers
@@ -11,9 +12,9 @@ import org.junit.Test
 class ShapesServiceTest {
 
     @Test
-    fun `should return shapes within given box`() {
-        val width = 123.45
-        val height = 456.78
+    fun `should return shapes within box without template`() {
+        val width = 1230.45
+        val height = 856.78
 
         val shapes = ShapesService().getShapesWithin(width, height)
 
@@ -28,5 +29,4 @@ class ShapesServiceTest {
             }
         }
     }
-
 }
