@@ -37,6 +37,8 @@ open class Shape() {
 
         val vertices = getSortedVertices()
 
+        Collections.rotate(vertices, Random().nextInt(vertices.size))
+
         val indices = vertices.indices.minus(0).toMutableList()
 
         val randomIndices = listOf(
