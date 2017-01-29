@@ -27,3 +27,4 @@ nbdist/
 ### Javascript ###
 node_modules/
 bundle.js
+dist/

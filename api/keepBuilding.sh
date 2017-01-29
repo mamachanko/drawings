@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-./gradlew build \
+gradlew build \
     --continuous \
     -x test

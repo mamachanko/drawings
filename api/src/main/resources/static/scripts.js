@@ -25,6 +25,13 @@ function draw() {
     loadShapes(drawShapes);
 }
 
+function keyPressed() {
+    draw();
+}
+function touchStarted() {
+    draw();
+}
+
 function loadShapes(success) {
     shapesUrl = "/api/drawing?width=" + width + "&height=" + height;
     console.log("loading shapes from: ", shapesUrl);

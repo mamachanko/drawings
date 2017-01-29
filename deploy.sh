@@ -1,6 +1,3 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash -xe
 
-./gradlew clean assemble
-
-cf push -p build/libs/project-kelleybert-0.0.1-SNAPSHOT.jar
-
+cf push -f manifest.yml

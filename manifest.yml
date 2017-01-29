@@ -1,5 +1,14 @@
 ---
 applications:
-- name: kelleybert
-  host: kelleybert
-  memory: 256M
+- name: kelleybert-api
+  memory: 64M
+  routes:
+    - route: kelleybert.cfapps.io/api
+  path: ./api/build/libs/project-kelleybert-0.0.1-SNAPSHOT.jar
+  buildpack: staticfile_buildpack
+- name: kelleybert-web-client
+  memory: 64M
+  routes:
+    - route: kelleybert.cfapps.io/
+  path: ./web-client/dist
+  buildpack: staticfile_buildpack
