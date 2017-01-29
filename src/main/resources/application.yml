@@ -1,0 +1,6 @@
+application.name: kelleybert
+
+server:
+  compression:
+    enabled: true
+    mime-types: application/json
