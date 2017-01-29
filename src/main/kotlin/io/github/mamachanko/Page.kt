@@ -38,6 +38,30 @@ class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0)
         return (width - layout.horizontalMargin * 2 - layout.tileMargin * (grid.numberOfColumns - 1)) / grid.numberOfColumns
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+
+        other as Page
+
+        if (width != other.width) return false
+        if (height != other.height) return false
+        if (layout != other.layout) return false
+        if (grid != other.grid) return false
+        if (tiles != other.tiles) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = width
+        result = 31 * result + height
+        result = 31 * result + layout.hashCode()
+        result = 31 * result + grid.hashCode()
+        result = 31 * result + tiles.hashCode()
+        return result
+    }
+
     val shapes: List<Shape>
         get() {
             var shapes = emptyList<Shape>().toMutableList()

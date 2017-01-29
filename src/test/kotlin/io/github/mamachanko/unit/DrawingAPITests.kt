@@ -1,7 +1,6 @@
 package io.github.mamachanko.unit
 
-import io.github.mamachanko.Api
-import io.github.mamachanko.ShapesService
+import io.github.mamachanko.*
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.both
 import org.hamcrest.Matchers.*
@@ -20,17 +19,22 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import java.math.BigDecimal
 
 @RunWith(MockitoJUnitRunner::class)
-class ApiTests {
+class DrawingAPITests {
 
     lateinit var mockMvc: MockMvc
 
     @Before
     fun setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(Api(ShapesService())).build()
+
+//        TODO: make these available as beans
+        val pageTemplates = setOf(PageTemplate(layout = Layout(50, 50, 5), grid = Grid(2, 2)))
+        val colorPalettes = setOf(RandomPalette())
+        val strategies = setOf(SliceOnceStrategy())
+        mockMvc = MockMvcBuilders.standaloneSetup(DrawingAPI(DrawingService(pageTemplates, colorPalettes, strategies))).build()
     }
 
     @Test
-    fun `should return single shape of WIDTH x HEIGHT for GET`() {
+    fun `should return shapes within given width and height for GET`() {
         val width = 1230.4
         val height = 867.89
 
@@ -39,7 +43,7 @@ class ApiTests {
         val withinWidth = both(greaterThanOrEqualTo(.0)).and(lessThanOrEqualTo(width))
         val withinHeight = both(greaterThanOrEqualTo(.0)).and(lessThanOrEqualTo(height))
 
-        mockMvc.perform(get("/api/shapes?width=$width&height=$height"))
+        mockMvc.perform(get("/api/drawing?width=$width&height=$height"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.shapes.length()").value(`is`(greaterThanOrEqualTo(1))))

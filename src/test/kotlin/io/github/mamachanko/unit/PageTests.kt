@@ -19,6 +19,16 @@ class PageTests {
     }
 
     @Test
+    fun `should be equal to another page with the same properties`() {
+        assertThat(Page(12, 34, Layout(5, 6, 7), Grid(8, 9))).isEqualTo(Page(12, 34, Layout(5, 6, 7), Grid(8, 9)))
+    }
+
+    @Test
+    fun `should not be be equal to another page with a different properties`() {
+        assertThat(Page(12, 34, Layout(5, 6, 7), Grid(8, 9))).isNotEqualTo(Page(12, 34, Layout(5, 6, 77), Grid(88, 9)))
+    }
+
+    @Test
     fun `should have tiles space according to layout and grid`() {
         val page = Page(
                 width = 1000,

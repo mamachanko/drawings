@@ -20,6 +20,7 @@ class IdempotenceStrategy : Strategy {
 
 class SliceOnceStrategy : Strategy {
     override fun apply(shapes: List<Shape>): List<Shape> {
+//        TODO: make this idiomatic
         var newShapes = emptyList<Shape>().toMutableList()
         shapes.forEach { shape ->
             newShapes.addAll(shape.slice().toList())

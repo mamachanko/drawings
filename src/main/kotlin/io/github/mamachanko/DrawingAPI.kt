@@ -1,19 +1,18 @@
 package io.github.mamachanko
 
-import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.math.BigDecimal
-import java.util.*
 
-@RestController
-class Api(val shapesService: ShapesService) {
+@RestController()
+class DrawingAPI(val drawingService: DrawingService) {
 
-    @GetMapping("/api/shapes")
-    fun shapes(@RequestParam("width", required = true) width: Double, @RequestParam("height", required = true) height: Double): ShapesResponse {
+    @GetMapping("/api/drawing")
+    fun getDrawing(@RequestParam("width", required = true) width: Double, @RequestParam("height", required = true) height: Double): ShapesResponse {
 
-        return ShapesResponse(shapes = shapesService.getShapesWithin(width, height).map { shape ->
+        val shapes = drawingService.getDrawing(width, height).produce()
+
+        return ShapesResponse(shapes = shapes.map { shape ->
             ShapeResource(
                     vertices = shape.getSortedVertices().map { vertex ->
                         VertexResource(x = vertex.x, y = vertex.y)

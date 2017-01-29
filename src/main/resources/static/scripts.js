@@ -1,4 +1,3 @@
-
 var width;
 var height;
 
@@ -27,7 +26,7 @@ function draw() {
 }
 
 function loadShapes(success) {
-    shapesUrl = "/api/shapes?width=" + width + "&height=" + height;
+    shapesUrl = "/api/drawing?width=" + width + "&height=" + height;
     console.log("loading shapes from: ", shapesUrl);
     loadJSON(shapesUrl, success);
 }

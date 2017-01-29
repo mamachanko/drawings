@@ -2,6 +2,9 @@ package io.github.mamachanko.unit
 
 import io.github.mamachanko.*
 import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.CoreMatchers
+import org.hamcrest.Matchers
+import org.junit.Assert
 import org.junit.Test
 
 class DrawingTests {
@@ -22,17 +25,27 @@ class DrawingTests {
     }
 
     @Test
-    fun `should produce two gray shapes given a page, a gray color palette and a slice once strategy`() {
-        val page = Page(width = 100, height = 100)
+    fun `should produce eight gray shapes given a page, a gray color palette and a slice once strategy`() {
+        val page = Page(width = 100, height = 100, layout = Layout(0,0,0), grid = Grid(2, 2))
         val grayPalette = GrayPalette()
         val sliceOnceStrategy = SliceOnceStrategy()
 
         val drawing = Drawing(page, grayPalette, sliceOnceStrategy)
         val producedShapes = drawing.produce()
-        assertThat(producedShapes).hasSize(2)
+        assertThat(producedShapes).hasSize(8)
         assertThat(producedShapes[0]).isNotEqualTo(producedShapes[1])
         producedShapes.map { it.color }.forEach { color ->
             assertThat(color.red == color.green && color.red == color.blue).isTrue()
         }
+
+        val withinWidth = CoreMatchers.both(Matchers.greaterThanOrEqualTo(.0)).and(Matchers.lessThanOrEqualTo(100.0))
+        val withinHeight = CoreMatchers.both(Matchers.greaterThanOrEqualTo(.0)).and(Matchers.lessThanOrEqualTo(100.0))
+        producedShapes.forEach { shape ->
+            shape.vertices.forEach { vertex ->
+                Assert.assertThat(vertex.x, CoreMatchers.`is`(withinWidth))
+                Assert.assertThat(vertex.y, CoreMatchers.`is`(withinHeight))
+            }
+        }
+
     }
 }
