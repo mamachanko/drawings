@@ -37,7 +37,7 @@ function drawShapes(shapesJson) {
     for (s = 0; s < shapesJson.shapes.length; s++) {
         shape = shapesJson.shapes[s];
         console.log("filling with color:", shape.color.red, shape.color.blue, shape.color.green)
-        fill(shape.color.red, shape.color.blue, shape.color.green);
+        fill(shape.color.red, shape.color.green, shape.color.blue);
         console.log("drawing shape: ", shape);
         beginShape();
         for (v = 0; v < shape.vertices.length; v++) {

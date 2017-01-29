@@ -28,5 +28,5 @@ class DrawingConfig {
     fun sliceOnceAndKeepOne(): Strategy {
         return DuplicateSliceAndKeepOneStrategy()
     }
-    
+
 }
