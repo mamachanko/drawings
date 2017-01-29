@@ -13,17 +13,20 @@ class DrawingConfig {
 
     @Bean
     fun colorPalette(): Palette {
-        return GrayPalette()
-    }
-
-    @Bean
-    fun creationStrategy(): Strategy {
-        return IdempotenceStrategy()
+        val red = Color(253, 63, 51, 100)
+        val blue = Color(67, 105, 178, 100)
+        val yellow = Color(255, 193, 58, 100)
+        return ColorPalette(red, blue, yellow)
     }
 
 //    @Bean
-//    fun sliceOnce(): Strategy {
+//    fun sliceOnceStrategy(): Strategy {
 //        return SliceOnceStrategy()
 //    }
 
+    @Bean
+    fun sliceOnceAndKeepOne(): Strategy {
+        return DuplicateSliceAndKeepOneStrategy()
+    }
+    
 }
