@@ -23,3 +23,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### Javascript ###
+node_modules/
+bundle.js
