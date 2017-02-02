@@ -3,11 +3,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: [
-    './app.js',
-    './ga_tracking.js'
+      path.join(__dirname, 'index.js'),
     ],
   output: {
-    path: 'dist',
+    path: path.join(__dirname, "dist"),
     filename: 'bundle.js'
   },
   devServer: {

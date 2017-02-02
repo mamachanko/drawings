@@ -3,4 +3,5 @@
 cd "$(dirname "$0")"
 
 yarn
+yarn run test
 yarn run build

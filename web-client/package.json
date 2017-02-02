@@ -2,15 +2,17 @@
   "name": "kelleybert-web-client",
   "scripts": {
     "build": "webpack --optimize-minimize",
-    "run": "webpack-dev-server"
+    "run": "webpack-dev-server",
+    "test": "jasmine"
   },
   "dependencies": {
-    "p5": "^0.5.6",
-    "webpack": "^2.2.0",
-    "webpack-dev-server": "^2.2.0"
+    "p5": "^0.5.6"
   },
   "devDependencies": {
     "css-loader": "^0.26.1",
-    "html-webpack-plugin": "^2.28.0"
+    "html-webpack-plugin": "^2.28.0",
+    "jasmine": "^2.5.3",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   }
 }

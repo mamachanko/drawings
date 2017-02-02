@@ -1,10 +1,7 @@
-var css = require('./styles.css');
-var p5 = require('p5');
-
 var width;
 var height;
 
-function sketch(p) {
+function App(p) {
     p.setup = function() {
         console.log("setting up");
 
@@ -56,4 +53,4 @@ function sketch(p) {
     }
 }
 
-var app = new p5(sketch, document.body);
+module.exports = App;
