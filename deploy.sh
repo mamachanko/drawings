@@ -1,6 +1,6 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash -xe
 
-./gradlew clean assemble
+./web-client/build.sh
+./api/build.sh
 
-cf push -p build/libs/project-kelleybert-0.0.1-SNAPSHOT.jar
-
+cf push

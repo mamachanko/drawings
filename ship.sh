@@ -2,6 +2,7 @@
 
 git pull --rebase
 
-./gradlew clean build
+./api/build.sh
+./web-client/build.sh
 
 git push
