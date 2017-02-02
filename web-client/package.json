@@ -1,7 +1,7 @@
 {
   "name": "kelleybert-web-client",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --optimize-minimize",
     "run": "webpack-dev-server"
   },
   "dependencies": {

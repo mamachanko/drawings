@@ -17,6 +17,7 @@ module.exports = {
       "/api": "http://localhost:8080"
     }
   },
+  devtool: "source-map",
   module: {
       rules: [{
           test: /\.css$/,
