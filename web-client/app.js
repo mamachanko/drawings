@@ -1,3 +1,4 @@
+var css = require('./styles.css');
 var p5 = require('p5');
 
 var width;
