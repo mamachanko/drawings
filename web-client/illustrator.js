@@ -3,6 +3,7 @@ function Illustrator(surface) {
 }
 
 Illustrator.prototype.drawShape = function(shape) {
+    this.surface.fill(shape.color.r, shape.color.g, shape.color.b);
     this.surface.beginShape();
     for (var v = 0; v < shape.vertices.length; v++) {
       var vertex = shape.vertices[v];

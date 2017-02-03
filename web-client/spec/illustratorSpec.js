@@ -18,7 +18,7 @@ describe("Illustrator", function() {
     var shape;
 
     beforeEach(function() {
-      surface = jasmine.createSpyObj('surface', ['beginShape', 'vertex', 'endShape']);
+      surface = jasmine.createSpyObj('surface', ['fill', 'beginShape', 'vertex', 'endShape']);
       shape = {
         vertices: [
           {x: 1.2, y: 3.4},
@@ -32,6 +32,7 @@ describe("Illustrator", function() {
     it("creates shapes on the surface", function() {
       new Illustrator(surface).drawShape(shape);
 
+      expect(surface.fill).toHaveBeenCalledWith(256, 180, 120);
       expect(surface.beginShape).toHaveBeenCalled();
       expect(surface.vertex.calls.allArgs()).toEqual([[1.2, 3.4], [1.2, 5.6], [7.8, 5.6]]);
       expect(surface.endShape).toHaveBeenCalled();
