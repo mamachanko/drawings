@@ -1,7 +1,16 @@
-describe("App", function() {
+var DrawingApp = require("../drawingApp");
 
-  it("should not fail yet", function() {
-    expect(function(){return true}()).toBeTruthy();
+describe("DrawingApp", function() {
+
+  describe("when creating", function() {
+
+    it("it takes a p5", function() {
+        var p5 = function() {};
+        var drawingApp = DrawingApp(p5);
+        expect(drawingApp.p5).toEqual(p5);
+    });
+
   });
+
 
 });

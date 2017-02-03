@@ -2,6 +2,4 @@
 
 cd "$(dirname "$0")"
 
-yarn
-./test.sh
-yarn run build
+yarn run test
