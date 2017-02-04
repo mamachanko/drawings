@@ -1,12 +1,10 @@
 var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: [
-        path.join(__dirname, 'src/index.js'),
-    ],
+    context: path.resolve(__dirname, 'src'),
+    entry: './index.js',
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: __dirname,
         filename: 'bundle.js'
     },
     devServer: {
@@ -16,15 +14,5 @@ module.exports = {
             '/api': 'http://localhost:8080'
         }
     },
-    devtool: 'source-map',
-    module: {
-        rules: [{
-            test: /\.css$/,
-            exclude: /node_modules/,
-            loader: 'css-loader'
-        }]
-    },
-    plugins: [new HtmlWebpackPlugin({
-        title: 'Kelleybert'
-    })]
+    devtool: 'source-map'
 };
