@@ -1,4 +1,4 @@
-var Illustrator = require("../src/illustrator");
+var Illustrator = require("../src/Illustrator");
 
 describe("Illustrator", function() {
 
