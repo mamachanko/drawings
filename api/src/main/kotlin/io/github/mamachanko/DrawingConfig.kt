@@ -8,7 +8,8 @@ class DrawingConfig {
 
     @Bean
     fun pageTemplate(): PageTemplate {
-        return PageTemplate(Layout(125, 50, 50), Grid(2, 3))
+//        return PageTemplate(Layout(125, 50, 50), Grid(2, 3))
+        return PageTemplate(Layout(10, 10, 10), Grid(2, 3))
     }
 
     @Bean
