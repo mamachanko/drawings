@@ -138,14 +138,3 @@ class Discard(precedingInstructions: Instructions) : Instruction(precedingInstru
     }
 
 }
-
-
-class Duplicate(precedingInstructions: Instructions) : Instruction(precedingInstructions) {
-    override fun applyTo(state: ADrawing): ADrawing {
-        return state.plusShapes(state.shapes)
-    }
-
-    fun all(): Duplicate {
-        return this
-    }
-}
