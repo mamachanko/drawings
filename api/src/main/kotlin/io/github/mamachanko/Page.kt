@@ -2,9 +2,9 @@ package io.github.mamachanko
 
 data class Grid(val numberOfColumns: Int, val numberOfRows: Int)
 
-data class Layout(val horizontalMargin: Int, val verticalMargin: Int, val tileMargin: Int)
+data class Layout(val horizontalMargin: Double, val verticalMargin: Double, val tileMargin: Double)
 
-class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0), val grid: Grid = Grid(1, 1)) {
+class Page(val width: Double, val height: Double, val layout: Layout = Layout(0.0, 0.0, 0.0), val grid: Grid = Grid(1, 1)) {
 
     var tiles: List<Tile> = generateTiles()
 
@@ -22,19 +22,19 @@ class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0)
         return generatedTiles.toList()
     }
 
-    private fun getYForRow(row: Int): Int {
+    private fun getYForRow(row: Int): Double {
         return layout.verticalMargin + row * getTileHeight() + layout.tileMargin * row
     }
 
-    private fun getXForColumn(column: Int): Int {
+    private fun getXForColumn(column: Int): Double {
         return layout.horizontalMargin + column * getTileWidth() + layout.tileMargin * column
     }
 
-    private fun getTileHeight(): Int {
+    private fun getTileHeight(): Double {
         return (height - layout.verticalMargin * 2 - layout.tileMargin * (grid.numberOfRows - 1)) / grid.numberOfRows
     }
 
-    private fun getTileWidth(): Int {
+    private fun getTileWidth(): Double {
         return (width - layout.horizontalMargin * 2 - layout.tileMargin * (grid.numberOfColumns - 1)) / grid.numberOfColumns
     }
 
@@ -59,7 +59,7 @@ class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0)
         result = 31 * result + layout.hashCode()
         result = 31 * result + grid.hashCode()
         result = 31 * result + tiles.hashCode()
-        return result
+        return result.toInt()
     }
 
     val shapes: List<Shape>
@@ -74,12 +74,12 @@ class Page(val width: Int, val height: Int, val layout: Layout = Layout(0, 0, 0)
         }
 }
 
-data class Tile(val x: Int, val y: Int, val width: Int, val height: Int) {
+data class Tile(val x: Double, val y: Double, val width: Double, val height: Double) {
     val shapes: List<Shape> = listOf(
             Shape(vertices = setOf(
-                    Vertex(x.toDouble(), y.toDouble()),
-                    Vertex(x.toDouble(), y.toDouble() + height.toDouble()),
-                    Vertex(x.toDouble() + width.toDouble(), y.toDouble()),
-                    Vertex(x.toDouble() + width.toDouble(), y.toDouble() + height.toDouble())))
+                    Vertex(x, y),
+                    Vertex(x, y + height),
+                    Vertex(x + width, y),
+                    Vertex(x + width, y + height)))
     )
 }

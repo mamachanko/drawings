@@ -8,8 +8,7 @@ class DrawingConfig {
 
     @Bean
     fun pageTemplate(): PageTemplate {
-//        return PageTemplate(Layout(125, 50, 50), Grid(2, 3))
-        return PageTemplate(Layout(10, 10, 10), Grid(2, 3))
+        return PageTemplate(Layout(10.0, 10.0, .0), Grid(3, 5))
     }
 
     @Bean
@@ -19,11 +18,6 @@ class DrawingConfig {
         val yellow = Color(255, 193, 58, 100)
         return ColorPalette(red, blue, yellow)
     }
-
-//    @Bean
-//    fun sliceOnceStrategy(): Strategy {
-//        return SliceOnceStrategy()
-//    }
 
     @Bean
     fun sliceOnceAndKeepOne(): Strategy {

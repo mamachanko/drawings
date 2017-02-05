@@ -27,7 +27,7 @@ class DrawingAPITests {
     fun setUp() {
 
 //        TODO: make these available as beans
-        val pageTemplates = setOf(PageTemplate(layout = Layout(50, 50, 5), grid = Grid(2, 2)))
+        val pageTemplates = setOf(PageTemplate(layout = Layout(50.0, 50.0, 5.0), grid = Grid(2, 2)))
         val colorPalettes = setOf(RandomPalette())
         val strategies = setOf(SliceOnceStrategy())
         mockMvc = MockMvcBuilders.standaloneSetup(DrawingAPI(DrawingService(pageTemplates, colorPalettes, strategies))).build()

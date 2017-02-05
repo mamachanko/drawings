@@ -11,7 +11,7 @@ class DrawingTests {
 
     @Test
     fun `should produce single black shape given a page, a black color palette and idempotent strategy`() {
-        val page = Page(width = 100, height = 100)
+        val page = Page(width = 100.0, height = 100.0)
         val palette = BlackPalette()
         val idempotenceStrategy = IdempotenceStrategy()
         val drawing = Drawing(page, palette, idempotenceStrategy)
@@ -26,7 +26,7 @@ class DrawingTests {
 
     @Test
     fun `should produce eight gray shapes given a page, a gray color palette and a slice once strategy`() {
-        val page = Page(width = 100, height = 100, layout = Layout(0,0,0), grid = Grid(2, 2))
+        val page = Page(width = 100.0, height = 100.0, layout = Layout(.0, .0, .0), grid = Grid(2, 2))
         val grayPalette = GrayPalette()
         val sliceOnceStrategy = SliceOnceStrategy()
 
