@@ -2,7 +2,16 @@ require('file-loader?name=[name].[ext]!./index.html');
 require('file-loader?name=[name].[ext]!./styles.css');
 require('./ga_tracking');
 
-var App = require('./app');
-var p5 = require('p5');
+const Device = require('./Device');
+const Illustrator = require('./Illustrator');
+const DrawingsAPI = require('./DrawingsAPI');
 
-new p5(App, document.body);
+function main() {
+    const drawingsAPI = new DrawingsAPI();
+    const device = new Device(window, document).init();
+    drawingsAPI.get(device, function (drawing) {
+        new Illustrator(device.getSurface()).draft(drawing);
+    });
+}
+
+main();
