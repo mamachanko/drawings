@@ -34,7 +34,7 @@ class DrawingTests {
         val producedShapes = drawing.produce()
         assertThat(producedShapes).hasSize(8)
         assertThat(producedShapes[0]).isNotEqualTo(producedShapes[1])
-        producedShapes.map { 
+        producedShapes.map {
             assertThat(it.color.red == it.color.green && it.color.red == it.color.blue).isTrue()
         }
 
