@@ -4,42 +4,36 @@ function Surface(renderer) {
 }
 
 Surface.prototype.addPolygon = function (polygon, color) {
-    this.beginShapeWithColor(color);
+    this.beginPathWithColor(color);
     for (var v = 0; v < polygon.length; v++) {
-        this.vertex(polygon[v].x, polygon[v].y);
+        this.addVertex(polygon[v].x, polygon[v].y);
     }
-    this.endShape();
+    this.closePath();
 };
 
-Surface.prototype.beginShapeWithColor = function (color) {
+Surface.prototype.beginPathWithColor = function (color) {
     if (this.currentlyAddingShape) {
-        throw new Error('cannot begin shape without ending shape');
+        throw new Error('cannot begin path without closing path');
     }
-    this.renderer.fill(color.r, color.g, color.b);
-    this.renderer.beginShape();
+    this.renderer.fillStyle = 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
+    this.renderer.beginPath();
     this.currentlyAddingShape = true;
 };
 
-Surface.prototype.endShape = function () {
+Surface.prototype.closePath = function () {
     if (!this.currentlyAddingShape) {
-        throw new Error('cannot end shape without beginning shape');
+        throw new Error('cannot close path without beginning path');
     }
-    this.renderer.endShape();
+    this.renderer.closePath();
+    this.renderer.fill();
     this.currentlyAddingShape = false;
 };
 
-Surface.prototype.vertex = function (x, y) {
+Surface.prototype.addVertex = function (x, y) {
     if (!this.currentlyAddingShape) {
-        throw new Error('cannot add vertex without beginning shape');
+        throw new Error('cannot add add vertex without beginning path');
     }
-    this.renderer.vertex(x, y);
-};
-
-Surface.prototype.fill = function (r, g, b) {
-    if (this.currentlyAddingShape) {
-        throw new Error('cannot fill while adding shape');
-    }
-    this.renderer.fill(r, g, b);
+    this.renderer.lineTo(x, y);
 };
 
 module.exports = Surface;

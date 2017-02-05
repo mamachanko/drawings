@@ -5,55 +5,57 @@ describe('Surface', function () {
     var surface, renderer;
 
     beforeEach(function () {
-        renderer = jasmine.createSpyObj('renderer', ['fill', 'beginShape', 'vertex', 'endShape']);
+        renderer = jasmine.createSpyObj('renderer', ['fill', 'beginPath', 'lineTo', 'closePath']);
         surface = new Surface(renderer);
     });
 
-    describe('when implementing the shape protocol with its rendered', function () {
+    describe('when implementing the path protocol with its rendered', function () {
 
+        it('it must begin a path, draw lines between vertices, close the path and fill it with colour', function () {
+            surface.beginPathWithColor({r: 180, g: 210, b: 85});
 
-        it('it must begin a shape with a color, add vertices and end the shape', function () {
-            surface.beginShapeWithColor({r: 180, g: 210, b: 85});
+            expect(renderer.fillStyle).toEqual('rgb(180,210,85)');
+            expect(renderer.beginPath).toHaveBeenCalled();
 
-            expect(renderer.fill).toHaveBeenCalledWith(180, 210, 85);
-            expect(renderer.beginShape).toHaveBeenCalled();
+            surface.addVertex(1, 2);
+            surface.addVertex(3, 4);
+            expect(renderer.lineTo.calls.allArgs()).toEqual([[1, 2], [3, 4]]);
 
-            surface.vertex(1, 2);
-            surface.vertex(3, 4);
-            surface.endShape();
-
-            expect(renderer.vertex.calls.allArgs()).toEqual([[1, 2], [3, 4]]);
-            expect(renderer.endShape).toHaveBeenCalled();
+            expect(renderer.fill).not.toHaveBeenCalled();
+            surface.closePath();
+            expect(renderer.closePath).toHaveBeenCalled();
+            expect(renderer.fill).toHaveBeenCalled();
         });
 
-        it('it can add shapes after one another', function () {
-            surface.beginShapeWithColor({r: 180, g: 210, b: 85});
-            surface.vertex(1, 2);
-            surface.endShape();
+        it('it can add paths one after another', function () {
+            surface.beginPathWithColor({r: 180, g: 210, b: 85});
+            surface.addVertex(1, 2);
+            surface.closePath();
 
-            surface.beginShapeWithColor({r: 180, g: 210, b: 85});
-            surface.vertex(3, 4);
-            surface.endShape();
+            surface.beginPathWithColor({r: 180, g: 210, b: 85});
+            surface.addVertex(3, 4);
+            surface.closePath();
         });
 
-        it('it cannot end shape without having begun shape', function () {
+        it('it cannot close path without having begun path', function () {
             expect(function () {
-                surface.endShape()
-            }).toThrowError('cannot end shape without beginning shape');
+                surface.closePath()
+            }).toThrowError('cannot close path without beginning path');
         });
 
-        it('it cannot begin shape without having ended shape', function () {
-            surface.beginShapeWithColor({r: 180, g: 210, b: 85});
+        it('it cannot begin path without having ended path', function () {
+            surface.beginPathWithColor({r: 180, g: 210, b: 85});
             expect(function () {
-                surface.beginShapeWithColor({r: 180, g: 210, b: 85})
-            }).toThrowError('cannot begin shape without ending shape');
+                surface.beginPathWithColor({r: 180, g: 210, b: 85})
+            }).toThrowError('cannot begin path without closing path');
         });
 
-        it('it cannot add vertex without having begun shape', function () {
+        it('it cannot add vertex without having begun path', function () {
             expect(function () {
-                surface.vertex(1, 2)
-            }).toThrowError('cannot add vertex without beginning shape');
+                surface.addVertex(1, 2)
+            }).toThrowError('cannot add add vertex without beginning path');
         });
+
     });
 
     describe('when adding a colored polygon', function () {
@@ -66,8 +68,8 @@ describe('Surface', function () {
             ];
             var color = {r: 180, g: 50, b: 50};
             surface.addPolygon(polygon, color);
-            expect(renderer.fill).toHaveBeenCalledWith(180, 50, 50);
-            expect(renderer.vertex.calls.allArgs()).toEqual([[10, 10], [50, 10], [10, 50]]);
+            expect(renderer.fillStyle).toEqual('rgb(180,50,50)');
+            expect(renderer.lineTo.calls.allArgs()).toEqual([[10, 10], [50, 10], [10, 50]]);
         });
 
     });
