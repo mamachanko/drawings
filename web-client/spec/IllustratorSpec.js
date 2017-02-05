@@ -19,14 +19,14 @@ describe("Illustrator", function () {
             var drawing;
 
             beforeEach(function () {
-                drawing = [
+                drawing = {shapes: [
                     {
                         vertices: [
                             {x: 10, y: 10},
                             {x: 50, y: 10},
                             {x: 10, y: 50},
                         ],
-                        color: {r: 180, g: 50, b: 50}
+                        color: {red: 180, green: 50, blue: 50}
                     },
                     {
                         vertices: [
@@ -35,16 +35,16 @@ describe("Illustrator", function () {
                             {x: 75, y: 150},
                             {x: 25, y: 150},
                         ],
-                        color: {r: 50, g: 180, b: 50}
+                        color: {red: 50, green: 180, blue: 50}
                     },
-                ];
+                ]};
             });
 
             it("it adds coloured polygons to the surface", function () {
                 illustrator.draft(drawing);
                 expect(surface.addPolygon.calls.allArgs()).toEqual([
-                    [[{x: 10, y: 10}, {x: 50, y: 10}, {x: 10, y: 50}], {r: 180, g: 50, b: 50}],
-                    [[{x: 25, y: 100}, {x: 75, y: 100}, {x: 75, y: 150}, {x: 25, y: 150}], {r: 50, g: 180, b: 50}],
+                    [[{x: 10, y: 10}, {x: 50, y: 10}, {x: 10, y: 50}], {red: 180, green: 50, blue: 50}],
+                    [[{x: 25, y: 100}, {x: 75, y: 100}, {x: 75, y: 150}, {x: 25, y: 150}], {red: 50, green: 180, blue: 50}],
                 ]);
             });
         });

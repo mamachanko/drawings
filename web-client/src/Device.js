@@ -11,11 +11,11 @@ Device.prototype.init = function () {
     this.canvas.width = this.window.innerWidth;
     this.canvas.height = this.window.innerHeight;
     this.document.body.appendChild(this.canvas);
+    return this;
 };
 
 Device.prototype.getSurface = function () {
     return new Surface(this.canvas.getContext('2d'));
 };
-
 
 module.exports = Device;

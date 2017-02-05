@@ -12,7 +12,7 @@ describe('Surface', function () {
     describe('when implementing the path protocol with its rendered', function () {
 
         it('it must begin a path, draw lines between vertices, close the path and fill it with colour', function () {
-            surface.beginPathWithColor({r: 180, g: 210, b: 85});
+            surface.beginPathWithColor({red: 180, green: 210, blue: 85});
 
             expect(renderer.fillStyle).toEqual('rgb(180,210,85)');
             expect(renderer.beginPath).toHaveBeenCalled();
@@ -28,11 +28,11 @@ describe('Surface', function () {
         });
 
         it('it can add paths one after another', function () {
-            surface.beginPathWithColor({r: 180, g: 210, b: 85});
+            surface.beginPathWithColor({red: 180, green: 210, blue: 85});
             surface.addVertex(1, 2);
             surface.closePath();
 
-            surface.beginPathWithColor({r: 180, g: 210, b: 85});
+            surface.beginPathWithColor({red: 180, green: 210, blue: 85});
             surface.addVertex(3, 4);
             surface.closePath();
         });
@@ -44,9 +44,9 @@ describe('Surface', function () {
         });
 
         it('it cannot begin path without having ended path', function () {
-            surface.beginPathWithColor({r: 180, g: 210, b: 85});
+            surface.beginPathWithColor({red: 180, green: 210, blue: 85});
             expect(function () {
-                surface.beginPathWithColor({r: 180, g: 210, b: 85})
+                surface.beginPathWithColor({red: 180, green: 210, blue: 85})
             }).toThrowError('cannot begin path without closing path');
         });
 
@@ -66,7 +66,7 @@ describe('Surface', function () {
                 {x: 50, y: 10},
                 {x: 10, y: 50}
             ];
-            var color = {r: 180, g: 50, b: 50};
+            var color = {red: 180, green: 50, blue: 50};
             surface.addPolygon(polygon, color);
             expect(renderer.fillStyle).toEqual('rgb(180,50,50)');
             expect(renderer.lineTo.calls.allArgs()).toEqual([[10, 10], [50, 10], [10, 50]]);

@@ -35,6 +35,22 @@ describe('Device', function () {
                 expect(document.body.appendChild).toHaveBeenCalledWith(canvas);
             });
 
+        });
+
+        describe('when initializing', function () {
+
+            it('it returns itself', function () {
+                expect(device.init()).toEqual(device);
+            });
+
+        });
+
+        describe('when asking for a Surface', function () {
+
+            beforeEach(function () {
+                device.init();
+            });
+
             it('it returns a Surface', function () {
                 expect(device.getSurface()).toEqual(new Surface('aContext'));
                 expect(canvas.getContext).toHaveBeenCalledWith('2d');

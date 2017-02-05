@@ -15,7 +15,7 @@ Surface.prototype.beginPathWithColor = function (color) {
     if (this.currentlyAddingShape) {
         throw new Error('cannot begin path without closing path');
     }
-    this.renderer.fillStyle = 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
+    this.renderer.fillStyle = 'rgb(' + color.red + ',' + color.green + ',' + color.blue + ')';
     this.renderer.beginPath();
     this.currentlyAddingShape = true;
 };
