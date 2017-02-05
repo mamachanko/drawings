@@ -22,27 +22,13 @@ class IdempotenceStrategy : Strategy {
 
 class SliceOnceStrategy : Strategy {
     override fun apply(shapes: List<Shape>): List<Shape> {
-//        TODO: make this idiomatic
-        var newShapes = emptyList<Shape>().toMutableList()
-        shapes.forEach { shape ->
-            newShapes.addAll(shape.slice().toList())
-        }
-        return newShapes
+        return shapes.map { it.slice().toList() }.flatMap { it }
     }
 }
 
 class DuplicateSliceAndKeepOneStrategy : Strategy {
     override fun apply(shapes: List<Shape>): List<Shape> {
-//        TODO: make this idiomatic
-        var newShapes = emptyList<Shape>().toMutableList()
-        shapes.forEach { shape ->
-            val copy1 = shape
-            val copy2 = shape
-            val piece1 = copy1.slice().toList()[Random().nextInt(2)]
-            val piece2 = copy2.slice().toList()[Random().nextInt(2)]
-            newShapes.add(piece1)
-            newShapes.add(piece2)
-        }
-        return newShapes
+        return shapes.map { listOf(it, it) }.flatMap { it }.map { it.slice().toList()[Random().nextInt(2)] }
     }
+
 }

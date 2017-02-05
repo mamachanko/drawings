@@ -9,17 +9,11 @@ class Page(val width: Double, val height: Double, val layout: Layout = Layout(0.
     var tiles: List<Tile> = generateTiles()
 
     private fun generateTiles(): List<Tile> {
-        var generatedTiles = emptyList<Tile>().toMutableList()
-        (0..grid.numberOfColumns - 1).forEach { column ->
-            (0..grid.numberOfRows - 1).forEach { row ->
-                generatedTiles.add(Tile(
-                        x = getXForColumn(column),
-                        y = getYForRow(row),
-                        width = getTileWidth(),
-                        height = getTileHeight()))
+        return (0..grid.numberOfColumns - 1).map { column ->
+            (0..grid.numberOfRows - 1).map { row ->
+                Tile(x = getXForColumn(column), y = getYForRow(row), width = getTileWidth(), height = getTileHeight())
             }
-        }
-        return generatedTiles.toList()
+        }.flatMap { it }
     }
 
     private fun getYForRow(row: Int): Double {
@@ -64,13 +58,7 @@ class Page(val width: Double, val height: Double, val layout: Layout = Layout(0.
 
     val shapes: List<Shape>
         get() {
-            var shapes = emptyList<Shape>().toMutableList()
-            tiles.forEach { tile ->
-                tile.shapes.forEach { shape ->
-                    shapes.add(shape)
-                }
-            }
-            return shapes.toList()
+            return tiles.map { it.shapes }.flatMap { it }
         }
 }
 

@@ -34,18 +34,15 @@ class DrawingTests {
         val producedShapes = drawing.produce()
         assertThat(producedShapes).hasSize(8)
         assertThat(producedShapes[0]).isNotEqualTo(producedShapes[1])
-        producedShapes.map { it.color }.forEach { color ->
-            assertThat(color.red == color.green && color.red == color.blue).isTrue()
+        producedShapes.map { 
+            assertThat(it.color.red == it.color.green && it.color.red == it.color.blue).isTrue()
         }
 
         val withinWidth = CoreMatchers.both(Matchers.greaterThanOrEqualTo(.0)).and(Matchers.lessThanOrEqualTo(100.0))
         val withinHeight = CoreMatchers.both(Matchers.greaterThanOrEqualTo(.0)).and(Matchers.lessThanOrEqualTo(100.0))
-        producedShapes.forEach { shape ->
-            shape.vertices.forEach { vertex ->
-                Assert.assertThat(vertex.x, CoreMatchers.`is`(withinWidth))
-                Assert.assertThat(vertex.y, CoreMatchers.`is`(withinHeight))
-            }
+        producedShapes.map { it.vertices }.flatMap { it }.map { vertex ->
+            Assert.assertThat(vertex.x, CoreMatchers.`is`(withinWidth))
+            Assert.assertThat(vertex.y, CoreMatchers.`is`(withinHeight))
         }
-
     }
 }
