@@ -35,6 +35,11 @@ describe('Device', function () {
                 expect(document.body.appendChild).toHaveBeenCalledWith(canvas);
             });
 
+            it('it has dimensions', function () {
+                expect(device.width).toEqual(124);
+                expect(device.height).toEqual(457);
+            });
+
         });
 
         describe('when initializing', function () {

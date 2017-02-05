@@ -8,8 +8,8 @@ function Device(window, document) {
 Device.prototype.init = function () {
     this.canvas = this.document.createElement('canvas');
     this.canvas.id = 'canvas';
-    this.canvas.width = this.window.innerWidth;
-    this.canvas.height = this.window.innerHeight;
+    this.canvas.width = this.width = this.window.innerWidth;
+    this.canvas.height = this.height = this.window.innerHeight;
     this.document.body.appendChild(this.canvas);
     return this;
 };
