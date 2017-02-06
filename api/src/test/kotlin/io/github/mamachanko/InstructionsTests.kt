@@ -6,100 +6,83 @@ import org.junit.Test
 class InstructionsTests {
 
     @Test
-    fun `should draw rectangle on page`() {
-        val instructions = ToAPage()
-                .withWidth(500.0).and().withHeight(900.0)
-                .add().a().rectangle().fillingThePage()
+    fun `should create instructions first and execute on initial later`() {
+        val instructions = StartBy()
+                .adding().a().rectangle().fillingThePage()
                 .then()
                 .add().two().rectangles().fillingThePage()
                 .then()
                 .discard().one()
                 .then()
                 .duplicate().all()
-                .andSee()
 
-        assertThat(instructions.execute().shapes).hasSize(4)
+        val drawing = GivenABlank().follow(instructions.asList())
+
+        assertThat(drawing.shapes).hasSize(4)
+        assertThat(drawing.shapes.flatMap { it.vertices }).hasSize(4 * 4)
+
     }
 
 }
 
-class ToAPage(var width: Double = .0, var height: Double = .0) {
+class StartBy {
+    fun adding(): Add = Add()
+}
 
-    fun withWidth(width: Double): ToAPage {
-        this.width = width
-        return this
+fun GivenABlank(): Drawing2 {
+    return Drawing2()
+}
+
+class Drawing2(val shapes: List<Shape2> = emptyList()) {
+
+    fun plusShapes(shapes: List<Shape2>): Drawing2 {
+        return Drawing2(this.shapes.plus(shapes))
     }
 
-    fun and(): ToAPage {
-        return this
-    }
-
-    fun withHeight(height: Double): ToAPage {
-        this.height = height
-        return this
-    }
-
-    fun add(): Add {
-        val emptyDrawing = ADrawing()
-        val precedingInstructions = Instructions(emptyDrawing, emptyList<Instruction>())
-        return Add(precedingInstructions)
+    fun follow(instructions: List<Instruction>): Drawing2 {
+        return instructions.fold(this, { state, instruction -> instruction.applyTo(state) })
     }
 
 }
 
-class Instructions(val initial: ADrawing, val instructions: List<Instruction>) {
-
-    fun plus(newInstruction: Instruction): Instructions {
-        return Instructions(initial, instructions.plus(newInstruction))
+data class Shape2(val vertices: List<Vertex2> = emptyList()) {
+    fun withVertices(vararg vertices: Vertex2): Shape2 {
+        return Shape2(vertices.asList())
     }
+}
 
-    fun execute(): ADrawing {
-        return instructions.fold(initial, {state, instruction -> instruction.applyTo(state)})
-    }
+data class Vertex2(val x: Double, val y: Double)
+
+abstract class Instruction(val prior: List<Instruction> = emptyList()) {
 
     fun add(): Add {
-        return Add(this)
+        return Add(prior.plus(this))
     }
 
     fun discard(): Discard {
-        return Discard(this)
+        return Discard(prior.plus(this))
     }
 
     fun duplicate(): Duplicate {
-        return Duplicate(this)
+        return Duplicate(prior.plus(this))
     }
+
+    fun then(): Instruction {
+        return this
+    }
+
+    fun asList(): List<Instruction> {
+        return prior.plus(this)
+    }
+
+    abstract fun applyTo(state: Drawing2): Drawing2
 }
 
-abstract class Instruction(val precedingInstructions: Instructions) {
+class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
 
-    fun andSee(): Instructions {
-        return then()
-    }
-
-    fun then(): Instructions {
-        return precedingInstructions.plus(this)
-    }
-
-    abstract fun applyTo(state: ADrawing): ADrawing
-
-}
-class ADrawing(val shapes: List<AShape> = emptyList()) {
-
-    fun plusShapes(shapes: List<AShape>): ADrawing {
-        return ADrawing(this.shapes.plus(shapes))
-    }
-
-}
-
-class AShape
-
-class Add(precedingInstructions: Instructions) : Instruction(precedingInstructions) {
-
-    override fun applyTo(state: ADrawing): ADrawing {
-        if (count == 1) {
-            return state.plusShapes(listOf(AShape()))
-        }
-        return state.plusShapes(listOf(AShape(), AShape()))
+    override fun applyTo(state: Drawing2): Drawing2 {
+        val shape = Shape2().withVertices(Vertex2(.0, .0), Vertex2(10.0, .0), Vertex2(10.0, 10.0), Vertex2(.0, 10.0))
+        return state.plusShapes((1..count).map { shape })
     }
 
     private var count: Int = 0
@@ -128,12 +111,24 @@ class Add(precedingInstructions: Instructions) : Instruction(precedingInstructio
 
 }
 
-class Discard(precedingInstructions: Instructions) : Instruction(precedingInstructions) {
-    override fun applyTo(state: ADrawing): ADrawing {
-        return ADrawing(state.shapes.drop(1))
+class Discard(prior: List<Instruction> = emptyList()) : Instruction(prior) {
+
+    override fun applyTo(state: Drawing2): Drawing2 {
+        return Drawing2(state.shapes.drop(1))
     }
 
     fun one(): Discard {
+        return this
+    }
+
+}
+
+class Duplicate(prior: List<Instruction> = emptyList()) : Instruction(prior) {
+    override fun applyTo(state: Drawing2): Drawing2 {
+        return state.plusShapes(state.shapes)
+    }
+
+    fun all(): Duplicate {
         return this
     }
 
