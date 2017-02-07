@@ -6,7 +6,7 @@ import org.junit.Test
 class InstructionsTests {
 
     @Test
-    fun `should create instructions first and execute on initial later`() {
+    fun `should create drawing from list of instructions`() {
         val instructions = StartBy()
                 .adding().a().rectangle().fillingThePage()
                 .then()
@@ -23,12 +23,50 @@ class InstructionsTests {
                 .follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(4)
-        assertThat(drawing.shapes.flatMap { it.vertices }).hasSize(4 * 4)
         drawing.shapes.map {
-            assertThat(it.vertices).containsExactly(Vertex2(.0, .0), Vertex2(600.0, .0), Vertex2(600.0, 800.0), Vertex2(.0, 800.0))
+            assertThat(it.vertices).containsExactly(
+                    Vertex2(.0, .0), Vertex2(600.0, .0), Vertex2(600.0, 800.0), Vertex2(.0, 800.0)
+            )
         }
-        assertThat(drawing.shapes.filter { !it.color.equals(SOLID_BLACK) }).hasSize(2)
         assertThat(drawing.shapes.filter { it.color.equals(SOLID_BLACK) }).hasSize(2)
+        assertThat(drawing.shapes.filter { !it.color.equals(SOLID_BLACK) }).hasSize(2)
+    }
+
+    @Test
+    fun `should be able to slice shapes`() {
+        val instructions = Add().one().rectangle().then().slice().randomly()
+
+        val drawing = GivenABlank().withWidth(100.0).and().withHeight(100.0).follow(instructions.asList())
+
+        assertThat(drawing.shapes).hasSize(2)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(8)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(6)
+        drawing.shapes.map {
+            assertThat(it.vertices).containsAllOf(Vertex2(.0, .0), Vertex2(100.0, .0), Vertex2(100.0, 100.0), Vertex2(.0, 100.0))
+        }
+        val vertices1 = drawing.shapes[0].vertices
+        val vertices2 = drawing.shapes[1].vertices
+        assertThat(vertices1.intersect(vertices2)).hasSize(2)
+    }
+
+    @Test
+    fun `should create the baseline Kelleybert drawing from list of instructions`() {
+        val color1 = Color(10, 20, 30, SOLID)
+        val color2 = Color(40, 50, 60, SOLID)
+        val instructions = StartBy()
+                .adding().rectangles().inAGridOf(2, 3).withACollapsedMarginOf(20.0)
+                .then()
+                .duplicate().all()
+                .then()
+                .slice().all().randomly().butOnlyKeepOnePiece()
+                .then()
+                .colorise().all().from(ColorPalette(color1, color2))
+
+        val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
+
+        assertThat(drawing.shapes).hasSize(12)
+        assertThat(drawing.shapes.map { it.color }.toSet()).doesNotContain(SOLID_BLACK)
+        assertThat(drawing.shapes.map { it.color }.toSet()).containsExactly(color1, color2)
     }
 
 }
@@ -100,6 +138,10 @@ abstract class Instruction(val prior: List<Instruction> = emptyList()) {
         return Colorise(prior.plus(this))
     }
 
+    fun slice(): Slice {
+        return Slice(prior.plus(this))
+    }
+
     fun then(): Instruction {
         return this
     }
@@ -149,6 +191,19 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
         return this
     }
 
+    fun inAGridOf(rows: Int, columns: Int): Add {
+        this.count = rows * columns
+        return this
+    }
+
+    fun withACollapsedMarginOf(collapsedMargin: Double): Add {
+        return this
+    }
+
+    fun one(): Add {
+        return a()
+    }
+
 }
 
 class Discard(prior: List<Instruction> = emptyList()) : Instruction(prior) {
@@ -179,13 +234,12 @@ class Colorise(prior: List<Instruction>) : Instruction(prior) {
 
     private var palette: Palette = BlackPalette()
 
-    override fun applyTo(state: Drawing2): Drawing2 {
-        val shapes = state.shapes.map { shape -> shape.withColour(palette.color) }
-        return state.withShapes(shapes)
-    }
+    private var percent: Int = 100
 
-    fun all(): Colorise {
-        return this
+    override fun applyTo(state: Drawing2): Drawing2 {
+        val secondHalf = state.shapes.subList(state.shapes.size / (100 / percent), state.shapes.size)
+        val firstHalf = state.shapes.subList(0, state.shapes.size / (100 / percent)).map { shape -> shape.withColour(palette.color) }
+        return state.withShapes(firstHalf.plus(secondHalf))
     }
 
     fun from(palette: Palette): Colorise {
@@ -194,7 +248,35 @@ class Colorise(prior: List<Instruction>) : Instruction(prior) {
     }
 
     fun half(): Colorise {
+        this.percent = 50
         return this
     }
 
+    fun all(): Colorise {
+        this.percent = 100
+        return this
+    }
+
+}
+
+class Slice(prior: List<Instruction>) : Instruction(prior) {
+    override fun applyTo(state: Drawing2): Drawing2 {
+        return state.withShapes(state.shapes.map { slice(it) }.flatMap { it })
+    }
+
+    private fun slice(shape: Shape2): List<Shape2> {
+        return listOf(shape, shape)
+    }
+
+    fun all(): Slice {
+        return this
+    }
+
+    fun randomly(): Slice {
+        return this
+    }
+
+    fun butOnlyKeepOnePiece(): Slice {
+        return this
+    }
 }
