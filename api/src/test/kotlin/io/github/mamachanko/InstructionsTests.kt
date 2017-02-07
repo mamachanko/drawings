@@ -16,11 +16,15 @@ class InstructionsTests {
                 .then()
                 .duplicate().all()
 
-        val drawing = GivenABlank().follow(instructions.asList())
+        val drawing = GivenABlank()
+                .withWidth(600.0).and().withHeight(800.0)
+                .follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(4)
         assertThat(drawing.shapes.flatMap { it.vertices }).hasSize(4 * 4)
-
+        drawing.shapes.map {
+            assertThat(it.vertices).containsExactly(Vertex2(.0, .0), Vertex2(600.0, .0), Vertex2(600.0, 800.0), Vertex2(.0, 800.0))
+        }
     }
 
 }
@@ -35,12 +39,29 @@ fun GivenABlank(): Drawing2 {
 
 class Drawing2(val shapes: List<Shape2> = emptyList()) {
 
+    var width: Double = .0
+    var height: Double = .0
+
     fun plusShapes(shapes: List<Shape2>): Drawing2 {
         return Drawing2(this.shapes.plus(shapes))
     }
 
     fun follow(instructions: List<Instruction>): Drawing2 {
         return instructions.fold(this, { state, instruction -> instruction.applyTo(state) })
+    }
+
+    fun withWidth(width: Double): Drawing2 {
+        this.width = width
+        return this
+    }
+
+    fun withHeight(height: Double): Drawing2 {
+        this.height = height
+        return this
+    }
+
+    fun and(): Drawing2 {
+        return this
     }
 
 }
@@ -81,7 +102,14 @@ abstract class Instruction(val prior: List<Instruction> = emptyList()) {
 class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
 
     override fun applyTo(state: Drawing2): Drawing2 {
-        val shape = Shape2().withVertices(Vertex2(.0, .0), Vertex2(10.0, .0), Vertex2(10.0, 10.0), Vertex2(.0, 10.0))
+        val width = state.width
+        val height = state.height
+        val shape = Shape2().withVertices(
+                Vertex2(.0, .0),
+                Vertex2(width, .0),
+                Vertex2(width, height),
+                Vertex2(.0, height)
+        )
         return state.plusShapes((1..count).map { shape })
     }
 
