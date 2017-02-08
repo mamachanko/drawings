@@ -57,18 +57,6 @@ class InstructionsTests {
     @Test
     fun `should be able to slice shapes`() {
 
-        val list = listOf(1, 4, 3, 7)
-        val list_ = list.plus(list.first())
-        val result = list_.zip( list_.drop(1) )
-        assertThat(result).containsExactly(Pair(1, 4), Pair(4, 3), Pair(3, 7), Pair(7, 1)).inOrder()
-
-        assertThat(Shape2(listOf(Vertex2(.0, .0), Vertex2(100.0, .0), Vertex2(.0, 100.0), Vertex2(100.0, 100.0))).getSortedEdges()).containsExactly(
-                Pair(Vertex2(.0, .0), Vertex2(100.0, .0)),
-                Pair(Vertex2(100.0, .0), Vertex2(100.0, 100.0)),
-                Pair(Vertex2(100.0, 100.0), Vertex2(.0, 100.0)),
-                Pair(Vertex2(.0, 100.0), Vertex2(.0, .0))
-        ).inOrder()
-
         val instructions = Add().one().rectangle().then().slice().randomly()
 
         val drawing = GivenABlank().withWidth(100.0).and().withHeight(100.0).follow(instructions.asList())
@@ -76,9 +64,7 @@ class InstructionsTests {
         assertThat(drawing.shapes).hasSize(2)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(8)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(6)
-        drawing.shapes.map {
-            assertThat(it.vertices).containsAllOf(Vertex2(.0, .0), Vertex2(100.0, .0), Vertex2(100.0, 100.0), Vertex2(.0, 100.0))
-        }
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllOf(Vertex2(.0, .0), Vertex2(100.0, .0), Vertex2(100.0, 100.0), Vertex2(.0, 100.0))
         val vertices1 = drawing.shapes[0].vertices
         val vertices2 = drawing.shapes[1].vertices
         assertThat(vertices1.intersect(vertices2)).hasSize(2)
@@ -138,18 +124,9 @@ data class Shape2(val vertices: List<Vertex2> = emptyList(), val color: Color = 
     }
 
     fun getSortedEdges(): List<Pair<Vertex2, Vertex2>> {
-
-        val list = listOf(1, 4, 3, 7)
-        val list_ = list.plus(list.first())
-        val result_ = list_.zip( list_.drop(1) )
-
         val sortedVertices = getSortedVertices()
         val vertices = sortedVertices.plus(sortedVertices.first())
-        val result = vertices.zip( vertices.drop(1) )
-
-        println(result)
-
-        return result
+        return vertices.zip(vertices.drop(1))
     }
 
     private fun getAverageVertex(): Vertex2 {
@@ -314,61 +291,87 @@ class Slice(prior: List<Instruction>) : Instruction(prior) {
 
     private fun slice(shape: Shape2): List<Shape2> {
 
+
         // get sorted edges
         val edges = shape.getSortedEdges()
+        println("####")
+        println(edges)
+        println("####")
 
         // pick two edges randomly
         val (firstEdge, secondEdge) = pickTwo(edges)
 
+        println("####")
+        println(edges)
+        println("####")
+
         // insert new (randomly placed) vertices on these edges
-        val (firstEdge1, firstEdge2) = splitEdgeRandomly(firstEdge)
-        val (secondEdge1, secondEdge2) = splitEdgeRandomly(secondEdge)
+        val (firstEdge1, firstEdge2) = sliceEdgeRandomly(firstEdge)
+        val (secondEdge1, secondEdge2) = sliceEdgeRandomly(secondEdge)
 
         // replace the two edges with their split result
-        val newEdges = edges.map { edge ->
-            if (edge.equals(firstEdge)) {
-                listOf(firstEdge1, firstEdge2)
+        val newEdges = edges.map {
+            when {
+                it.equals(firstEdge) -> listOf(firstEdge1, firstEdge2)
+                it.equals(secondEdge) -> listOf(secondEdge1, secondEdge2)
+                else -> listOf(it)
             }
-            if (edge.equals(secondEdge)) {
-                listOf(secondEdge1, secondEdge2)
-            }
-            listOf(edge)
         }.flatMap { it }
+
+        println()
+        println()
+        println(newEdges)
+        println()
+        println()
 
         // partition the list of all edges into the two pieces
         val pieces = newEdges.partition { edge ->
-            newEdges.indexOf(edge) in (newEdges.indexOf(firstEdge1)..newEdges.indexOf(secondEdge2))
+            if (newEdges.indexOf(edge) > newEdges.indexOf(firstEdge1) && newEdges.indexOf(edge) < newEdges.indexOf(secondEdge2)) {
+                println("piece1: $edge")
+                true
+            } else {
+                println("piece2: $edge")
+                false
+            }
+
         }
 
+        println("pieces")
+        println(pieces)
+
         // construct a shape of each piece
-        val shape1 = Shape2(pieces.first.flatMap { it.toList() })
-        val shape2 = Shape2(pieces.second.flatMap { it.toList() })
+        val shape1 = Shape2(pieces.first.map { it.toList() }.flatMap { it }.toSet().toList())
+        val shape2 = Shape2(pieces.second.map { it.toList() }.flatMap { it }.toSet().toList())
 
         // return
+        println("sliced")
+        println(shape)
+        println("into")
+        println(shape1)
+        println(shape2)
         return listOf(shape1, shape2)
     }
 
-    private fun splitEdgeRandomly(edge: Pair<Vertex2, Vertex2>): Pair<Pair<Vertex2, Vertex2>, Pair<Vertex2, Vertex2>> {
+    private fun sliceEdgeRandomly(edge: Pair<Vertex2, Vertex2>): Pair<Pair<Vertex2, Vertex2>, Pair<Vertex2, Vertex2>> {
         val (a, b) = edge
         val newDistance = Math.random()
         val x = (1 - newDistance) * a.x + newDistance * b.x
         val y = (1 - newDistance) * a.y + newDistance * b.y
         val new = Vertex2(x, y)
-        return Pair(Pair(a, new), Pair(new, b))
+        println("split $edge into:")
+        println(Pair(a, new))
+        println("and")
+        println(Pair(new, b))
+        println("--")
+        return Pair(a, new) to Pair(new, b)
     }
 
     private fun pickTwo(edges: List<Pair<Vertex2, Vertex2>>): Pair<Pair<Vertex2, Vertex2>, Pair<Vertex2, Vertex2>> {
-
-        val edgeIndices = edges.indices.toMutableList()
-
-        val randomIndices = listOf(
-                edgeIndices.removeAt(Random().nextInt(edges.size)),
-                edgeIndices.removeAt(Random().nextInt(edges.size))
-        ).sorted()
-        val indexX = randomIndices[0]
-        val indexY = randomIndices[1]
-
-        return Pair(edges[indexX], edges[indexY])
+        val indices = edges.indices.toMutableList()
+        val random = Random()
+        val indexFirstEdge = indices.removeAt(random.nextInt(indices.size))
+        val indexSecondEdge = indices.removeAt(random.nextInt(indices.size))
+        return edges[indexFirstEdge] to edges[indexSecondEdge]
     }
 
     fun all(): Slice {
