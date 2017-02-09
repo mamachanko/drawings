@@ -1,6 +1,7 @@
 package io.github.mamachanko
 
 import com.google.common.truth.Truth.assertThat
+import org.assertj.core.error.ShouldHave
 import org.junit.Test
 import java.util.*
 import kotlin.comparisons.compareBy
@@ -43,7 +44,7 @@ class InstructionsTests {
                 .then()
                 .duplicate().all()
                 .then()
-                .slice().all().randomly().butOnlyKeepOnePiece()
+                .shave().all().randomly()
                 .then()
                 .colorise().all().from(ColorPalette(color1, color2))
 
@@ -167,6 +168,10 @@ abstract class Instruction(val prior: List<Instruction> = emptyList()) {
         return Slice(prior.plus(this))
     }
 
+    fun  shave(): Shave {
+        return Shave(prior.plus(this))
+    }
+
     fun then(): Instruction {
         return this
     }
@@ -174,7 +179,6 @@ abstract class Instruction(val prior: List<Instruction> = emptyList()) {
     fun asList(): List<Instruction> {
         return prior.plus(this)
     }
-
     abstract fun applyTo(state: Drawing2): Drawing2
 }
 
@@ -284,14 +288,20 @@ class Colorise(prior: List<Instruction>) : Instruction(prior) {
 
 }
 
-class Slice(prior: List<Instruction>) : Instruction(prior) {
+open class Slice(prior: List<Instruction>) : Instruction(prior) {
+
     override fun applyTo(state: Drawing2): Drawing2 {
-        return state.withShapes(state.shapes.map { slice(it) }.flatMap { it })
+        val slicesShapes = state.shapes.map { slice(it) }
+        println("slice result:")
+        println(slicesShapes)
+        val shapes = slicesShapes.flatMap { it }
+        println("flattened shapes")
+        println(shapes)
+        return state.withShapes(shapes)
+//        return state.withShapes(slice(state.shapes.first()))
     }
 
-    private fun slice(shape: Shape2): List<Shape2> {
-
-
+    fun slice(shape: Shape2): List<Shape2> {
         // get sorted edges
         val edges = shape.getSortedEdges()
         println("####")
@@ -323,25 +333,35 @@ class Slice(prior: List<Instruction>) : Instruction(prior) {
         println(newEdges)
         println()
         println()
+        println()
 
         // partition the list of all edges into the two pieces
         val pieces = newEdges.partition { edge ->
-            if (newEdges.indexOf(edge) > newEdges.indexOf(firstEdge1) && newEdges.indexOf(edge) < newEdges.indexOf(secondEdge2)) {
-                println("piece1: $edge")
+            val edgeIndex = newEdges.indexOf(edge)
+            val indexFirstEdge1 = newEdges.indexOf(firstEdge1)
+            val indexSecondEdge2 = newEdges.indexOf(secondEdge2)
+            val indices = listOf(indexFirstEdge1, indexSecondEdge2).sorted()
+            if (edgeIndex > indices.first() && edgeIndex < indices.last()) {
+                println("=> piece1: $edge")
                 true
             } else {
-                println("piece2: $edge")
+                println("=> piece2: $edge")
                 false
             }
 
         }
 
+        println()
         println("pieces")
         println(pieces)
 
         // construct a shape of each piece
         val shape1 = Shape2(pieces.first.map { it.toList() }.flatMap { it }.toSet().toList())
         val shape2 = Shape2(pieces.second.map { it.toList() }.flatMap { it }.toSet().toList())
+
+        if ((shape1.vertices.size + shape2.vertices.size) == 3) {
+            println("stop")
+        }
 
         // return
         println("sliced")
@@ -382,7 +402,13 @@ class Slice(prior: List<Instruction>) : Instruction(prior) {
         return this
     }
 
-    fun butOnlyKeepOnePiece(): Slice {
-        return this
+}
+
+class Shave(prior: List<Instruction>) : Slice(prior) {
+
+    override fun applyTo(state: Drawing2): Drawing2 {
+        val slicesShapes = state.shapes.map { slice(it) }
+        val shapes = slicesShapes.flatMap { it }
+        return state.withShapes(listOf(shapes.first()))
     }
 }
