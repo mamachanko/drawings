@@ -39,6 +39,27 @@ class AddTests {
     }
 
     @Test
+    fun `should add rectangles layed out in grid`() {
+        val instructions = Add().rectangles().inAGridOf(2, 2)
+
+        val drawing = GivenABlank().withWidth(2.0).and().withHeight(2.0).follow(instructions.asList())
+
+        assertThat(drawing.shapes).hasSize(4)
+
+        // assert that drawing contains all rectangles' corner vertices
+        val rectangleCornerVertices = listOf(
+                Vertex2(.0, .0), Vertex2(1.0, .0), Vertex2(1.0, 1.0), Vertex2(.0, 1.0),
+                Vertex2(1.0, .0), Vertex2(2.0, .0), Vertex2(2.0, 1.0), Vertex2(1.0, 1.0),
+                Vertex2(.0, 1.0), Vertex2(1.0, 1.0), Vertex2(1.0, 2.0), Vertex2(.0, 2.0),
+                Vertex2(1.0, 1.0), Vertex2(2.0, 1.0), Vertex2(2.0, 2.0), Vertex2(1.0, 2.0)
+        )
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
+        // TODO: this is redundant
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(16)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(9)
+    }
+
+    @Test
     fun `should add rectangles layed out in grid with collapsed margins`() {
         val instructions = Add().rectangles().inAGridOf(2, 3).withACollapsedMarginOf(20.0)
 
@@ -57,6 +78,8 @@ class AddTests {
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
         // TODO: this is redundant
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(24)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(24)
+
     }
 }
