@@ -13,7 +13,11 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
         })
     }
 
-    private var count: Int = 0
+    // TODO: these shouldn't be mutable
+    private var count: Int = 1
+    private var asGrid: Boolean = false
+    private var rows: Int = 1
+    private var colums: Int = 1
 
     fun a(): Add {
         count = 1
@@ -32,6 +36,7 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
     fun rectangles(): Add = this
 
     fun inAGridOf(rows: Int, columns: Int): Add {
+        this.asGrid = true
         this.count = rows * columns
         return this
     }
