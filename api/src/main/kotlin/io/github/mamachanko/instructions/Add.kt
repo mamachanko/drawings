@@ -18,15 +18,15 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
     }
 
     private fun Drawing2.withGrid(): Drawing2 {
-        return withShapes(
+        return plusShapes(
             (0..columns - 1).map { column ->
                 (0..rows - 1).map { row ->
-                    println("rectWidth = ($width - $collapsedMargin * 2 - $collapsedMargin * ($columns - 1)) / $columns")
+//                    println("rectWidth = ($width - $collapsedMargin * 2 - $collapsedMargin * ($columns - 1)) / $columns")
                     val rectWidth = (width - collapsedMargin * 2 - collapsedMargin * (columns - 1)) / columns
                     val rectHeight = (height - collapsedMargin * 2 - collapsedMargin * (rows - 1)) / rows
                     val x = collapsedMargin + column * rectWidth + collapsedMargin * column
                     val y = collapsedMargin + row * rectHeight + collapsedMargin * row
-                    println("$rectWidth x $rectHeight at ($x, $y)")
+//                    println("$rectWidth x $rectHeight at ($x, $y)")
                     Shape2().withVertices(
                             Vertex2(x, y),
                             Vertex2(x + rectWidth, y),
@@ -39,7 +39,9 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
     }
 
     private fun Drawing2.withSingles(): Drawing2 {
-        return withShapes((1..count).map {
+        println("adding $count shapes")
+        return plusShapes((1..count).map {
+            println(".")
             Shape2().withVertices(
                     Vertex2(.0, .0),
                     Vertex2(width, .0),

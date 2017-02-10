@@ -39,7 +39,7 @@ class AddTests {
     }
 
     @Test
-    fun `should add rectangles layed out in grid`() {
+    fun `should add rectangles layed out in 2x2 grid`() {
         val instructions = Add().rectangles().inAGridOf(2, 2)
 
         val drawing = GivenABlank().withWidth(2.0).and().withHeight(2.0).follow(instructions.asList())
@@ -55,8 +55,20 @@ class AddTests {
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
         // TODO: this is redundant
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(16)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(9)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 4)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize((2 + 1) * (2 + 1))
+    }
+
+    @Test
+    fun `should add rectangles layed out in 400 x 600 grid`() {
+        val instructions = Add().rectangles().inAGridOf(400, 600)
+
+        val drawing = GivenABlank().withWidth(400.0).and().withHeight(600.0).follow(instructions.asList())
+
+        assertThat(drawing.shapes).hasSize(400 * 600)
+
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 400 * 600)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize((400 + 1) * (600 + 1))
     }
 
     @Test
@@ -71,15 +83,14 @@ class AddTests {
         val rectangleCornerVertices = listOf(
                 Vertex2(20.0, 20.0), Vertex2(220.0, 20.0), Vertex2(220.0, 120.0), Vertex2(20.0, 120.0),
                 Vertex2(240.0, 20.0), Vertex2(440.0, 20.0), Vertex2(440.0, 120.0), Vertex2(240.0, 120.0),
-                Vertex2(240.0, 140.0), Vertex2(220.0, 140.0), Vertex2(220.0, 240.0), Vertex2(20.0, 240.0),
+                Vertex2(20.0, 140.0), Vertex2(220.0, 140.0), Vertex2(220.0, 240.0), Vertex2(20.0, 240.0),
                 Vertex2(240.0, 140.0), Vertex2(440.0, 140.0), Vertex2(440.0, 240.0), Vertex2(240.0, 240.0),
                 Vertex2(20.0, 260.0), Vertex2(220.0, 260.0), Vertex2(220.0, 360.0), Vertex2(20.0, 360.0),
-                Vertex2(240.0, 260.0), Vertex2(440.0, 260.0), Vertex2(440.0, 360.0), Vertex2(240.0, 260.0)
+                Vertex2(240.0, 260.0), Vertex2(440.0, 260.0), Vertex2(440.0, 360.0), Vertex2(240.0, 360.0)
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
-        // TODO: this is redundant
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(24)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(24)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 6)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(((2 + 1) * (3 + 1)) * 2)
 
     }
 }

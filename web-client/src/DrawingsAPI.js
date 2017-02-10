@@ -5,7 +5,7 @@ function DrawingsAPI() {
 
 DrawingsAPI.prototype.get = function (device, onDrawing) {
     const params = {width: device.width, height: device.height}
-    http.get('/api/drawing', {params: params})
+    http.get('/api/v2/drawing', {params: params})
         .then(function (response) {
             onDrawing(response.data)
         })

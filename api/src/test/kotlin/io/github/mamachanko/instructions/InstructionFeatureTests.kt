@@ -54,21 +54,5 @@ class InstructionFeatureTests {
 
         assertThat(drawing.shapes).hasSize(12)
         assertThat(drawing.shapes.map { it.color }.toSet()).containsExactly(color1, color2)
-
-        // assert that drawing contains all initial rectangles' corner vertices
-        val rectangleCornerVertices = listOf(
-                Vertex2(20.0, 20.0), Vertex2(220.0, 20.0), Vertex2(220.0, 120.0), Vertex2(20.0, 120.0),
-                Vertex2(240.0, 20.0), Vertex2(440.0, 20.0), Vertex2(440.0, 120.0), Vertex2(240.0, 120.0),
-                Vertex2(240.0, 140.0), Vertex2(220.0, 140.0), Vertex2(220.0, 240.0), Vertex2(20.0, 240.0),
-                Vertex2(240.0, 140.0), Vertex2(440.0, 140.0), Vertex2(440.0, 240.0), Vertex2(240.0, 240.0),
-                Vertex2(20.0, 260.0), Vertex2(220.0, 260.0), Vertex2(220.0, 360.0), Vertex2(20.0, 360.0),
-                Vertex2(240.0, 260.0), Vertex2(440.0, 260.0), Vertex2(440.0, 360.0), Vertex2(240.0, 260.0)
-        )
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllIn(rectangleCornerVertices)
-
-        // assert that the intersection of initial rectangles' corner vertices and the rest is of size 12
-        assertThat(
-                drawing.shapes.map { it.vertices }.flatMap { it }.toSet().intersect(rectangleCornerVertices)
-        ).hasSize(12)
     }
 }
