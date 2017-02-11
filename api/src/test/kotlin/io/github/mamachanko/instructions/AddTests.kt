@@ -21,18 +21,18 @@ class AddTests {
     }
 
     @Test
-    fun `should add two rectangles as big as the drawing`() {
-        val instructions = Add().two().rectangles().fillingThePage()
+    fun `should add three rectangles as big as the drawing`() {
+        val instructions = Add().three().rectangles().fillingThePage()
 
         val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
 
-        assertThat(drawing.shapes).hasSize(2)
+        assertThat(drawing.shapes).hasSize(3)
 
         val rectangleCornerVertices = listOf(
                 Vertex(.0, .0), Vertex(460.0, .0), Vertex(460.0, 380.0), Vertex(.0, 380.0)
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllIn(rectangleCornerVertices)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(8)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(12)
     }
 
     @Test
@@ -86,6 +86,28 @@ class AddTests {
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 6)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(((2 + 1) * (3 + 1)) * 2)
+    }
 
+    @Test
+    fun `should add three rectangles layout out in a 2 x 3 grid`() {
+        val add = Add().three().rectangles().inAGridOf(2, 3)
+
+        val drawing = GivenABlank().withWidth(20.0).and().withHeight(30.0).follow(add.asList())
+
+        assertThat(drawing.shapes).hasSize(3)
+        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactly(
+                Vertex(.0, .0), Vertex(10.0, .0), Vertex(10.0, 10.0), Vertex(.0, 10.0),
+                Vertex(10.0, .0), Vertex(20.0, .0), Vertex(20.0, 10.0), Vertex(10.0, 10.0),
+                Vertex(.0, 10.0), Vertex(10.0, 10.0), Vertex(10.0, 20.0), Vertex(.0, 20.0)
+        )
+    }
+
+    @Test
+    fun `should add nine rectangles layout out in a 2 x 2 grid`() {
+        val add = Add().times(9).rectangles().inAGridOf(2, 2)
+
+        val drawing = GivenABlank().withWidth(2.0).and().withHeight(2.0).follow(add.asList())
+
+        assertThat(drawing.shapes).hasSize(9)
     }
 }
