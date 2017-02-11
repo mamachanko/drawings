@@ -2,6 +2,8 @@ package io.github.mamachanko.instructions
 
 import com.google.common.truth.Truth.assertThat
 import io.github.mamachanko.*
+import io.github.mamachanko.color.*
+import io.github.mamachanko.geometry.Vertex
 import io.github.mamachanko.instructions.*
 import org.assertj.core.error.ShouldHave
 import org.junit.Test
@@ -30,7 +32,7 @@ class InstructionsTests {
         assertThat(drawing.shapes).hasSize(4)
         drawing.shapes.map {
             assertThat(it.vertices).containsExactly(
-                    Vertex2(.0, .0), Vertex2(600.0, .0), Vertex2(600.0, 800.0), Vertex2(.0, 800.0)
+                    Vertex(.0, .0), Vertex(600.0, .0), Vertex(600.0, 800.0), Vertex(.0, 800.0)
             )
         }
         assertThat(drawing.shapes.filter { it.color.equals(SOLID_BLACK) }).hasSize(2)

@@ -4,7 +4,7 @@ import java.util.*
 
 class Shave(prior: List<Instruction>) : Slice(prior) {
 
-    override fun applyTo(state: Drawing2): Drawing2 {
+    override fun applyTo(state: Drawing): Drawing {
         return state.withShapes(state.shapes.map { slice(it).one() })
     }
 

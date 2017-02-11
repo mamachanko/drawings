@@ -1,11 +1,6 @@
-package io.github.mamachanko
+package io.github.mamachanko.color
 
 import java.util.*
-
-val SOLID = 100
-val SOLID_BLACK = Color(0, 0, 0, 100)
-
-data class Color(val red: Int, val green: Int, val blue: Int, val alpha: Int)
 
 interface Palette {
     val color: Color
@@ -31,7 +26,6 @@ class ColorPalette(vararg val colors: Color) : Palette {
             return colors[Random().nextInt(colors.size)]
         }
 }
-
 
 class GrayPalette : Palette {
     override val color: Color

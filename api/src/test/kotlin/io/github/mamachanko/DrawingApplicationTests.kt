@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class KelleybertApplicationTests {
+class DrawingApplicationTests {
 
 	@Test
 	fun contextLoads() {

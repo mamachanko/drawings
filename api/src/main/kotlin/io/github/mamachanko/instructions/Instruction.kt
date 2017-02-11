@@ -1,13 +1,5 @@
 package io.github.mamachanko.instructions
 
-class StartBy {
-    fun adding(): Add = Add()
-}
-
-fun GivenABlank(): Drawing2 {
-    return Drawing2()
-}
-
 abstract class Instruction(val prior: List<Instruction> = emptyList()) {
 
     fun add(): Add = Add(prior.plus(this))
@@ -26,5 +18,5 @@ abstract class Instruction(val prior: List<Instruction> = emptyList()) {
 
     fun asList(): List<Instruction> = prior.plus(this)
 
-    abstract fun applyTo(state: Drawing2): Drawing2
+    abstract fun applyTo(state: Drawing): Drawing
 }

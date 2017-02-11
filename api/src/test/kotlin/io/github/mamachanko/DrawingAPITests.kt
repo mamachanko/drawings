@@ -1,11 +1,11 @@
 package io.github.mamachanko.unit
 
-import io.github.mamachanko.Color
+import io.github.mamachanko.color.Color
 import io.github.mamachanko.DrawingAPI
 import io.github.mamachanko.DrawingService
-import io.github.mamachanko.instructions.Drawing2
-import io.github.mamachanko.instructions.Shape2
-import io.github.mamachanko.instructions.Vertex2
+import io.github.mamachanko.instructions.Drawing
+import io.github.mamachanko.geometry.Shape
+import io.github.mamachanko.geometry.Vertex
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
@@ -53,8 +53,8 @@ class DrawingAPITests {
                 .andExpect(jsonPath("$.shapes.[0].vertices.[3].y").value(height))
     }
 
-    private fun simpleDrawing(height: Double, width: Double): Drawing2 {
-        return Drawing2()
-                .withShapes(listOf(Shape2(setOf(Vertex2(.0, .0), Vertex2(width, .0), Vertex2(width, height), Vertex2(.0, height)), color = Color(12, 34, 56, 78))))
+    private fun simpleDrawing(height: Double, width: Double): Drawing {
+        return Drawing()
+                .withShapes(listOf(Shape(setOf(Vertex(.0, .0), Vertex(width, .0), Vertex(width, height), Vertex(.0, height)), color = Color(12, 34, 56, 78))))
     }
 }

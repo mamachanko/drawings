@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class DrawingsFeatureTests {
+class DrawingFeatureTests {
 
     @LocalServerPort
     private var serverPort: Int = 0

@@ -1,5 +1,8 @@
 package io.github.mamachanko.instructions
 
+import io.github.mamachanko.geometry.Shape
+import io.github.mamachanko.geometry.Vertex
+
 class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
 
     // TODO: these shouldn't be mutable
@@ -9,7 +12,7 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
     private var columns: Int = 1
     private var collapsedMargin: Double = .0
 
-    override fun applyTo(state: Drawing2): Drawing2 {
+    override fun applyTo(state: Drawing): Drawing {
         if (asGrid) {
             return state.withGrid()
         } else {
@@ -17,7 +20,7 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
         }
     }
 
-    private fun Drawing2.withGrid(): Drawing2 {
+    private fun Drawing.withGrid(): Drawing {
         return plusShapes(
             (0..columns - 1).map { column ->
                 (0..rows - 1).map { row ->
@@ -25,24 +28,24 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
                     val rectHeight = (height - collapsedMargin * 2 - collapsedMargin * (rows - 1)) / rows
                     val x = collapsedMargin + column * rectWidth + collapsedMargin * column
                     val y = collapsedMargin + row * rectHeight + collapsedMargin * row
-                    Shape2().withVertices(
-                            Vertex2(x, y),
-                            Vertex2(x + rectWidth, y),
-                            Vertex2(x + rectWidth, y + rectHeight),
-                            Vertex2(x, y + rectHeight)
+                    Shape().withVertices(
+                            Vertex(x, y),
+                            Vertex(x + rectWidth, y),
+                            Vertex(x + rectWidth, y + rectHeight),
+                            Vertex(x, y + rectHeight)
                     )
                 }
             }.flatMap { it }
         )
     }
 
-    private fun Drawing2.withSingles(): Drawing2 {
+    private fun Drawing.withSingles(): Drawing {
         return plusShapes((1..count).map {
-            Shape2().withVertices(
-                    Vertex2(.0, .0),
-                    Vertex2(width, .0),
-                    Vertex2(width, height),
-                    Vertex2(.0, height)
+            Shape().withVertices(
+                    Vertex(.0, .0),
+                    Vertex(width, .0),
+                    Vertex(width, height),
+                    Vertex(.0, height)
             )
         })
     }

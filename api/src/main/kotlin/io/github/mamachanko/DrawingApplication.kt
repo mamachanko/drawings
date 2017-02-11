@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-class KelleybertApplication
+class DrawingApplication
 
 fun main(args: Array<String>) {
-    SpringApplication.run(KelleybertApplication::class.java, *args)
+    SpringApplication.run(DrawingApplication::class.java, *args)
 }

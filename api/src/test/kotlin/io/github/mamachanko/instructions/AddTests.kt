@@ -1,6 +1,7 @@
 package io.github.mamachanko.instructions
 
 import com.google.common.truth.Truth.assertThat
+import io.github.mamachanko.geometry.Vertex
 import org.junit.Test
 
 class AddTests {
@@ -13,7 +14,7 @@ class AddTests {
 
         assertThat(drawing.shapes).hasSize(1)
         val rectangleCornerVertices = listOf(
-                Vertex2(.0, .0), Vertex2(460.0, .0), Vertex2(460.0, 380.0), Vertex2(.0, 380.0)
+                Vertex(.0, .0), Vertex(460.0, .0), Vertex(460.0, 380.0), Vertex(.0, 380.0)
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllIn(rectangleCornerVertices)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(4)
@@ -28,7 +29,7 @@ class AddTests {
         assertThat(drawing.shapes).hasSize(2)
 
         val rectangleCornerVertices = listOf(
-                Vertex2(.0, .0), Vertex2(460.0, .0), Vertex2(460.0, 380.0), Vertex2(.0, 380.0)
+                Vertex(.0, .0), Vertex(460.0, .0), Vertex(460.0, 380.0), Vertex(.0, 380.0)
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllIn(rectangleCornerVertices)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(8)
@@ -43,10 +44,10 @@ class AddTests {
         assertThat(drawing.shapes).hasSize(4)
 
         val rectangleCornerVertices = listOf(
-                Vertex2(.0, .0), Vertex2(1.0, .0), Vertex2(1.0, 1.0), Vertex2(.0, 1.0),
-                Vertex2(1.0, .0), Vertex2(2.0, .0), Vertex2(2.0, 1.0), Vertex2(1.0, 1.0),
-                Vertex2(.0, 1.0), Vertex2(1.0, 1.0), Vertex2(1.0, 2.0), Vertex2(.0, 2.0),
-                Vertex2(1.0, 1.0), Vertex2(2.0, 1.0), Vertex2(2.0, 2.0), Vertex2(1.0, 2.0)
+                Vertex(.0, .0), Vertex(1.0, .0), Vertex(1.0, 1.0), Vertex(.0, 1.0),
+                Vertex(1.0, .0), Vertex(2.0, .0), Vertex(2.0, 1.0), Vertex(1.0, 1.0),
+                Vertex(.0, 1.0), Vertex(1.0, 1.0), Vertex(1.0, 2.0), Vertex(.0, 2.0),
+                Vertex(1.0, 1.0), Vertex(2.0, 1.0), Vertex(2.0, 2.0), Vertex(1.0, 2.0)
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
 
@@ -75,12 +76,12 @@ class AddTests {
         assertThat(drawing.shapes).hasSize(6)
 
         val rectangleCornerVertices = listOf(
-                Vertex2(20.0, 20.0), Vertex2(220.0, 20.0), Vertex2(220.0, 120.0), Vertex2(20.0, 120.0),
-                Vertex2(240.0, 20.0), Vertex2(440.0, 20.0), Vertex2(440.0, 120.0), Vertex2(240.0, 120.0),
-                Vertex2(20.0, 140.0), Vertex2(220.0, 140.0), Vertex2(220.0, 240.0), Vertex2(20.0, 240.0),
-                Vertex2(240.0, 140.0), Vertex2(440.0, 140.0), Vertex2(440.0, 240.0), Vertex2(240.0, 240.0),
-                Vertex2(20.0, 260.0), Vertex2(220.0, 260.0), Vertex2(220.0, 360.0), Vertex2(20.0, 360.0),
-                Vertex2(240.0, 260.0), Vertex2(440.0, 260.0), Vertex2(440.0, 360.0), Vertex2(240.0, 360.0)
+                Vertex(20.0, 20.0), Vertex(220.0, 20.0), Vertex(220.0, 120.0), Vertex(20.0, 120.0),
+                Vertex(240.0, 20.0), Vertex(440.0, 20.0), Vertex(440.0, 120.0), Vertex(240.0, 120.0),
+                Vertex(20.0, 140.0), Vertex(220.0, 140.0), Vertex(220.0, 240.0), Vertex(20.0, 240.0),
+                Vertex(240.0, 140.0), Vertex(440.0, 140.0), Vertex(440.0, 240.0), Vertex(240.0, 240.0),
+                Vertex(20.0, 260.0), Vertex(220.0, 260.0), Vertex(220.0, 360.0), Vertex(20.0, 360.0),
+                Vertex(240.0, 260.0), Vertex(440.0, 260.0), Vertex(440.0, 360.0), Vertex(240.0, 360.0)
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 6)

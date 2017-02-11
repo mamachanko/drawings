@@ -1,7 +1,7 @@
 package io.github.mamachanko.instructions
 
-import io.github.mamachanko.BlackPalette
-import io.github.mamachanko.Palette
+import io.github.mamachanko.color.BlackPalette
+import io.github.mamachanko.color.Palette
 
 class Colorise(prior: List<Instruction>) : Instruction(prior) {
 
@@ -9,7 +9,7 @@ class Colorise(prior: List<Instruction>) : Instruction(prior) {
 
     private var percent: Int = 100
 
-    override fun applyTo(state: Drawing2): Drawing2 {
+    override fun applyTo(state: Drawing): Drawing {
         val secondHalf = state.shapes.subList(state.shapes.size / (100 / percent), state.shapes.size)
         val firstHalf = state.shapes.subList(0, state.shapes.size / (100 / percent)).map { shape -> shape.withColour(palette.color) }
         return state.withShapes(firstHalf.plus(secondHalf))

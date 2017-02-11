@@ -1,5 +1,8 @@
 package io.github.mamachanko
 
+import io.github.mamachanko.color.Color
+import io.github.mamachanko.color.ColorPalette
+import io.github.mamachanko.color.Palette
 import io.github.mamachanko.instructions.Instruction
 import io.github.mamachanko.instructions.StartBy
 import org.springframework.context.annotation.Bean
@@ -7,11 +10,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class DrawingConfig {
-
-    @Bean
-    fun pageTemplate(): PageTemplate {
-        return PageTemplate(Layout(10.0, 10.0, .0), Grid(3, 5))
-    }
 
     @Bean
     fun colorPalette(): Palette {
@@ -22,12 +20,7 @@ class DrawingConfig {
     }
 
     @Bean
-    fun sliceOnceAndKeepOne(): Strategy {
-        return DuplicateSliceAndKeepOneStrategy()
-    }
-
-    @Bean
-    fun baselineInstructions(colorPalette: Palette): List<Instruction> {
+    fun instructions(colorPalette: Palette): List<Instruction> {
         return StartBy()
                 .adding().rectangles().inAGridOf(2, 3).withACollapsedMarginOf(10.0)
                 .then()

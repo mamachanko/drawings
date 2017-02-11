@@ -1,26 +1,28 @@
 package io.github.mamachanko.instructions
 
-data class Drawing2(val width: Double = .0, val height: Double = .0, val shapes: List<Shape2> = emptyList()) {
+import io.github.mamachanko.geometry.Shape
 
-    fun plusShapes(shapes: List<Shape2>): Drawing2 {
+data class Drawing(val width: Double = .0, val height: Double = .0, val shapes: List<Shape> = emptyList()) {
+
+    fun plusShapes(shapes: List<Shape>): Drawing {
         return this.copy(shapes = this.shapes.plus(shapes))
     }
 
-    fun follow(instructions: List<Instruction>): Drawing2 {
+    fun follow(instructions: List<Instruction>): Drawing {
         return instructions.fold(this, { state, instruction -> instruction.applyTo(state) })
     }
 
-    fun withWidth(width: Double): Drawing2 {
+    fun withWidth(width: Double): Drawing {
         return this.copy(width = width)
     }
 
-    fun withHeight(height: Double): Drawing2 {
+    fun withHeight(height: Double): Drawing {
         return this.copy(height = height)
     }
 
-    fun withShapes(shapes: List<Shape2>): Drawing2 {
+    fun withShapes(shapes: List<Shape>): Drawing {
         return this.copy(shapes = shapes)
     }
 
-    fun and(): Drawing2 = this
+    fun and(): Drawing = this
 }
