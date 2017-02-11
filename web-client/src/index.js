@@ -9,7 +9,7 @@ const DrawingsAPI = require('./DrawingsAPI');
 function main() {
     const drawingsAPI = new DrawingsAPI();
     const device = new Device(window, document).init();
-    drawingsAPI.get(device, function (drawing) {
+    drawingsAPI.create(device, function (drawing) {
         new Illustrator(device.getSurface()).draft(drawing);
     });
 }

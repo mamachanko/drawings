@@ -1,28 +1,28 @@
 package io.github.mamachanko.unit
 
+import com.google.common.truth.Truth.assertThat
 import io.github.mamachanko.*
-import org.hamcrest.CoreMatchers.*
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.greaterThanOrEqualTo
-import org.hamcrest.Matchers.hasSize
-import org.junit.Assert.assertThat
+import io.github.mamachanko.instructions.Drawing2
+import io.github.mamachanko.instructions.Shape2
+import io.github.mamachanko.instructions.StartBy
+import io.github.mamachanko.instructions.Vertex2
 import org.junit.Test
 
 class DrawingServiceTests {
 
     @Test
-    fun `should return drawing`() {
+    fun `should return a drawing2`() {
         val width = 1230.45
         val height = 856.78
 
-        val pageTemplates = setOf(PageTemplate(layout = Layout(50.0, 50.0, 5.0), grid = Grid(2, 2)))
-        val colorPalettes = setOf(RandomPalette())
-        val strategies = setOf(SliceOnceStrategy())
+        val instructionsLibrary = setOf(StartBy().adding().a().rectangle().then().colorise().all().from(BlackPalette()).asList())
 
-        val drawing = DrawingService(pageTemplates, colorPalettes, strategies).getDrawing(width, height)
+        val drawing = DrawingService(instructionsLibrary).getDrawing(width, height)
 
-        assertThat(drawing.page, `is`(equalTo(Page(width = width, height = height, layout = Layout(50.0, 50.0, 5.0), grid = Grid(2, 2)))))
-        assertThat(drawing.palette, `is`(instanceOf(RandomPalette::class.java)))
-        assertThat(drawing.strategy, `is`(instanceOf(SliceOnceStrategy::class.java)))
+        assertThat(drawing).isEqualTo(
+                Drawing2().withWidth(width).withHeight(height).withShapes(listOf(Shape2(
+                        setOf(Vertex2(.0, .0), Vertex2(width, .0), Vertex2(width, height), Vertex2(.0, height)), color = SOLID_BLACK
+                )))
+        )
     }
 }

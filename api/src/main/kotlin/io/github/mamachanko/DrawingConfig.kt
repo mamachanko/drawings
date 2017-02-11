@@ -1,5 +1,7 @@
 package io.github.mamachanko
 
+import io.github.mamachanko.instructions.Instruction
+import io.github.mamachanko.instructions.StartBy
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -22,6 +24,19 @@ class DrawingConfig {
     @Bean
     fun sliceOnceAndKeepOne(): Strategy {
         return DuplicateSliceAndKeepOneStrategy()
+    }
+
+    @Bean
+    fun baselineInstructions(colorPalette: Palette): List<Instruction> {
+        return StartBy()
+                .adding().rectangles().inAGridOf(2, 3).withACollapsedMarginOf(10.0)
+                .then()
+                .duplicate().all()
+                .then()
+                .shave().all().randomly()
+                .then()
+                .colorise().all().from(colorPalette).asList()
+
     }
 
 }

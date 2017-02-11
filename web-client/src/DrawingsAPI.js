@@ -3,9 +3,14 @@ var http = require('axios');
 function DrawingsAPI() {
 };
 
-DrawingsAPI.prototype.get = function (device, onDrawing) {
-    const params = {width: device.width, height: device.height}
-    http.get('/api/v2/drawing', {params: params})
+DrawingsAPI.prototype.create = function (device, onDrawing) {
+    const params = {width: device.width, height: device.height};
+    const createDrawingRequest = {
+        method: 'post',
+        url: '/api/drawings',
+        params: params
+    };
+    http(createDrawingRequest)
         .then(function (response) {
             onDrawing(response.data)
         })
@@ -14,7 +19,7 @@ DrawingsAPI.prototype.get = function (device, onDrawing) {
         });
 };
 
-DrawingsAPI.prototype.getFake = function (device, onDrawing) {
+DrawingsAPI.prototype.createFake = function (device, onDrawing) {
     onDrawing(require('./drawing.json'));
 };
 

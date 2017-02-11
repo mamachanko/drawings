@@ -12,13 +12,10 @@ class AddTests {
         val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(1)
-
-        // assert that drawing contains all rectangles' corner vertices
         val rectangleCornerVertices = listOf(
                 Vertex2(.0, .0), Vertex2(460.0, .0), Vertex2(460.0, 380.0), Vertex2(.0, 380.0)
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllIn(rectangleCornerVertices)
-        // TODO: this is redundant
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(4)
     }
 
@@ -30,7 +27,6 @@ class AddTests {
 
         assertThat(drawing.shapes).hasSize(2)
 
-        // assert that drawing contains all rectangles' corner vertices
         val rectangleCornerVertices = listOf(
                 Vertex2(.0, .0), Vertex2(460.0, .0), Vertex2(460.0, 380.0), Vertex2(.0, 380.0)
         )
@@ -46,7 +42,6 @@ class AddTests {
 
         assertThat(drawing.shapes).hasSize(4)
 
-        // assert that drawing contains all rectangles' corner vertices
         val rectangleCornerVertices = listOf(
                 Vertex2(.0, .0), Vertex2(1.0, .0), Vertex2(1.0, 1.0), Vertex2(.0, 1.0),
                 Vertex2(1.0, .0), Vertex2(2.0, .0), Vertex2(2.0, 1.0), Vertex2(1.0, 1.0),
@@ -54,7 +49,7 @@ class AddTests {
                 Vertex2(1.0, 1.0), Vertex2(2.0, 1.0), Vertex2(2.0, 2.0), Vertex2(1.0, 2.0)
         )
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
-        // TODO: this is redundant
+
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 4)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize((2 + 1) * (2 + 1))
     }
@@ -79,7 +74,6 @@ class AddTests {
 
         assertThat(drawing.shapes).hasSize(6)
 
-        // assert that drawing contains all rectangles' corner vertices
         val rectangleCornerVertices = listOf(
                 Vertex2(20.0, 20.0), Vertex2(220.0, 20.0), Vertex2(220.0, 120.0), Vertex2(20.0, 120.0),
                 Vertex2(240.0, 20.0), Vertex2(440.0, 20.0), Vertex2(440.0, 120.0), Vertex2(240.0, 120.0),

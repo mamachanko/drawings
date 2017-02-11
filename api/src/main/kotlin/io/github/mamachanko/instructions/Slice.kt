@@ -28,7 +28,6 @@ open class Slice(prior: List<Instruction>) : Instruction(prior) {
                 .partitionIntoShapesBy(edge1split2, edge2split1)
                 .toList()
                 .map { it ->
-                    println(it)
                     it.toShape()
                 }
     }

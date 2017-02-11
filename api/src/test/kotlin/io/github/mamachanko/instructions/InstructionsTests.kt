@@ -8,7 +8,7 @@ import org.junit.Test
 import java.util.*
 import kotlin.comparisons.compareBy
 
-class InstructionFeatureTests {
+class InstructionsTests {
 
     @Test
     fun `should create drawing from list of instructions`() {
