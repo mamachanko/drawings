@@ -36,7 +36,7 @@ class AddTests {
     }
 
     @Test
-    fun `should add rectangles layed out in 2x2 grid`() {
+    fun `should add rectangles to a 2 x 2 grid`() {
         val instructions = Add().rectangles().to(aGridOf(2 x 2))
 
         val drawing = GivenABlank().withWidth(2.0).and().withHeight(2.0).follow(instructions.asList())
@@ -56,7 +56,7 @@ class AddTests {
     }
 
     @Test
-    fun `should add rectangles layed out in 400 x 600 grid`() {
+    fun `should add rectangles to a 400 x 600 grid`() {
         val instructions = Add().rectangles().to(aGridOf(400 x 600))
 
         val drawing = GivenABlank().withWidth(400.0).and().withHeight(600.0).follow(instructions.asList())
@@ -68,7 +68,7 @@ class AddTests {
     }
 
     @Test
-    fun `should add rectangles layed out in grid with collapsed margins`() {
+    fun `should add rectangles to a 2 x 3 grid with collapsed margins`() {
         val instructions = Add().rectangles().to(aGridOf(2 x 3).withCollapsedMargin(20.0))
 
         val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
@@ -89,7 +89,7 @@ class AddTests {
     }
 
     @Test
-    fun `should add three rectangles layout out in a 2 x 3 grid`() {
+    fun `should add three rectangles to a 2 x 3 grid`() {
         val add = Add().three().rectangles().to(aGridOf(2 x 3))
 
         val drawing = GivenABlank().withWidth(20.0).and().withHeight(30.0).follow(add.asList())
@@ -103,7 +103,7 @@ class AddTests {
     }
 
     @Test
-    fun `should add nine rectangles layout out in a 2 x 2 grid`() {
+    fun `should add nine rectangles to a 2 x 2 grid`() {
         val add = Add(9).rectangles().to(aGridOf(2 x 2))
 
         val drawing = GivenABlank().withWidth(2.0).and().withHeight(2.0).follow(add.asList())
