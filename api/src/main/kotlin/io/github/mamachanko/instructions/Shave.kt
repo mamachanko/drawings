@@ -4,8 +4,8 @@ import java.util.*
 
 class Shave(prior: List<Instruction>) : Slice(prior) {
 
-    override fun applyTo(state: Drawing): Drawing {
-        return state.withShapes(state.shapes.map { slice(it).one() })
+    override fun applyTo(drawing: Drawing): Drawing {
+        return drawing.withShapes(drawing.shapes.map { slice(it).one() })
     }
 
     private fun <E> List<E>.one(): E {

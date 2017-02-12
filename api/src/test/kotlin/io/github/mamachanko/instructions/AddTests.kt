@@ -8,7 +8,7 @@ class AddTests {
 
     @Test
     fun `should add single rectangle as big as the drawing`() {
-        val instructions = Add().a().rectangle().fillingThePage()
+        val instructions = Add().a().rectangle()
 
         val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
 
@@ -22,7 +22,7 @@ class AddTests {
 
     @Test
     fun `should add three rectangles as big as the drawing`() {
-        val instructions = Add().three().rectangles().fillingThePage()
+        val instructions = Add().three().rectangles()
 
         val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
 
@@ -104,7 +104,7 @@ class AddTests {
 
     @Test
     fun `should add nine rectangles layout out in a 2 x 2 grid`() {
-        val add = Add().times(9).rectangles().inAGridOf(2, 2)
+        val add = Add(9).rectangles().inAGridOf(2, 2)
 
         val drawing = GivenABlank().withWidth(2.0).and().withHeight(2.0).follow(add.asList())
 

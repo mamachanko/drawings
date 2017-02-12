@@ -15,10 +15,10 @@ open class Slice(prior: List<Instruction>) : Instruction(prior) {
         return this
     }
 
-    override fun applyTo(state: Drawing): Drawing {
-        val slicesShapes = state.shapes.map { slice(it) }
+    override fun applyTo(drawing: Drawing): Drawing {
+        val slicesShapes = drawing.shapes.map { slice(it) }
         val shapes = slicesShapes.flatMap { it }
-        return state.withShapes(shapes)
+        return drawing.withShapes(shapes)
     }
 
     fun slice(shape: Shape): List<Shape> {

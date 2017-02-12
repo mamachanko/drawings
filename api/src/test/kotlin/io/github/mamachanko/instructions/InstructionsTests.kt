@@ -15,9 +15,9 @@ class InstructionsTests {
     @Test
     fun `should create drawing from list of instructions`() {
         val instructions = StartBy()
-                .adding().a().rectangle().fillingThePage()
+                .adding().a().rectangle()
                 .then()
-                .add().two().rectangles().fillingThePage()
+                .add().two().rectangles()
                 .then()
                 .discard().one()
                 .then()

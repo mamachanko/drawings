@@ -8,6 +8,7 @@ import io.github.mamachanko.instructions.Drawing
 import io.github.mamachanko.geometry.Shape
 import io.github.mamachanko.instructions.StartBy
 import io.github.mamachanko.geometry.Vertex
+import io.github.mamachanko.instructions.a
 import org.junit.Test
 
 class DrawingServiceTests {

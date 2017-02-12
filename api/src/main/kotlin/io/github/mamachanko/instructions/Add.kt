@@ -3,19 +3,16 @@ package io.github.mamachanko.instructions
 import io.github.mamachanko.geometry.Shape
 import io.github.mamachanko.geometry.Vertex
 
-class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
+class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
 
-    // TODO: these shouldn't be mutable
-    private var count: Int = 0
     private var rows: Int = 1
     private var columns: Int = 1
     private var collapsedMargin: Double = .0
 
-    override fun applyTo(state: Drawing): Drawing {
-
-        return state.plusShapes(
+    override fun applyTo(drawing: Drawing): Drawing {
+        return drawing.plusShapes(
                 gridIndicesForShapes().map { gridIndex ->
-                    rectangleAt(state.width, state.height, gridIndex.first, gridIndex.second)
+                    rectangleAt(drawing.width, drawing.height, gridIndex.first, gridIndex.second)
                 }
         )
     }
@@ -46,23 +43,10 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
         }.flatMap { it }.flatMap { it }.take(numberOfShapes)
     }
 
-
-    fun a(): Add {
-        count = 1
-        return this
-    }
-
-    fun two(): Add {
-        count = 2
-        return this
-    }
-
     fun rectangle(): Add = this
 
-    fun fillingThePage(): Add = this
-
     fun rectangles(): Add = this
-
+    
     fun inAGridOf(columns: Int, rows: Int): Add {
         this.rows = rows
         this.columns = columns
@@ -74,15 +58,14 @@ class Add(prior: List<Instruction> = emptyList()) : Instruction(prior) {
         return this
     }
 
-    fun one(): Add = a()
-
-    fun three(): Add {
-        this.count = 3
-        return this
-    }
-
-    fun times(count: Int): Add {
+    fun withCount(count: Int): Add {
         this.count = count
         return this
     }
+
 }
+
+fun Add.a(): Add = this.one()
+fun Add.one(): Add = this.withCount(1)
+fun Add.two(): Add = this.withCount(2)
+fun Add.three(): Add = this.withCount(3)

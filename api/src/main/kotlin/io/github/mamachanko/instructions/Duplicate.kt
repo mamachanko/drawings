@@ -1,8 +1,8 @@
 package io.github.mamachanko.instructions
 
-class Duplicate(prior: List<Instruction> = emptyList()) : Instruction(prior) {
+class Duplicate(priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
 
-    override fun applyTo(state: Drawing): Drawing = state.plusShapes(state.shapes)
+    override fun applyTo(drawing: Drawing): Drawing = drawing.plusShapes(drawing.shapes)
 
     fun all(): Duplicate = this
 

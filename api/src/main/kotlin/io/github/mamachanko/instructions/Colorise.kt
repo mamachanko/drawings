@@ -9,10 +9,10 @@ class Colorise(prior: List<Instruction>) : Instruction(prior) {
 
     private var percent: Int = 100
 
-    override fun applyTo(state: Drawing): Drawing {
-        val secondHalf = state.shapes.subList(state.shapes.size / (100 / percent), state.shapes.size)
-        val firstHalf = state.shapes.subList(0, state.shapes.size / (100 / percent)).map { shape -> shape.withColour(palette.color) }
-        return state.withShapes(firstHalf.plus(secondHalf))
+    override fun applyTo(drawing: Drawing): Drawing {
+        val secondHalf = drawing.shapes.subList(drawing.shapes.size / (100 / percent), drawing.shapes.size)
+        val firstHalf = drawing.shapes.subList(0, drawing.shapes.size / (100 / percent)).map { shape -> shape.withColour(palette.color) }
+        return drawing.withShapes(firstHalf.plus(secondHalf))
     }
 
     fun from(palette: Palette): Colorise {
