@@ -5,9 +5,7 @@ import io.github.mamachanko.geometry.Vertex
 
 class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
 
-    private var rows: Int = 1
-    private var columns: Int = 1
-    private var collapsedMargin: Double = .0
+    private var grid: Grid = Grid()
 
     override fun applyTo(drawing: Drawing): Drawing {
         return drawing.plusShapes(
@@ -18,10 +16,10 @@ class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emp
     }
 
     private fun rectangleAt(width: Double, height: Double, column: Int, row: Int): Shape {
-        val rectWidth = (width - collapsedMargin * 2 - collapsedMargin * (columns - 1)) / columns
-        val rectHeight = (height - collapsedMargin * 2 - collapsedMargin * (rows - 1)) / rows
-        val x = collapsedMargin + column * rectWidth + collapsedMargin * column
-        val y = collapsedMargin + row * rectHeight + collapsedMargin * row
+        val rectWidth = (width - grid.collapsedMargin * 2 - grid.collapsedMargin * (grid.columns - 1)) / grid.columns
+        val rectHeight = (height - grid.collapsedMargin * 2 - grid.collapsedMargin * (grid.rows - 1)) / grid.rows
+        val x = grid.collapsedMargin + column * rectWidth + grid.collapsedMargin * column
+        val y = grid.collapsedMargin + row * rectHeight + grid.collapsedMargin * row
         return Shape().withVertices(
                 Vertex(x, y),
                 Vertex(x + rectWidth, y),
@@ -31,12 +29,12 @@ class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emp
     }
 
     private fun gridIndicesForShapes(): List<Pair<Int, Int>> {
-        val numberOfShapes = if (count < 1) columns * rows else count
-        val times = if (numberOfShapes > (columns * rows)) (numberOfShapes / (columns * rows)) else ((columns * rows) / numberOfShapes)
-        val wholeGrids = times + ((columns * rows) % numberOfShapes)
+        val numberOfShapes = if (count < 1) grid.columns * grid.rows else count
+        val times = if (numberOfShapes > (grid.columns * grid.rows)) (numberOfShapes / (grid.columns * grid.rows)) else ((grid.columns * grid.rows) / numberOfShapes)
+        val wholeGrids = times + ((grid.columns * grid.rows) % numberOfShapes)
         return (1..wholeGrids).map {
-            (0..rows - 1).map { row ->
-                (0..columns - 1).map { col ->
+            (0..grid.rows - 1).map { row ->
+                (0..grid.columns - 1).map { col ->
                     col to row
                 }
             }
@@ -46,23 +44,29 @@ class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emp
     fun rectangle(): Add = this
 
     fun rectangles(): Add = this
-    
-    fun inAGridOf(columns: Int, rows: Int): Add {
-        this.rows = rows
-        this.columns = columns
-        return this
-    }
-
-    fun withACollapsedMarginOf(collapsedMargin: Double): Add {
-        this.collapsedMargin = collapsedMargin
-        return this
-    }
 
     fun withCount(count: Int): Add {
         this.count = count
         return this
     }
 
+    fun withGrid(grid: Grid): Add {
+        this.grid = grid
+        return this
+    }
+
+    infix fun to(that: Grid): Add = this.withGrid(that)
+
+}
+
+fun aGridOf(columnsByRows: Pair<Int, Int>): Grid = Grid(columns = columnsByRows.first, rows = columnsByRows.second)
+infix fun Int.x(that: Int): Pair<Int, Int> = Pair(this, that)
+
+data class Grid(val columns: Int = 1, val rows: Int = 1, val collapsedMargin: Double = .0) {
+
+    fun withCollapsedMargin(collapsedMargin: Double): Grid {
+        return this.copy(collapsedMargin = collapsedMargin)
+    }
 }
 
 fun Add.a(): Add = this.one()

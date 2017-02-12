@@ -44,7 +44,7 @@ class InstructionsTests {
         val color1 = Color(10, 20, 30, SOLID)
         val color2 = Color(40, 50, 60, SOLID)
         val instructions = StartBy()
-                .adding().rectangles().inAGridOf(2, 3).withACollapsedMarginOf(20.0)
+                .adding().rectangles().to(aGridOf(2 x 3).withCollapsedMargin(20.0))
                 .then()
                 .duplicate().all()
                 .then()

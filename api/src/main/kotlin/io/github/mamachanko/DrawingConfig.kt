@@ -5,6 +5,8 @@ import io.github.mamachanko.color.ColorPalette
 import io.github.mamachanko.color.Palette
 import io.github.mamachanko.instructions.Instruction
 import io.github.mamachanko.instructions.StartBy
+import io.github.mamachanko.instructions.aGridOf
+import io.github.mamachanko.instructions.x
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -22,7 +24,7 @@ class DrawingConfig {
     @Bean
     fun instructions(colorPalette: Palette): List<Instruction> {
         return StartBy()
-                .adding().rectangles().inAGridOf(2, 3).withACollapsedMarginOf(10.0)
+                .adding().rectangles().to(aGridOf(2 x 3).withCollapsedMargin(10.0))
                 .then()
                 .duplicate().all()
                 .then()
