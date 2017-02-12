@@ -1,19 +1,30 @@
 package io.github.mamachanko
 
+import io.github.mamachanko.color.Palette
 import io.github.mamachanko.instructions.Drawing
-import io.github.mamachanko.instructions.GivenABlank
+import io.github.mamachanko.instructions.GivenABlankDrawing
 import io.github.mamachanko.instructions.Instruction
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class DrawingService(val instructions: Set<List<Instruction>>) {
+class DrawingService(val instructionsLibrary: Set<List<Instruction>>, val palettesLibrary: Set<Palette>) {
 
     fun getDrawing(width: Double, height: Double): Drawing {
-        return GivenABlank().withWidth(width).withHeight(height).follow(oneOf(instructions))
+        return GivenABlankDrawing()
+                .withWidth(width)
+                .withHeight(height)
+                .withPalette(palette)
+                .follow(instructions)
     }
 
-    private fun oneOf(collection: Set<List<Instruction>>): List<Instruction> {
+    private val palette: Palette
+        get() = oneOf(palettesLibrary) as Palette
+
+    private val instructions: List<Instruction>
+        get() = oneOf(instructionsLibrary) as List<Instruction>
+
+    private fun oneOf(collection: Set<Any>): Any {
         return collection.toList()[Random().nextInt(collection.size)]
     }
 }

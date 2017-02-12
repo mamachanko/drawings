@@ -10,7 +10,7 @@ class AddTests {
     fun `should add single rectangle as big as the drawing`() {
         val instructions = Add().a().rectangle()
 
-        val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
+        val drawing = GivenABlankDrawing().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(1)
         val rectangleCornerVertices = listOf(
@@ -24,7 +24,7 @@ class AddTests {
     fun `should add three rectangles as big as the drawing`() {
         val instructions = Add().three().rectangles()
 
-        val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
+        val drawing = GivenABlankDrawing().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(3)
 
@@ -39,7 +39,7 @@ class AddTests {
     fun `should add rectangles to a 2 x 2 grid`() {
         val instructions = Add().rectangles().to(aGridOf(2 x 2))
 
-        val drawing = GivenABlank().withWidth(2.0).and().withHeight(2.0).follow(instructions.asList())
+        val drawing = GivenABlankDrawing().withWidth(2.0).and().withHeight(2.0).follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(4)
 
@@ -59,7 +59,7 @@ class AddTests {
     fun `should add rectangles to a 400 x 600 grid`() {
         val instructions = Add().rectangles().to(aGridOf(400 x 600))
 
-        val drawing = GivenABlank().withWidth(400.0).and().withHeight(600.0).follow(instructions.asList())
+        val drawing = GivenABlankDrawing().withWidth(400.0).and().withHeight(600.0).follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(400 * 600)
 
@@ -71,7 +71,7 @@ class AddTests {
     fun `should add rectangles to a 2 x 3 grid with collapsed margins`() {
         val instructions = Add().rectangles().to(aGridOf(2 x 3).withCollapsedMargin(20.0))
 
-        val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
+        val drawing = GivenABlankDrawing().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(6)
 
@@ -92,7 +92,7 @@ class AddTests {
     fun `should add three rectangles to a 2 x 3 grid`() {
         val add = Add().three().rectangles().to(aGridOf(2 x 3))
 
-        val drawing = GivenABlank().withWidth(20.0).and().withHeight(30.0).follow(add.asList())
+        val drawing = GivenABlankDrawing().withWidth(20.0).and().withHeight(30.0).follow(add.asList())
 
         assertThat(drawing.shapes).hasSize(3)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactly(
@@ -106,7 +106,7 @@ class AddTests {
     fun `should add nine rectangles to a 2 x 2 grid`() {
         val add = Add(9).rectangles().to(aGridOf(2 x 2))
 
-        val drawing = GivenABlank().withWidth(2.0).and().withHeight(2.0).follow(add.asList())
+        val drawing = GivenABlankDrawing().withWidth(2.0).and().withHeight(2.0).follow(add.asList())
 
         assertThat(drawing.shapes).hasSize(9)
     }

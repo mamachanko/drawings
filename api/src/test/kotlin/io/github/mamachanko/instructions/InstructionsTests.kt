@@ -23,10 +23,12 @@ class InstructionsTests {
                 .then()
                 .duplicate().all()
                 .then()
-                .colorise().half().from(GrayPalette())
+                .colorise().half()
 
-        val drawing = GivenABlank()
-                .withWidth(600.0).and().withHeight(800.0)
+        val drawing = GivenABlankDrawing()
+                .withWidth(600.0).and()
+                .withHeight(800.0).and()
+                .withPalette(GrayPalette())
                 .follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(4)
@@ -50,9 +52,13 @@ class InstructionsTests {
                 .then()
                 .shave().all().randomly()
                 .then()
-                .colorise().all().from(ColorPalette(color1, color2))
+                .colorise().all()
 
-        val drawing = GivenABlank().withWidth(460.0).and().withHeight(380.0).follow(instructions.asList())
+        val drawing = GivenABlankDrawing()
+                .withWidth(460.0).and()
+                .withHeight(380.0)
+                .withPalette(ColorPalette(color1, color2))
+                .follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(12)
         assertThat(drawing.shapes.map { it.color }.toSet()).containsExactly(color1, color2)

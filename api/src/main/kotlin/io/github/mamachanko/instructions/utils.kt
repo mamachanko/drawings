@@ -4,7 +4,7 @@ class StartBy {
     fun adding(): Add = Add()
 }
 
-fun GivenABlank(): Drawing {
+fun GivenABlankDrawing(): Drawing {
     return Drawing()
 }
 

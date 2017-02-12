@@ -22,7 +22,7 @@ class DrawingConfig {
     }
 
     @Bean
-    fun instructions(colorPalette: Palette): List<Instruction> {
+    fun instructions(): List<Instruction> {
         return StartBy()
                 .adding().rectangles().to(aGridOf(2 x 3).withCollapsedMargin(10.0))
                 .then()
@@ -30,8 +30,7 @@ class DrawingConfig {
                 .then()
                 .shave().all().randomly()
                 .then()
-                .colorise().all().from(colorPalette).asList()
-
+                .colorise().all()
+                .asList()
     }
-
 }

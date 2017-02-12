@@ -11,7 +11,7 @@ class SliceTests {
 
         val instructions = Add().one().rectangle().then().slice().randomly()
 
-        val drawing = GivenABlank().withWidth(100.0).and().withHeight(100.0).follow(instructions.asList())
+        val drawing = GivenABlankDrawing().withWidth(100.0).and().withHeight(100.0).follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(2)
         assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(8)

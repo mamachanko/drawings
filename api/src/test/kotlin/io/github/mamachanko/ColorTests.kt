@@ -1,6 +1,5 @@
 package io.github.mamachanko.unit
 
-import io.github.mamachanko.*
 import io.github.mamachanko.color.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
