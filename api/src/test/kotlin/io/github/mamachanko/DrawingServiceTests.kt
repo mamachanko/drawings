@@ -18,12 +18,12 @@ class DrawingServiceTests {
         val height = 856.78
 
         val instructionsLibrary = setOf(StartBy().adding().a().rectangle().then().colorise().all().asList())
-        val palettesLibrary = setOf(ColorPalette(Color(12, 34, 56, 78)))
+        val palettesLibrary = setOf(ColorPalette(Color(12, 34, 56)))
 
         val drawing = DrawingService(instructionsLibrary, palettesLibrary).getDrawing(width, height)
 
         assertThat(drawing.shapes).containsExactly(
-                Shape(setOf(Vertex(.0, .0), Vertex(width, .0), Vertex(width, height), Vertex(.0, height)), color = Color(12, 34, 56, 78))
+                Shape(setOf(Vertex(.0, .0), Vertex(width, .0), Vertex(width, height), Vertex(.0, height)), color = Color(12, 34, 56))
         )
     }
 }

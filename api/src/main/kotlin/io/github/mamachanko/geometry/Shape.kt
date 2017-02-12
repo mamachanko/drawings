@@ -1,10 +1,10 @@
 package io.github.mamachanko.geometry
 
 import io.github.mamachanko.color.Color
-import io.github.mamachanko.color.SOLID_BLACK
+import io.github.mamachanko.color.BLACK
 import kotlin.comparisons.compareBy
 
-data class Shape(val vertices: Set<Vertex> = emptySet(), val color: Color = SOLID_BLACK) {
+data class Shape(val vertices: Set<Vertex> = emptySet(), val color: Color = BLACK) {
 
     val chain: List<Edge>
         get() {

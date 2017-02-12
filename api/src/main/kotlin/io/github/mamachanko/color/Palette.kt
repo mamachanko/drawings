@@ -11,13 +11,10 @@ class RandomPalette : Palette {
         get() = Color(
                 red = randomBrightness(),
                 green = randomBrightness(),
-                blue = randomBrightness(),
-                alpha = randomAlpha()
+                blue = randomBrightness()
         )
 
     private fun randomBrightness() = Random().nextInt(256)
-
-    private fun randomAlpha() = Random().nextInt(SOLID + 1)
 }
 
 class ColorPalette(vararg val colors: Color) : Palette {
@@ -50,13 +47,13 @@ class GrayPalette : Palette {
     override val color: Color
         get() {
             val brightness = Random().nextInt(256)
-            return Color(brightness, brightness, brightness, SOLID)
+            return Color(brightness, brightness, brightness)
         }
 }
 
 class BlackPalette : Palette {
     override val color: Color
         get() {
-            return SOLID_BLACK
+            return BLACK
         }
 }

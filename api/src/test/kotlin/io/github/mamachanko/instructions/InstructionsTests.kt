@@ -37,14 +37,14 @@ class InstructionsTests {
                     Vertex(.0, .0), Vertex(600.0, .0), Vertex(600.0, 800.0), Vertex(.0, 800.0)
             )
         }
-        assertThat(drawing.shapes.filter { it.color.equals(SOLID_BLACK) }).hasSize(2)
-        assertThat(drawing.shapes.filter { !it.color.equals(SOLID_BLACK) }).hasSize(2)
+        assertThat(drawing.shapes.filter { it.color.equals(BLACK) }).hasSize(2)
+        assertThat(drawing.shapes.filter { !it.color.equals(BLACK) }).hasSize(2)
     }
 
     @Test
     fun `should create the baseline Kelleybert drawing from list of instructions`() {
-        val color1 = Color(10, 20, 30, SOLID)
-        val color2 = Color(40, 50, 60, SOLID)
+        val color1 = Color(10, 20, 30)
+        val color2 = Color(40, 50, 60)
         val instructions = StartBy()
                 .adding().rectangles().to(aGridOf(2 x 3).withCollapsedMargin(20.0))
                 .then()

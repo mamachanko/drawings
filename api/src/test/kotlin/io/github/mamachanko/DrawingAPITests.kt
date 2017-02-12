@@ -42,7 +42,6 @@ class DrawingAPITests {
                 .andExpect(jsonPath("$.shapes.[0].color.red").value(12))
                 .andExpect(jsonPath("$.shapes.[0].color.green").value(34))
                 .andExpect(jsonPath("$.shapes.[0].color.blue").value(56))
-                .andExpect(jsonPath("$.shapes.[0].color.alpha").value(78))
                 .andExpect(jsonPath("$.shapes.[0].vertices.[0].x").value(.0))
                 .andExpect(jsonPath("$.shapes.[0].vertices.[0].y").value(.0))
                 .andExpect(jsonPath("$.shapes.[0].vertices.[1].x").value(width))
@@ -55,6 +54,6 @@ class DrawingAPITests {
 
     private fun simpleDrawing(height: Double, width: Double): Drawing {
         return Drawing()
-                .withShapes(listOf(Shape(setOf(Vertex(.0, .0), Vertex(width, .0), Vertex(width, height), Vertex(.0, height)), color = Color(12, 34, 56, 78))))
+                .withShapes(listOf(Shape(setOf(Vertex(.0, .0), Vertex(width, .0), Vertex(width, height), Vertex(.0, height)), color = Color(12, 34, 56))))
     }
 }
