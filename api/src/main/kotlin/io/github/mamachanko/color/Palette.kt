@@ -25,6 +25,25 @@ class ColorPalette(vararg val colors: Color) : Palette {
         get() {
             return colors[Random().nextInt(colors.size)]
         }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+
+        other as ColorPalette
+
+        if (!colors.toSet().equals(other.colors.toSet())) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return Arrays.hashCode(colors)
+    }
+
+    override fun toString(): String {
+        return "ColorPalette(colors=${Arrays.toString(colors)})"
+    }
 }
 
 class GrayPalette : Palette {

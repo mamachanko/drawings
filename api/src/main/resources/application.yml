@@ -1,4 +1,10 @@
-application.name: kelleybert
+application.name: drawings
+
+drawings:
+  palettes:
+    - FD3F33, 4369B2, FFC13A
+    - E63946, F1FAEE, A8DADC, 457B9D, 1D3557
+    - F7C59F, 2A324B, 767B91, C7CCDB, E1E5EE
 
 server:
   compression:

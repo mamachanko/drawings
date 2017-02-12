@@ -1,12 +1,12 @@
 package io.github.mamachanko.unit
 
 import com.google.common.truth.Truth.assertThat
-import io.github.mamachanko.*
-import io.github.mamachanko.color.*
-import io.github.mamachanko.instructions.Drawing
+import io.github.mamachanko.DrawingService
+import io.github.mamachanko.color.Color
+import io.github.mamachanko.color.ColorPalette
 import io.github.mamachanko.geometry.Shape
-import io.github.mamachanko.instructions.StartBy
 import io.github.mamachanko.geometry.Vertex
+import io.github.mamachanko.instructions.StartBy
 import io.github.mamachanko.instructions.a
 import org.junit.Test
 
