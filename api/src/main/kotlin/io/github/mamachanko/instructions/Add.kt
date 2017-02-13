@@ -2,14 +2,18 @@ package io.github.mamachanko.instructions
 
 class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
 
+    private var random: Boolean = false
+
     private var grid: Grid = Grid()
+
+    private val Drawing.layout: Layout
+        get() = Layout(Dimensions(width, height), grid)
 
     private val numberOfRectangles: Int
         get() = if (count < 1) grid.size else count
 
     override fun applyTo(drawing: Drawing): Drawing {
-        val layout = Layout(drawing.width, drawing.height, grid)
-        return drawing.plusShapes((0..numberOfRectangles - 1).map { layout.rectangleAt(grid.indexOf(it)) })
+        return drawing.plusShapes((0..numberOfRectangles - 1).map { drawing.layout.rectangleAt(grid.indexOf(it)) })
     }
 
     fun rectangle(): Add = this
@@ -27,6 +31,10 @@ class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emp
     }
 
     infix fun to(that: Grid): Add = this.withGrid(that)
+    fun randomly(): Add {
+        this.random = true
+        return this
+    }
 }
 
 fun Add.a(): Add = this.one()
