@@ -2,6 +2,7 @@ package io.github.mamachanko.instructions
 
 class StartBy {
     fun adding(): Add = Add()
+    fun adding(count: Int): Add = Add(count = count)
 }
 
 fun GivenABlankDrawing(): Drawing {

@@ -2,10 +2,15 @@ package io.github.mamachanko.instructions
 
 import io.github.mamachanko.geometry.Shape
 import io.github.mamachanko.geometry.Vertex
+import java.util.*
 
 data class Dimensions(val width: Double, val height: Double)
 
 data class Layout(val dimensions: Dimensions, val grid: Grid) {
+
+    fun randomRectangle(): Shape {
+        return rectangleAt(GridIndex(Random().nextInt(grid.columns), Random().nextInt(grid.rows)))
+    }
 
     fun rectangleAt(gridIndex: GridIndex): Shape {
         val (width, height) = rectangleDimensions

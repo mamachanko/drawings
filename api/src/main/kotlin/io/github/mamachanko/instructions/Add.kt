@@ -13,7 +13,12 @@ class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emp
         get() = if (count < 1) grid.size else count
 
     override fun applyTo(drawing: Drawing): Drawing {
-        return drawing.plusShapes((0..numberOfRectangles - 1).map { drawing.layout.rectangleAt(grid.indexOf(it)) })
+        return drawing.plusShapes((0..numberOfRectangles - 1).map {
+            when {
+                random -> drawing.layout.randomRectangle()
+                else -> drawing.layout.rectangleAt(grid.indexOf(it))
+            }
+        })
     }
 
     fun rectangle(): Add = this
