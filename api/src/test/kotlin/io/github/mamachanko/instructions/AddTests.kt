@@ -16,8 +16,8 @@ class AddTests {
         val rectangleCornerVertices = listOf(
                 Vertex(.0, .0), Vertex(460.0, .0), Vertex(460.0, 380.0), Vertex(.0, 380.0)
         )
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllIn(rectangleCornerVertices)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(4)
+        assertThat(drawing.vertices.toSet()).containsAllIn(rectangleCornerVertices)
+        assertThat(drawing.vertices.toSet()).hasSize(4)
     }
 
     @Test
@@ -31,8 +31,8 @@ class AddTests {
         val rectangleCornerVertices = listOf(
                 Vertex(.0, .0), Vertex(460.0, .0), Vertex(460.0, 380.0), Vertex(.0, 380.0)
         )
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllIn(rectangleCornerVertices)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(12)
+        assertThat(drawing.vertices.toSet()).containsAllIn(rectangleCornerVertices)
+        assertThat(drawing.vertices).hasSize(12)
     }
 
     @Test
@@ -49,10 +49,10 @@ class AddTests {
                 Vertex(.0, 1.0), Vertex(1.0, 1.0), Vertex(1.0, 2.0), Vertex(.0, 2.0),
                 Vertex(1.0, 1.0), Vertex(2.0, 1.0), Vertex(2.0, 2.0), Vertex(1.0, 2.0)
         )
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
+        assertThat(drawing.vertices).containsExactlyElementsIn(rectangleCornerVertices)
 
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 4)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize((2 + 1) * (2 + 1))
+        assertThat(drawing.vertices).hasSize(4 * 4)
+        assertThat(drawing.vertices.toSet()).hasSize((2 + 1) * (2 + 1))
     }
 
     @Test
@@ -63,8 +63,8 @@ class AddTests {
 
         assertThat(drawing.shapes).hasSize(400 * 600)
 
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 400 * 600)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize((400 + 1) * (600 + 1))
+        assertThat(drawing.vertices).hasSize(4 * 400 * 600)
+        assertThat(drawing.vertices.toSet()).hasSize((400 + 1) * (600 + 1))
     }
 
     @Test
@@ -83,9 +83,9 @@ class AddTests {
                 Vertex(20.0, 260.0), Vertex(220.0, 260.0), Vertex(220.0, 360.0), Vertex(20.0, 360.0),
                 Vertex(240.0, 260.0), Vertex(440.0, 260.0), Vertex(440.0, 360.0), Vertex(240.0, 360.0)
         )
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactlyElementsIn(rectangleCornerVertices)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(4 * 6)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(((2 + 1) * (3 + 1)) * 2)
+        assertThat(drawing.vertices).containsExactlyElementsIn(rectangleCornerVertices)
+        assertThat(drawing.vertices).hasSize(4 * 6)
+        assertThat(drawing.vertices.toSet()).hasSize(((2 + 1) * (3 + 1)) * 2)
     }
 
     @Test
@@ -95,7 +95,7 @@ class AddTests {
         val drawing = GivenABlankDrawing().withWidth(20.0).and().withHeight(30.0).follow(add.asList())
 
         assertThat(drawing.shapes).hasSize(3)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).containsExactly(
+        assertThat(drawing.vertices).containsExactly(
                 Vertex(.0, .0), Vertex(10.0, .0), Vertex(10.0, 10.0), Vertex(.0, 10.0),
                 Vertex(10.0, .0), Vertex(20.0, .0), Vertex(20.0, 10.0), Vertex(10.0, 10.0),
                 Vertex(.0, 10.0), Vertex(10.0, 10.0), Vertex(10.0, 20.0), Vertex(.0, 20.0)

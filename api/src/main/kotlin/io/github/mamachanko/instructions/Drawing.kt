@@ -3,6 +3,7 @@ package io.github.mamachanko.instructions
 import io.github.mamachanko.color.BlackPalette
 import io.github.mamachanko.color.Palette
 import io.github.mamachanko.geometry.Shape
+import io.github.mamachanko.geometry.Vertex
 
 data class Drawing(val width: Double = .0, val height: Double = .0, val palette: Palette = BlackPalette(), val shapes: List<Shape> = emptyList()) {
 
@@ -18,7 +19,12 @@ data class Drawing(val width: Double = .0, val height: Double = .0, val palette:
 
     fun withShapes(shapes: List<Shape>): Drawing = this.copy(shapes = shapes)
 
+    fun withShapes(vararg shapes: Shape): Drawing = this.withShapes(shapes.asList())
+
     fun withPalette(palette: Palette): Drawing = this.copy(palette = palette)
 
     fun and(): Drawing = this
+
+    val vertices: List<Vertex>
+    get() = shapes.flatMap { it.vertices }
 }
