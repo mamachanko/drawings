@@ -4,6 +4,8 @@ abstract class Instruction(val priorInstructions: List<Instruction> = emptyList(
 
     fun add(): Add = Add(priorInstructions = asList())
 
+    fun add(count: Int): Add = Add(count = count, priorInstructions = asList())
+
     fun discard(): Discard = Discard(priorInstructions.plus(this))
 
     fun duplicate(): Duplicate = Duplicate(priorInstructions.plus(this))
