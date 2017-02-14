@@ -14,9 +14,9 @@ class SliceTests {
         val drawing = GivenABlankDrawing().withWidth(100.0).and().withHeight(100.0).follow(instructions.asList())
 
         assertThat(drawing.shapes).hasSize(2)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }).hasSize(8)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).hasSize(6)
-        assertThat(drawing.shapes.map { it.vertices }.flatMap { it }.toSet()).containsAllOf(Vertex(.0, .0), Vertex(100.0, .0), Vertex(100.0, 100.0), Vertex(.0, 100.0))
+        assertThat(drawing.vertices).hasSize(8)
+        assertThat(drawing.vertices.toSet()).hasSize(6)
+        assertThat(drawing.vertices.toSet()).containsAllOf(Vertex(.0, .0), Vertex(100.0, .0), Vertex(100.0, 100.0), Vertex(.0, 100.0))
         val vertices1 = drawing.shapes[0].vertices
         val vertices2 = drawing.shapes[1].vertices
         assertThat(vertices1.intersect(vertices2)).hasSize(2)
