@@ -8,18 +8,16 @@ import org.springframework.context.annotation.Configuration
 class Instructions {
 
     @Bean
-    fun baseline(): List<Instruction> = StartBy()
+    fun baseline(): Instruction = StartBy()
             .adding(12).rectangles().to(aGridOf(2 x 3).withCollapsedMargin(2.0))
             .then()
             .shave().all().randomly()
             .then()
             .colorise().all()
-            .asList()
 
     @Bean
-    fun random(): List<Instruction> = StartBy()
+    fun random(): Instruction = StartBy()
             .adding(6).rectangles().randomly()
             .then()
             .colorise().all()
-            .asList()
 }

@@ -17,7 +17,7 @@ class DrawingServiceTests {
         val width = 1230.45
         val height = 856.78
 
-        val instructionsLibrary = setOf(StartBy().adding().a().rectangle().then().colorise().all().asList())
+        val instructionsLibrary = setOf(StartBy().adding().a().rectangle().then().colorise().all())
         val palettesLibrary = setOf(ColorPalette(Color(12, 34, 56)))
 
         val drawing = DrawingService(instructionsLibrary, palettesLibrary).getDrawing(width, height)

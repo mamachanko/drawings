@@ -5,7 +5,7 @@ import io.github.mamachanko.geometry.Shape
 import io.github.mamachanko.geometry.Vertex
 import java.util.*
 
-open class Slice(prior: List<Instruction>) : Instruction(prior) {
+open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
 
     fun all(): Slice {
         return this

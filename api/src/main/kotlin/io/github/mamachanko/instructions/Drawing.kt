@@ -9,8 +9,8 @@ data class Drawing(val width: Double = .0, val height: Double = .0, val palette:
 
     fun plusShapes(shapes: List<Shape>): Drawing = this.copy(shapes = this.shapes.plus(shapes))
 
-    fun follow(instructions: List<Instruction>): Drawing {
-        return instructions.fold(this, { state, instruction -> instruction.applyTo(state) })
+    fun follow(instruction: Instruction): Drawing {
+        return instruction.asList().fold(this, { state, instruction -> instruction.applyTo(state) })
     }
 
     fun withWidth(width: Double): Drawing = this.copy(width = width)

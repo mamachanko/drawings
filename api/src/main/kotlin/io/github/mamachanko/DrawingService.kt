@@ -8,21 +8,21 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class DrawingService(val instructionsLibrary: Set<List<Instruction>>, val palettesLibrary: Set<Palette>) {
+class DrawingService(val instructionsLibrary: Set<Instruction>, val palettesLibrary: Set<Palette>) {
 
     fun getDrawing(width: Double, height: Double): Drawing {
         return GivenABlankDrawing()
                 .withWidth(width)
                 .withHeight(height)
                 .withPalette(palette)
-                .follow(instructions)
+                .follow(instruction)
     }
 
     private val palette: Palette
         get() = oneOf(palettesLibrary) as Palette
 
-    private val instructions: List<Instruction>
-        get() = oneOf(instructionsLibrary) as List<Instruction>
+    private val instruction: Instruction
+        get() = oneOf(instructionsLibrary) as Instruction
 
     private fun oneOf(collection: Set<Any>): Any {
         return collection.toList()[Random().nextInt(collection.size)]

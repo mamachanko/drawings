@@ -10,11 +10,11 @@ import org.junit.Test
 import java.util.*
 import kotlin.comparisons.compareBy
 
-class InstructionsTests {
+class InstructionTests {
 
     @Test
-    fun `should create drawing from list of instructions`() {
-        val instructions = StartBy()
+    fun `should create drawing from instruction`() {
+        val instruction = StartBy()
                 .adding().a().rectangle()
                 .then()
                 .add().two().rectangles()
@@ -29,7 +29,7 @@ class InstructionsTests {
                 .withWidth(600.0).and()
                 .withHeight(800.0).and()
                 .withPalette(GrayPalette())
-                .follow(instructions.asList())
+                .follow(instruction)
 
         assertThat(drawing.shapes).hasSize(4)
         drawing.shapes.map {
@@ -42,10 +42,10 @@ class InstructionsTests {
     }
 
     @Test
-    fun `should create the baseline Kelleybert drawing from list of instructions`() {
+    fun `should create the baseline Kelleybert drawing from instruction`() {
         val color1 = Color(10, 20, 30)
         val color2 = Color(40, 50, 60)
-        val instructions = StartBy()
+        val instruction = StartBy()
                 .adding().rectangles().to(aGridOf(2 x 3).withCollapsedMargin(20.0))
                 .then()
                 .duplicate().all()
@@ -58,7 +58,7 @@ class InstructionsTests {
                 .withWidth(460.0).and()
                 .withHeight(380.0)
                 .withPalette(ColorPalette(color1, color2))
-                .follow(instructions.asList())
+                .follow(instruction)
 
         assertThat(drawing.shapes).hasSize(12)
         assertThat(drawing.shapes.map { it.color }.toSet()).containsExactly(color1, color2)
