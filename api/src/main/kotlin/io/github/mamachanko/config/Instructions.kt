@@ -17,4 +17,13 @@ class Instructions {
                 .colorise().all()
                 .asList()
     }
+
+    @Bean
+    fun random(): List<Instruction> {
+        return StartBy()
+                .adding(12).rectangles().randomly()
+                .then()
+                .colorise().all()
+                .asList()
+    }
 }

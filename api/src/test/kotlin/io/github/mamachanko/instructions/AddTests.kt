@@ -115,10 +115,19 @@ class AddTests {
     fun `should one rectangle randomly to a 2 x 2 grid`() {
         val add = Add().one().rectangle().randomly().to(aGridOf(2 x 2))
 
-        val drawing = GivenABlankDrawing().withWidth(2.0).and().withHeight(3.0).follow(add.asList())
+        val drawing = GivenABlankDrawing().withWidth(2.0).and().withHeight(2.0).follow(add.asList())
 
         assertThat(drawing.shapes).hasSize(1)
         val rectangle = drawing.shapes.first()
         assertThat(rectangle.path.first()).isIn(listOf(Vertex(.0, .0), Vertex(1.0, .0), Vertex(.0, 1.0), Vertex(1.0, 1.0)))
+    }
+
+    @Test
+    fun `should one rectangle randomly`() {
+        val add = Add().one().rectangle().randomly()
+
+        val drawing = GivenABlankDrawing().withWidth(2.0).and().withHeight(2.0).follow(add.asList())
+
+        assertThat(drawing.shapes).hasSize(1)
     }
 }

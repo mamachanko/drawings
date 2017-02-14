@@ -15,8 +15,9 @@ class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emp
     override fun applyTo(drawing: Drawing): Drawing {
         return drawing.plusShapes((0..numberOfRectangles - 1).map {
             when {
-                random -> drawing.layout.randomRectangle()
-                else -> drawing.layout.rectangleAt(grid.indexOf(it))
+                random && grid.size == 1-> drawing.layout.randomRectangle()
+                random -> drawing.layout.randomRectangleInGrid()
+                else -> drawing.layout.rectangleAtGridIndex(grid.indexOf(it))
             }
         })
     }
@@ -35,11 +36,12 @@ class Add(private var count: Int = 0, priorInstructions: List<Instruction> = emp
         return this
     }
 
-    infix fun to(that: Grid): Add = this.withGrid(that)
     fun randomly(): Add {
         this.random = true
         return this
     }
+
+    infix fun to(that: Grid): Add = this.withGrid(that)
 }
 
 fun Add.a(): Add = this.one()

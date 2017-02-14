@@ -8,14 +8,28 @@ data class Dimensions(val width: Double, val height: Double)
 
 data class Layout(val dimensions: Dimensions, val grid: Grid) {
 
-    fun randomRectangle(): Shape {
-        return rectangleAt(GridIndex(Random().nextInt(grid.columns), Random().nextInt(grid.rows)))
+    fun randomRectangleInGrid(): Shape {
+        return rectangleAtGridIndex(GridIndex(Random().nextInt(grid.columns), Random().nextInt(grid.rows)))
     }
 
-    fun rectangleAt(gridIndex: GridIndex): Shape {
+    fun rectangleAtGridIndex(gridIndex: GridIndex): Shape {
         val (width, height) = rectangleDimensions
         val x = xAt(gridIndex)
         val y = yAt(gridIndex)
+        return rectangle(height, width, x, y)
+    }
+
+    fun randomRectangle(): Shape {
+        val (maxWidth, maxHeight) = dimensions
+        val random = Random()
+        val x = random.nextDouble() * maxWidth
+        val y = random.nextDouble() * maxHeight
+        val width = random.nextDouble() * (maxWidth - x)
+        val height = random.nextDouble() * (maxHeight - x)
+        return rectangle(x, y, width, height)
+    }
+
+    private fun rectangle(height: Double, width: Double, x: Double, y: Double): Shape {
         return Shape().withVertices(
                 Vertex(x, y),
                 Vertex(x + width, y),
