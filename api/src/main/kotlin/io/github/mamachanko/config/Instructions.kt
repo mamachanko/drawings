@@ -16,6 +16,14 @@ class Instructions {
             .colorise().all()
 
     @Bean
+    fun baselineHalf(): Instruction = StartBy()
+            .adding(12).rectangles().to(aGridOf(3 x 5).withCollapsedMargin(2.0))
+            .then()
+            .slice().all().withHalfProportions()
+            .then()
+            .colorise().all()
+
+    @Bean
     fun random(): Instruction = StartBy()
             .adding(6).rectangles().randomly()
             .then()

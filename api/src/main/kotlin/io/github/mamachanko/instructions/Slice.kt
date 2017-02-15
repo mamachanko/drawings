@@ -1,11 +1,13 @@
 package io.github.mamachanko.instructions
 
 import io.github.mamachanko.geometry.Edge
+
 import io.github.mamachanko.geometry.Shape
 import io.github.mamachanko.geometry.Vertex
 import java.util.*
-
 open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
+
+    private var halfProportions: Boolean = false
 
     fun all(): Slice {
         return this
@@ -46,7 +48,7 @@ open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instructi
     }
 
     private fun Edge.splitRandomly(): Pair<Edge, Edge> {
-        val newDistance = Math.random()
+        val newDistance = if (halfProportions) .5 else Math.random()
         val x = (1 - newDistance) * a.x + newDistance * b.x
         val y = (1 - newDistance) * a.y + newDistance * b.y
         val splitAt = Vertex(x, y)
@@ -71,5 +73,10 @@ open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instructi
 
     private val Edge.vertices: List<Vertex>
         get() = listOf(a, b)
+
+    fun withHalfProportions(): Slice {
+        this.halfProportions = true
+        return this
+    }
 
 }
