@@ -17,7 +17,31 @@ class Instructions {
 
     @Bean
     fun baselineHalf(): Instruction = StartBy()
-            .adding(12).rectangles().to(aGridOf(3 x 5).withCollapsedMargin(2.0))
+            .adding().rectangles().to(aGridOf(3 x 5).withCollapsedMargin(2.0))
+            .then()
+            .slice().all().withHalfProportions()
+            .then()
+            .colorise().all()
+
+    @Bean
+    fun baselineDoubleHalf(): Instruction = StartBy()
+            .adding().rectangles().to(aGridOf(3 x 5).withCollapsedMargin(2.0))
+            .then()
+            .slice().all().withHalfProportions()
+            .then()
+            .slice().all().withHalfProportions()
+            .then()
+            .colorise().all()
+
+    @Bean
+    fun singleQuadroHalf(): Instruction = StartBy()
+            .adding().a().rectangle()
+            .then()
+            .slice().all().withHalfProportions()
+            .then()
+            .slice().all().withHalfProportions()
+            .then()
+            .slice().all().withHalfProportions()
             .then()
             .slice().all().withHalfProportions()
             .then()
