@@ -6,6 +6,37 @@ import io.github.mamachanko.geometry.Vertex
 import org.junit.Test
 import kotlin.comparisons.compareBy
 
+enum class Orientation {
+    CLOCKWISE, COUNTERCLOCKWISE, COLINEAR
+}
+
+class OrientationTest {
+
+    @Test
+    fun `should return clockwise orientation for triplet of vertices`() {
+        assertThat(orienationOf(Vertex(1.0, 1.0), Vertex(3.0, .0), Vertex(5.0, 3.0))).isEqualTo(Orientation.CLOCKWISE)
+    }
+
+    @Test
+    fun `should return counterclockwise orientation for triplet of vertices`() {
+        assertThat(orienationOf(Vertex(1.0, 1.0), Vertex(5.0, 3.0), Vertex(3.0, .0))).isEqualTo(Orientation.COUNTERCLOCKWISE)
+    }
+
+    @Test
+    fun `should return colinear orientation for triplet of vertices`() {
+        assertThat(orienationOf(Vertex(1.0, 1.0), Vertex(3.0, 2.0), Vertex(5.0, 3.0))).isEqualTo(Orientation.COLINEAR)
+    }
+
+    private fun orienationOf(a: Vertex, b: Vertex, c: Vertex): Orientation {
+        val orientation = (b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y)
+        return when {
+            orientation < 0 -> Orientation.CLOCKWISE
+            orientation > 0 -> Orientation.COUNTERCLOCKWISE
+            else -> Orientation.COLINEAR
+        }
+    }
+}
+
 class ConvexHullTests {
 
 //    @Test
