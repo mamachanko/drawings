@@ -1,7 +1,6 @@
 package io.github.mamachanko
 
 import com.google.common.truth.Truth.assertThat
-import io.github.mamachanko.geometry.Edge
 import io.github.mamachanko.geometry.Vertex
 import org.junit.Test
 import kotlin.comparisons.compareBy
@@ -14,17 +13,17 @@ class OrientationTest {
 
     @Test
     fun `should return clockwise orientation for triplet of vertices`() {
-        assertThat(orienationOf(Vertex(1.0, 1.0), Vertex(3.0, .0), Vertex(5.0, 3.0))).isEqualTo(Orientation.CLOCKWISE)
+        assertThat(orientationOf(Vertex(1.0, 1.0), Vertex(3.0, .0), Vertex(5.0, 3.0))).isEqualTo(Orientation.CLOCKWISE)
     }
 
     @Test
     fun `should return counterclockwise orientation for triplet of vertices`() {
-        assertThat(orienationOf(Vertex(1.0, 1.0), Vertex(5.0, 3.0), Vertex(3.0, .0))).isEqualTo(Orientation.COUNTERCLOCKWISE)
+        assertThat(orientationOf(Vertex(1.0, 1.0), Vertex(5.0, 3.0), Vertex(3.0, .0))).isEqualTo(Orientation.COUNTERCLOCKWISE)
     }
 
     @Test
     fun `should return colinear orientation for triplet of vertices`() {
-        assertThat(orienationOf(Vertex(1.0, 1.0), Vertex(3.0, 2.0), Vertex(5.0, 3.0))).isEqualTo(Orientation.COLINEAR)
+        assertThat(orientationOf(Vertex(1.0, 1.0), Vertex(3.0, 2.0), Vertex(5.0, 3.0))).isEqualTo(Orientation.COLINEAR)
     }
 
 }
@@ -42,7 +41,8 @@ class ConvexHullTests {
                 Vertex(3.0, 3.0),
                 Vertex(1.0, 6.0),
                 Vertex(3.0, 6.0),
-                Vertex(2.0, 6.0)
+                Vertex(2.0, 6.0),
+                Vertex(1.5, 6.0)
         ))).containsExactly(
                 Vertex(1.0, 1.0),
                 Vertex(3.0, 0.0),
@@ -93,6 +93,17 @@ class ConvexHullTests {
                 Vertex(1.0, 6.0)
         )
     }
+
+    @Test
+    fun `should return convex hull of a two vertices the two vertices`() {
+        assertThat(convexHull(setOf(
+                Vertex(3.0, 0.0),
+                Vertex(5.0, 3.0)
+        ))).containsExactly(
+                Vertex(3.0, 0.0),
+                Vertex(5.0, 3.0)
+        )
+    }
 }
 
 fun convexHull(vertices: Set<Vertex>): Set<Vertex> {
@@ -111,25 +122,18 @@ fun convexHull(vertices: Set<Vertex>): Set<Vertex> {
 }
 
 fun findNextOnConvexHull(vertices: Set<Vertex>, current: Vertex): Vertex {
-    println("finding next vertex after $current")
-    val next = vertices.find {
-        println("  looking at $it")
+    return vertices.find {
         vertices.minus(it).filter { x ->
-            println("    comparing with $x")
-            val orienationOf = orienationOf(current, it, x)
-            println("      the orientationOf($current, $it, $x) is $orienationOf")
-            orienationOf == Orientation.CLOCKWISE
+            orientationOf(current, it, x) != Orientation.COUNTERCLOCKWISE
         }.size == vertices.size - 1
-    }
-
-    return next!!
+    }!!
 }
 
 fun leftMost(vertices: Set<Vertex>): Vertex {
     return vertices.sortedWith(compareBy { it.x }).first()
 }
 
-fun orienationOf(a: Vertex, b: Vertex, c: Vertex): Orientation {
+fun orientationOf(a: Vertex, b: Vertex, c: Vertex): Orientation {
     val orientation = (b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y)
     return when {
         orientation < 0 -> Orientation.CLOCKWISE
