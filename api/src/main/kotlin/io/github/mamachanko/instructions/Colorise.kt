@@ -1,8 +1,5 @@
 package io.github.mamachanko.instructions
 
-import io.github.mamachanko.color.BlackPalette
-import io.github.mamachanko.color.Palette
-
 class Colorise(prior: List<Instruction>) : Instruction(prior) {
 
     private var percent: Int = 100
