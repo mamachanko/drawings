@@ -10,12 +10,14 @@ val Set<Vertex>.convexHull: Set<Vertex>
 private val Set<Vertex>.leftMost: Vertex
     get() = sortedWith(compareBy { it.x }).first()
 
-private fun Set<Vertex>.findNextOnConvexHull(from: Vertex): Vertex {
-    return this.minus(from).find { potentialNext ->
-        this.minus(potentialNext).filter { anyOther ->
-            orientationOf(from, potentialNext, anyOther) != Orientation.COUNTERCLOCKWISE
-        }.size == this.size - 1
-    }!!
+private fun Set<Vertex>.findNextOnConvexHull(from: Vertex): Vertex = this.minus(from).filter { potentialNext ->
+    this.minus(potentialNext).filter { anyOther ->
+        orientationOf(from, potentialNext, anyOther) != Orientation.COUNTERCLOCKWISE
+    }.size == this.size - 1
+}.maxWith(compareBy { from.distanceTo(it) })!!
+
+private fun Vertex.distanceTo(other: Vertex): Double {
+    return Math.sqrt(Math.pow(this.x - other.x, 2.0) + Math.pow(this.y - other.y, 2.0))
 }
 
 enum class Orientation {
