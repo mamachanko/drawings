@@ -20,9 +20,9 @@ class OrientationTest {
     }
 
     @Test
-    fun `should return colinear orientation for triplet of vertices in any order`() {
-        assertThat(orientationOf(Vertex(1.0, 1.0), Vertex(3.0, 2.0), Vertex(5.0, 3.0))).isEqualTo(Orientation.COLINEAR)
-        assertThat(orientationOf(Vertex(1.0, 1.0), Vertex(5.0, 3.0), Vertex(3.0, 2.0))).isEqualTo(Orientation.COLINEAR)
+    fun `should return collinear orientation for triplet of vertices in any order`() {
+        assertThat(orientationOf(Vertex(1.0, 1.0), Vertex(3.0, 2.0), Vertex(5.0, 3.0))).isEqualTo(Orientation.COLLINEAR)
+        assertThat(orientationOf(Vertex(1.0, 1.0), Vertex(5.0, 3.0), Vertex(3.0, 2.0))).isEqualTo(Orientation.COLLINEAR)
     }
 
 }
@@ -122,4 +122,28 @@ class ConvexHullTests {
                 Vertex(3.0, 6.0)
         )
     }
+
+    @Test
+    fun `should return convex hull of list of vertices with duplicate entries`() {
+        assertThat(listOf(
+                Vertex(x = 0.0, y = 1.0),
+                Vertex(x = 0.0, y = 1.0),
+                Vertex(x = 0.0, y = .5),
+                Vertex(x = 0.0, y = 0.0),
+                Vertex(x = 0.0, y = 0.0),
+                Vertex(x = 0.5, y = 0.0),
+                Vertex(x = 1.0, y = 0.0),
+                Vertex(x = 0.0, y = 0.0),
+                Vertex(x = 1.0, y = 0.5),
+                Vertex(x = 1.0, y = 1.0),
+                Vertex(x = .5, y = 1.0)
+        ).convexHull).containsExactly(
+                Vertex(x = 1.0, y = 0.0),
+                Vertex(x = 1.0, y = 1.0),
+                Vertex(x = 0.0, y = 1.0),
+                Vertex(x = 0.0, y = 0.0)
+        )
+    }
+
+
 }

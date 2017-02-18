@@ -2,6 +2,9 @@ package io.github.mamachanko.geometry
 
 import kotlin.comparisons.compareBy
 
+val List<Vertex>.convexHull: Set<Vertex>
+    get() = toSet().convexHull
+
 val Set<Vertex>.convexHull: Set<Vertex>
     get() = generateSequence(findNextOnConvexHull(leftMost)) {
         if (it == leftMost) null else findNextOnConvexHull(it)
@@ -21,7 +24,7 @@ private fun Vertex.distanceTo(other: Vertex): Double {
 }
 
 enum class Orientation {
-    CLOCKWISE, COUNTERCLOCKWISE, COLINEAR
+    CLOCKWISE, COUNTERCLOCKWISE, COLLINEAR
 }
 
 fun orientationOf(a: Vertex, b: Vertex, c: Vertex): Orientation {
@@ -29,6 +32,6 @@ fun orientationOf(a: Vertex, b: Vertex, c: Vertex): Orientation {
     return when {
         orientation < 0 -> Orientation.CLOCKWISE
         orientation > 0 -> Orientation.COUNTERCLOCKWISE
-        else -> Orientation.COLINEAR
+        else -> Orientation.COLLINEAR
     }
 }
