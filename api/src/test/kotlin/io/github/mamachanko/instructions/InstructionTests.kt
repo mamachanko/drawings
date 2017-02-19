@@ -13,6 +13,22 @@ import kotlin.comparisons.compareBy
 class InstructionTests {
 
     @Test
+    fun `should create drawing containing a sliced rectangle`() {
+        val drawing = GivenABlankDrawing()
+                .withWidth(100.0).and()
+                .withHeight(100.0)
+                .withPalette(GrayPalette())
+                .follow(StartBy()
+                        .adding().one().rectangle()
+                        .then()
+                        .slice().vertically()
+                        .then()
+                        .colorise().all())
+
+        assertThat(drawing.shapes).hasSize(2)
+    }
+
+    @Test
     fun `should create drawing from instruction`() {
         val instruction = StartBy()
                 .adding().a().rectangle()

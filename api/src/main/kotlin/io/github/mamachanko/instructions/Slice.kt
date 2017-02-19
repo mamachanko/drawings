@@ -1,10 +1,8 @@
 package io.github.mamachanko.instructions
 
-import io.github.mamachanko.geometry.Edge
-
-import io.github.mamachanko.geometry.Shape
-import io.github.mamachanko.geometry.Vertex
+import io.github.mamachanko.geometry.*
 import java.util.*
+
 open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
 
     private var halfProportions: Boolean = false
@@ -18,13 +16,16 @@ open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instructi
     }
 
     override fun applyTo(drawing: Drawing): Drawing {
-        val slicesShapes = drawing.shapes.map { slice(it) }
-        val shapes = slicesShapes.flatMap { it }
+        val shapes = drawing.shapes.map { slice(it) }.flatMap { it }
         return drawing.withShapes(shapes)
     }
 
     fun slice(shape: Shape): List<Shape> {
-        val (edge1, edge2) = shape.chain.randomlyChooseTwoInOrder()
+        val (edge1, edge2) = if (vertical) {
+            shape.chain.northAndSouth
+        } else {
+            shape.chain.randomlyChooseTwoInOrder()
+        }
         val (edge1split1, edge1split2) = edge1.splitRandomly()
         val (edge2split1, edge2split2) = edge2.splitRandomly()
         return shape.chain
@@ -46,7 +47,7 @@ open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instructi
         ).sorted()
         return this[randomSortedIndices[0]] to this[randomSortedIndices[1]]
     }
-
+    
     private fun Edge.splitRandomly(): Pair<Edge, Edge> {
         val newDistance = if (halfProportions) .5 else Math.random()
         val x = (1 - newDistance) * a.x + newDistance * b.x
@@ -76,6 +77,13 @@ open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instructi
 
     fun withHalfProportions(): Slice {
         this.halfProportions = true
+        return this
+    }
+
+    private var vertical: Boolean = false
+
+    fun vertically(): Slice {
+        this.vertical = true
         return this
     }
 

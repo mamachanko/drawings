@@ -7,3 +7,11 @@ data class Vertex(val x: Double, val y: Double) {
     }
 
 }
+
+val Set<Vertex>.average: Vertex
+    get() {
+        val vertexSum = reduce { currentVertexSum, nextVertex ->
+            Vertex(currentVertexSum.x + nextVertex.x, currentVertexSum.y + nextVertex.y)
+        }
+        return Vertex(vertexSum.x / size, vertexSum.y / size)
+    }

@@ -52,4 +52,14 @@ class Instructions {
             .adding(6).rectangles().randomly()
             .then()
             .colorise().all()
+
+    @Bean
+    fun vertical(): Instruction = StartBy()
+            .adding().rectangles().to(aGridOf(1 x 5))
+            .then()
+            .slice().all().randomly()
+            .then()
+            .slice().all().vertically()
+            .then()
+            .colorise().all()
 }

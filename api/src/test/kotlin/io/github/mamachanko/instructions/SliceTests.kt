@@ -9,6 +9,19 @@ import org.junit.Test
 class SliceTests {
 
     @Test
+    fun `should return two identical and smaller rectangles when slicing rectangle vertically in halves`() {
+        val rectangle = Shape(setOf(Vertex(.0, .0), Vertex(1.0, .0), Vertex(1.0, 1.0), Vertex(.0, 1.0)))
+        val drawing = Drawing().withShapes(rectangle).follow(
+                Slice().vertically().withHalfProportions()
+        )
+
+        assertThat(drawing.shapes).containsExactly(
+                Shape(setOf(Vertex(.0, .0), Vertex(.5, .0), Vertex(.5, 1.0), Vertex(.0, 1.0))),
+                Shape(setOf(Vertex(.5, .0), Vertex(1.0, .0), Vertex(1.0, 1.0), Vertex(.5, 1.0)))
+        )
+    }
+
+    @Test
     fun `should return two shapes with half proportions when slicing rectangle through middle of edges`() {
         val rectangle = Shape(setOf(Vertex(.0, .0), Vertex(1.0, .0), Vertex(1.0, 1.0), Vertex(.0, 1.0)))
         val drawing = Drawing().withShapes(rectangle).follow(
