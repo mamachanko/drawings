@@ -9,7 +9,7 @@ class Instructions {
 
     @Bean
     fun baseline(): Instruction = StartBy()
-            .adding(12).rectangles().to(aGridOf(2 x 3).withCollapsedMargin(2.0))
+            .adding(12).rectangles().to(aGridOf(2 x 3).withCollapsedMargin(20.0))
             .then()
             .shave().all().randomly()
             .then()
@@ -55,7 +55,7 @@ class Instructions {
 
     @Bean
     fun vertical(): Instruction = StartBy()
-            .adding().rectangles().to(aGridOf(1 x 5))
+            .adding().rectangles().to(aGridOf(1 x 3))
             .then()
             .slice().all().randomly()
             .then()
