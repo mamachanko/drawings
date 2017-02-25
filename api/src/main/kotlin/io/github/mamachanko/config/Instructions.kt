@@ -16,6 +16,18 @@ class Instructions {
             .colorise().all()
 
     @Bean
+    fun golden(): Instruction = StartBy()
+            .adding().one().rectangle()
+            .then()
+            .slice().withGoldenProportions().vertically()
+            .then()
+            .slice().withGoldenProportions().vertically()
+            .then()
+            .slice().withGoldenProportions().vertically()
+            .then()
+            .colorise()
+
+    @Bean
     fun baselineHalf(): Instruction = StartBy()
             .adding().rectangles().to(aGridOf(3 x 5).withCollapsedMargin(2.0))
             .then()
@@ -62,4 +74,25 @@ class Instructions {
             .slice().all().vertically()
             .then()
             .colorise().all()
+
+    @Bean
+    fun plentyOfGoldenSlices(): Instruction = StartBy()
+            .adding().one().rectangle()
+            .then()
+            .slice().all().withGoldenProportions()
+            .then()
+            .slice().all().withGoldenProportions()
+            .then()
+            .slice().all().withGoldenProportions()
+            .then()
+            .slice().all().withGoldenProportions()
+            .then()
+            .slice().all().withGoldenProportions()
+            .then()
+            .slice().all().withGoldenProportions()
+            .then()
+            .slice().all().withGoldenProportions()
+            .then()
+            .colorise().all()
+
 }

@@ -22,7 +22,7 @@ class SliceTests {
     }
 
     @Test
-    fun `should return two shapes with half proportions when slicing rectangle through middle of edges`() {
+    fun `should return two shapes by slicing through middle of edges when slicing rectangle with half proportions`() {
         val rectangle = Shape(setOf(Vertex(.0, .0), Vertex(1.0, .0), Vertex(1.0, 1.0), Vertex(.0, 1.0)))
         val drawing = Drawing().withShapes(rectangle).follow(
                 Slice().withHalfProportions()
@@ -31,6 +31,28 @@ class SliceTests {
         drawing.assertThatItIsSliceResultOf(rectangle)
         drawing.vertices.toSet().minus(drawing.vertices.convexHull).map {
             assertThat(it).isAnyOf(Vertex(.5, .0), Vertex(1.0, .5), Vertex(.5, 1.0), Vertex(.0, .5))
+        }
+    }
+
+    @Test
+    fun `should return two shapes by slicings edges with golden proportions when slicing rectangle with golden proportions`() {
+        val rectangle = Shape(setOf(Vertex(.0, .0), Vertex(1.0, .0), Vertex(1.0, 1.0), Vertex(.0, 1.0)))
+        val drawing = Drawing().withShapes(rectangle).follow(
+                Slice().withGoldenProportions()
+        )
+
+        drawing.assertThatItIsSliceResultOf(rectangle)
+        drawing.vertices.toSet().minus(drawing.vertices.convexHull).map {
+            assertThat(it).isAnyOf(
+                    Vertex(.0, .382),
+                    Vertex(.0, .618),
+                    Vertex(.382, .0),
+                    Vertex(.618, .0),
+                    Vertex(1.0, .382),
+                    Vertex(1.0, .618),
+                    Vertex(.382, 1.0),
+                    Vertex(.618, 1.0)
+            )
         }
     }
 

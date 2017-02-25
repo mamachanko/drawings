@@ -24,7 +24,4 @@ class DrawingService(val instructionsLibrary: Set<Instruction>, val palettesLibr
     private val instruction: Instruction
         get() = oneOf(instructionsLibrary) as Instruction
 
-    private fun oneOf(collection: Set<Any>): Any {
-        return collection.toList()[Random().nextInt(collection.size)]
-    }
 }

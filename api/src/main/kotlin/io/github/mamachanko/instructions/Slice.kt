@@ -1,11 +1,14 @@
 package io.github.mamachanko.instructions
 
+import io.github.mamachanko.anyOne
 import io.github.mamachanko.geometry.*
+import io.github.mamachanko.oneOf
 import java.util.*
 
 open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
 
-    private var halfProportions: Boolean = false
+    private var vertical: Boolean = false
+    private var proportions: Proportions = Proportions.Random
 
     fun all(): Slice {
         return this
@@ -47,9 +50,13 @@ open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instructi
         ).sorted()
         return this[randomSortedIndices[0]] to this[randomSortedIndices[1]]
     }
-    
+
     private fun Edge.splitRandomly(): Pair<Edge, Edge> {
-        val newDistance = if (halfProportions) .5 else Math.random()
+        val newDistance = when (proportions) {
+            Proportions.Random -> Math.random()
+            Proportions.Half -> .5
+            Proportions.Golden -> listOf(.618, 1 - .618).anyOne()
+        }
         val x = (1 - newDistance) * a.x + newDistance * b.x
         val y = (1 - newDistance) * a.y + newDistance * b.y
         val splitAt = Vertex(x, y)
@@ -76,15 +83,20 @@ open class Slice(priorInstructions: List<Instruction> = emptyList()) : Instructi
         get() = listOf(a, b)
 
     fun withHalfProportions(): Slice {
-        this.halfProportions = true
+        this.proportions = Proportions.Half
         return this
     }
-
-    private var vertical: Boolean = false
 
     fun vertically(): Slice {
         this.vertical = true
         return this
     }
 
+    fun withGoldenProportions(): Slice {
+        this.proportions = Proportions.Golden
+        return this
+    }
+
 }
+
+private enum class Proportions { Random, Half, Golden }
