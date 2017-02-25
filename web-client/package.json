@@ -1,5 +1,5 @@
 {
-  "name": "kelleybert-web-client",
+  "name": "drawings-web-client",
   "scripts": {
     "build": "webpack --optimize-minimize",
     "run": "webpack-dev-server",

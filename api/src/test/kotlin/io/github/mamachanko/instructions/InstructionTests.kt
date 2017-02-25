@@ -58,7 +58,7 @@ class InstructionTests {
     }
 
     @Test
-    fun `should create the baseline Kelleybert drawing from instruction`() {
+    fun `should create the baseline drawing from instructions`() {
         val color1 = Color(10, 20, 30)
         val color2 = Color(40, 50, 60)
         val instruction = StartBy()

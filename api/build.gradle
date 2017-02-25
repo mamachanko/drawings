@@ -19,7 +19,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 jar {
-	baseName = 'kelleybert-api'
+	baseName = 'drawings-api'
 	version = '0.0.1-SNAPSHOT'
 }
 
