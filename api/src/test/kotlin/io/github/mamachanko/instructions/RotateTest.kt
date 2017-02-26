@@ -6,7 +6,7 @@ import io.github.mamachanko.geometry.Vertex
 import org.junit.Test
 
 
-class RotationTest {
+class RotateTest {
 
     @Test
     fun `should rotate a square by 90 degrees`() {
@@ -28,5 +28,16 @@ class RotationTest {
         )
 
         assertThat(drawing.shapes).containsExactly(square)
+    }
+
+    @Test
+    fun `should rotate shape randomly`() {
+        val square = Shape(setOf(Vertex(.0, .0), Vertex(1.0, .0), Vertex(1.0, 1.0), Vertex(.0, 1.0)))
+        val drawing = Drawing().withShapes(square).follow(
+                Rotate().randomly()
+        )
+
+        assertThat(drawing.shapes).hasSize(1)
+        assertThat(drawing.shapes).doesNotContain(square)
     }
 }

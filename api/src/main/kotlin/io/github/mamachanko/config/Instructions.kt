@@ -103,4 +103,12 @@ class Instructions {
             .then()
             .colorise().all()
 
+    @Bean
+    fun randomRotation(): Instruction = StartBy()
+            .adding().rectangles().to(aGridOf(2 x 2))
+            .then()
+            .rotate().randomly()
+            .then()
+            .colorise().all()
+
 }

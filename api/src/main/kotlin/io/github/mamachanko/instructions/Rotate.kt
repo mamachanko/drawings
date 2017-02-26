@@ -5,24 +5,30 @@ import io.github.mamachanko.geometry.Vertex
 import io.github.mamachanko.geometry.average
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.util.*
 
 class Rotate(priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
 
-    private var _degrees: Double = .0
+    private var rotateBy: Angle = Angle.Random
 
     override fun applyTo(drawing: Drawing): Drawing {
         return drawing.withShapes(drawing.shapes.map { rotate(it) })
     }
 
     private val rotate: (Shape) -> Shape = { shape ->
-        shape.vertices.average.let { centre ->
-            Shape().withVertices(*shape.vertices.map {
-                Vertex(it.x - centre.x, it.y - centre.y)
-            }.map {
-                rotate(it, _degrees)
-            }.map {
-                Vertex(it.x + centre.x, it.y + centre.y)
-            }.toTypedArray())
+        when (rotateBy) {
+            Angle.FortyFive -> 45.0
+            Angle.Ninety -> 90.0
+            Angle.Random -> Random().nextDouble() * 360
+        }.let { angle ->
+            shape.vertices.average.let { centre ->
+                Shape().withVertices(*shape.vertices.map {
+                    Vertex(it.x - centre.x, it.y - centre.y)
+                }.map { rotate(it, angle)
+                }.map {
+                    Vertex(it.x + centre.x, it.y + centre.y)
+                }.toTypedArray())
+            }
         }
     }
 
@@ -38,11 +44,19 @@ class Rotate(priorInstructions: List<Instruction> = emptyList()) : Instruction(p
     private fun round(value: Double): Double {
         return BigDecimal(value).setScale(10, RoundingMode.HALF_UP).toDouble()
     }
+
     fun by(): Rotate = this
 
     fun degrees(): Rotate = this
 
-    fun ninety(): Rotate = this.apply { _degrees = 90.0 }
+    fun ninety(): Rotate = this.apply { rotateBy = Angle.Ninety }
 
-    fun fortyFive(): Rotate = this.apply { _degrees = 45.0 }
+    fun fortyFive(): Rotate = this.apply { rotateBy = Angle.FortyFive }
+
+    fun randomly(): Rotate = this.apply { rotateBy = Angle.Random }
+
+    private enum class Angle {
+        Random, Ninety, FortyFive
+    }
+
 }
