@@ -6,7 +6,7 @@ import io.github.mamachanko.geometry.Vertex
 import io.github.mamachanko.geometry.convexHull
 import org.junit.Test
 
-class SliceTests {
+class SliceTest {
 
     @Test
     fun `should return two identical and smaller rectangles when slicing rectangle vertically in halves`() {

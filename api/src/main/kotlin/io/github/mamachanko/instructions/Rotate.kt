@@ -1,0 +1,48 @@
+package io.github.mamachanko.instructions
+
+import io.github.mamachanko.geometry.Shape
+import io.github.mamachanko.geometry.Vertex
+import io.github.mamachanko.geometry.average
+import java.math.BigDecimal
+import java.math.RoundingMode
+
+class Rotate(priorInstructions: List<Instruction> = emptyList()) : Instruction(priorInstructions = priorInstructions) {
+
+    private var _degrees: Double = .0
+
+    override fun applyTo(drawing: Drawing): Drawing {
+        return drawing.withShapes(drawing.shapes.map { rotate(it) })
+    }
+
+    private val rotate: (Shape) -> Shape = { shape ->
+        shape.vertices.average.let { centre ->
+            Shape().withVertices(*shape.vertices.map {
+                Vertex(it.x - centre.x, it.y - centre.y)
+            }.map {
+                rotate(it, _degrees)
+            }.map {
+                Vertex(it.x + centre.x, it.y + centre.y)
+            }.toTypedArray())
+        }
+    }
+
+    private fun rotate(v: Vertex, degrees: Double): Vertex {
+        val cos = Math.cos(Math.toRadians(degrees))
+        val sin = Math.sin(Math.toRadians(degrees))
+        return Vertex(
+                round(v.x * cos - v.y * sin),
+                round(v.x * sin + v.y * cos)
+        )
+    }
+
+    private fun round(value: Double): Double {
+        return BigDecimal(value).setScale(10, RoundingMode.HALF_UP).toDouble()
+    }
+    fun by(): Rotate = this
+
+    fun degrees(): Rotate = this
+
+    fun ninety(): Rotate = this.apply { _degrees = 90.0 }
+
+    fun fortyFive(): Rotate = this.apply { _degrees = 45.0 }
+}

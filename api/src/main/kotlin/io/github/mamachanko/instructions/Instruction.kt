@@ -16,9 +16,10 @@ abstract class Instruction(val priorInstructions: List<Instruction> = emptyList(
 
     fun shave(): Shave = Shave(priorInstructions.plus(this))
 
+    fun rotate(): Rotate = Rotate(priorInstructions.plus(this))
+
     fun then(): Instruction = this
 
     fun asList(): List<Instruction> = priorInstructions.plus(this)
-
     abstract fun applyTo(drawing: Drawing): Drawing
 }

@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import io.github.mamachanko.geometry.Vertex
 import org.junit.Test
 
-class AddTests {
+class AddTest {
 
     @Test
     fun `should add single rectangle as big as the drawing`() {

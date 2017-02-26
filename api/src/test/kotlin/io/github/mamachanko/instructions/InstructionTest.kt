@@ -10,7 +10,7 @@ import org.junit.Test
 import java.util.*
 import kotlin.comparisons.compareBy
 
-class InstructionTests {
+class InstructionTest {
 
     @Test
     fun `should create drawing containing a sliced rectangle`() {

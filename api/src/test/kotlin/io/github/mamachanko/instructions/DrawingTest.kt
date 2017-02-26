@@ -5,7 +5,7 @@ import io.github.mamachanko.geometry.Shape
 import io.github.mamachanko.geometry.Vertex
 import org.junit.Test
 
-class DrawingTests {
+class DrawingTest {
 
     @Test
     fun `should return its shapes' vertices`() {

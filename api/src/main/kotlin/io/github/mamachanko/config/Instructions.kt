@@ -16,6 +16,14 @@ class Instructions {
             .colorise().all()
 
     @Bean
+    fun rotate(): Instruction = StartBy()
+            .adding().rectangles().to(aGridOf(10 x 10))
+            .then()
+            .rotate().by().fortyFive().degrees()
+            .then()
+            .colorise().all()
+
+    @Bean
     fun golden(): Instruction = StartBy()
             .adding().one().rectangle()
             .then()
