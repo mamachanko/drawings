@@ -1,15 +1,26 @@
 ---
 applications:
-- name: drawings-api
-  memory: 512M
-  path: ./api/build/libs/drawings-api-0.0.1-SNAPSHOT.jar
-  routes:
-    - route: drawings.cfapps.io/api
-- name: drawings-web-client
-  memory: 64M
-  path: ./web-client/dist
-  buildpack: staticfile_buildpack
-  routes:
-    - route: drawings.cfapps.io/
-  env:
-    FORCE_HTTPS: true
+
+  - name: drawings-api
+    memory: 512M
+    path: ./api/build/libs/drawings-api-0.0.1-SNAPSHOT.jar
+    routes:
+      - route: drawings.cfapps.io/api
+
+  - name: drawings-web-client
+    memory: 64M
+    path: ./web-client/dist
+    buildpack: staticfile_buildpack
+    routes:
+      - route: drawings.cfapps.io/
+    env:
+      FORCE_HTTPS: true
+
+  - name: drawings-sketches
+    memory: 64M
+    path: ./sketches
+    buildpack: staticfile_buildpack
+    routes:
+      - route: drawings.cfapps.io/sketches
+    env:
+      FORCE_HTTPS: true
