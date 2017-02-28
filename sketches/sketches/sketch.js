@@ -1,14 +1,16 @@
 const totalWidth = window.innerWidth;
 const totalHeight = window.innerHeight;
 
-const margin = 50;
+const relativeMargin = .05;
+const margin = Math.max(totalWidth, totalHeight) * relativeMargin;
+
 const width = totalWidth - (2 * margin);
 const height = totalHeight - (2 * margin);
 const originX = margin;
 const originY = margin;
 
-const cols = width * .05;
-const rows = height * .05;
+const cols = parseInt(width * .1);
+const rows = parseInt(height * .1);
 
 const cellWidth = width / cols;
 const cellHeight = height / rows;
@@ -25,16 +27,15 @@ function setup() {
 
 function draw() {
     clear();
-    // rect(originX, originY, width, height);
-    fill(1);
+    fill(0);
+    stroke(0);
 
     for (y = 0; y < rows; y++) {
         for (x = 0; x < cols; x++) {
-
-            const radius = map(noise(xoff, yoff), 0, 1, 0, cellWidth * 1.75);
+            const radius = map(noise(xoff, yoff), 0, 1, 0, cellWidth * 2);
             ellipse(
-                originX + (x * cellWidth) + cellWidth * .5,
-                originY + (y * cellHeight) + cellHeight * .5,
+                originX + (x * cellWidth) + (cellWidth * .5),
+                originY + (y * cellHeight) + (cellHeight * .5),
                 radius,
                 radius
             );
