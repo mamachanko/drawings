@@ -1,0 +1,24 @@
+{
+  "name": "routing",
+  "version": "1.0.0",
+  "description": "Describe routing here",
+  "private": true,
+  "scripts": {
+    "build": "nwb build-web-app",
+    "clean": "nwb clean-app",
+    "start": "nwb serve-web-app --reload",
+    "test": "nwb test",
+    "test:coverage": "nwb test --coverage",
+    "test:watch": "nwb test --server"
+  },
+  "dependencies": {
+    "navigo": "^4.0.1",
+    "p5": "^0.5.7"
+  },
+  "devDependencies": {
+    "nwb": "0.15.x"
+  },
+  "author": "",
+  "license": "MIT",
+  "repository": ""
+}
