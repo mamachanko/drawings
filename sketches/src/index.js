@@ -12,5 +12,5 @@ router.on({
     '03': () => { _03() },
     '*': () => {
         let app = document.querySelector('#app');
-        app.innerHTML = '<h2>Index</h2><ul><li><a href="01">01</a></li><li><a href="02">02</a></li><li><a href="sketch">sketch</a></li><li><a href="anothersketch">anothersketch</a></li></ul>';
+        app.innerHTML = '<ul><li><a href="01">01</a></li><li><a href="02">02</a></li><li><a href="03">03</a></li></ul>';
     }}).resolve();

@@ -18,7 +18,7 @@ applications:
 
   - name: drawings-sketches
     memory: 64M
-    path: ./sketches
+    path: ./sketches/dist
     buildpack: staticfile_buildpack
     routes:
       - route: drawings.cfapps.io/sketches
