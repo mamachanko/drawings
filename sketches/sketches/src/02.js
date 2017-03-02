@@ -1,7 +1,6 @@
-require('./index.css');
-const p5 = require('p5');
+import p5 from 'p5';
 
-new p5((p5) => {
+export default () => new p5((p5) => {
     const totalWidth = window.innerWidth;
     const totalHeight = window.innerHeight;
 
@@ -21,7 +20,6 @@ new p5((p5) => {
 
     var xoff = 0;
     var yoff = 0;
-
     const xoffInc = .5;
     const yoffInc = .04;
 
@@ -34,8 +32,8 @@ new p5((p5) => {
         p5.clear();
         p5.noStroke();
 
-        for (y = 0; y < rows; y++) {
-            for (x = 0; x < cols; x++) {
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
                 p5.fill(p5.map(p5.noise(xoff, yoff), 0, 1, 0, 255));
                 p5.ellipse(
                     originX + (x * cellWidth) + (cellWidth * .5),
