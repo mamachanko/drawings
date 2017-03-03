@@ -1,3 +1,5 @@
+import './index.css';
+
 import Navigo from 'navigo';
 
 import _01 from './01';
