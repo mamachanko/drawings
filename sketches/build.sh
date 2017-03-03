@@ -2,3 +2,4 @@
 
 yarn
 yarn run build
+echo 'pushstate: enabled' > dist/Staticfile

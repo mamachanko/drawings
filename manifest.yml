@@ -21,6 +21,6 @@ applications:
     path: ./sketches/dist
     buildpack: staticfile_buildpack
     routes:
-      - route: drawings.cfapps.io/sketches
+      - route: sketches.cfapps.io
     env:
       FORCE_HTTPS: true
